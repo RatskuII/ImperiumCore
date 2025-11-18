@@ -1,0 +1,10 @@
+name: PinataQuestCounter
+version: '${project.version}'
+main: dev.Fjc.pinataQuestCounter.PinataQuestCounter
+api-version: '1.21'
+prefix: ImperiumCore
+authors: [ Fjc, Rat ]
+description: The one stop core for all odd and sod. Imperium hook and fix plugin
+
+depend:
+  - ODailyQuests
