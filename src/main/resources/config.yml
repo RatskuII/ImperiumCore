@@ -5,3 +5,4 @@ messages:
 settings:
   quests_cap: 2
   progress_complete_command: "pinataparty:pparty spawn ratskuii"
+

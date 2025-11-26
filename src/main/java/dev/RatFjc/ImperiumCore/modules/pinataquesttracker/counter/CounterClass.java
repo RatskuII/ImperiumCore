@@ -3,6 +3,7 @@ package dev.RatFjc.ImperiumCore.modules.pinataquesttracker.counter;
 import com.ordwen.odailyquests.api.events.QuestCompletedEvent;
 import dev.RatFjc.ImperiumCore.ImperiumCore;
 import dev.RatFjc.ImperiumCore.file.FileBuilder;
+import dev.RatFjc.ImperiumCore.file.configurations.quests.QuestCounterFiles;
 import dev.RatFjc.ImperiumCore.modules.pinataquesttracker.scheduler.TimeManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -18,11 +19,11 @@ import net.md_5.bungee.api.ChatColor;
 public class CounterClass implements Listener {
 
     private final ImperiumCore plugin;
-    private final FileBuilder fileBuilder;
+    private final QuestCounterFiles files;
 
     public CounterClass(ImperiumCore plugin) {
         this.plugin = plugin;
-        this.fileBuilder = plugin.getFileBuilder();
+        this.files = FileBuilder.getQuestCounterFiles(plugin);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -31,7 +32,7 @@ public class CounterClass implements Listener {
         if (!TimeManager.checkCooldown()) return;
 
         Player player = event.getPlayer();
-        int current = fileBuilder.incrementCounter();
+        int current = files.incrementCounter();
         int cap = plugin.getConfig().getInt("settings.quests_cap", 2);
 
         if (current >= cap) {
@@ -45,7 +46,7 @@ public class CounterClass implements Listener {
             plugin.getLogger().info("[PinataQuestCounter] Running console command: " + command);
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
 
-            fileBuilder.resetCounter();
+            files.resetCounter();
             TimeManager.reset();
         } else {
             String progressMsg = plugin.getConfig().getString("messages.progress");
