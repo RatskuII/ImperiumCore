@@ -2,13 +2,13 @@ package dev.RatFjc.ImperiumCore.init;
 
 import com.bergerkiller.bukkit.tc.signactions.SignAction;
 import dev.RatFjc.ImperiumCore.ImperiumCore;
-import dev.RatFjc.ImperiumCore.init.interfaces.BaseHook;
+import dev.RatFjc.ImperiumCore.init.interfaces.Module;
+import dev.RatFjc.ImperiumCore.init.interfaces.PluginLogger;
 import dev.RatFjc.ImperiumCore.modules.train.AnnounceDelay;
-import dev.RatFjc.ImperiumCore.modules.train.SwitchSoundAdder;
 
 import java.util.logging.Level;
 
-public class TrainAddons implements BaseHook {
+public class TrainAddons implements Module {
 
     @Override
     public String name() {
@@ -21,7 +21,7 @@ public class TrainAddons implements BaseHook {
             try {
                 Class.forName("com.bergerkiller.bukkit.tc.signactions.SignAction");
             } catch (ClassNotFoundException e) {
-                log("Could not find the appropriate dependencies. That is a problem.", Level.SEVERE);
+                PluginLogger.log("Could not find the appropriate dependencies. That is a problem.", this, Level.SEVERE, false);
             }
         }, 1000L);
         register();

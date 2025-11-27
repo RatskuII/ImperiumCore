@@ -1,9 +1,10 @@
 package dev.RatFjc.ImperiumCore.init;
 
 import dev.RatFjc.ImperiumCore.ImperiumCore;
-import dev.RatFjc.ImperiumCore.init.interfaces.BaseHook;
+import dev.RatFjc.ImperiumCore.file.FileBuilder;
+import dev.RatFjc.ImperiumCore.init.interfaces.Module;
 
-public class PinataQuestCounter implements BaseHook {
+public class PinataQuestCounter implements Module {
 
     @Override
     public String name() {
@@ -12,6 +13,6 @@ public class PinataQuestCounter implements BaseHook {
 
     @Override
     public void load(ImperiumCore instance) {
-        instance.saveDefaultConfig();
+        FileBuilder builder = instance.getFileBuilder();
     }
 }

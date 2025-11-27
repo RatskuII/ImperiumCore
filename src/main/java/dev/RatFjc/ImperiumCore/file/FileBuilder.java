@@ -6,7 +6,6 @@ import dev.RatFjc.ImperiumCore.file.configurations.trains.AnnounceDelayFiles;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
-import java.util.Objects;
 import java.util.ServiceLoader;
 
 /**
@@ -21,6 +20,9 @@ public class FileBuilder {
     protected final File questDataFile;
     protected final YamlConfiguration questDataConfig;
 
+    protected final File questMainFile;
+    protected final YamlConfiguration questMainConfig;
+
     // Trains
     protected final File trainFile;
     protected final YamlConfiguration trainConfig;
@@ -33,13 +35,16 @@ public class FileBuilder {
 
         this.trainFile = new File(plugin.getDataFolder(), "trainaddons.yml");
         this.trainConfig = YamlConfiguration.loadConfiguration(trainFile);
+
+        this.questMainFile = new File(plugin.getDataFolder(), "quests.yml");
+        this.questMainConfig = YamlConfiguration.loadConfiguration(questMainFile);
     }
 
     /**
      * Builds files for every respective implementation of {@link FileInterface}.
      */
     public void build() {
-        ImperiumCore.loader.stream()
+        ImperiumCore.files.stream()
                 .map(ServiceLoader.Provider::get)
                 .forEach(action -> action.build(plugin, action.getYaml(), action.getFile(), null));
     }
