@@ -1,12 +1,14 @@
-package dev.RatFjc.ImperiumCore.init.interfaces;
+package dev.RatFjc.ImperiumCore.utility;
 
 import dev.RatFjc.ImperiumCore.ImperiumCore;
+import dev.RatFjc.ImperiumCore.Utility;
+import dev.RatFjc.ImperiumCore.Module;
 import org.bukkit.Bukkit;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.logging.Level;
 
-public abstract class PluginLogger {
+public class LogUtil extends Utility {
 
     /**
      * A logger function, represented by the specified {@link Module} module plugin

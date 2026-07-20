@@ -44,9 +44,8 @@ public class FileBuilder {
      * Builds files for every respective implementation of {@link FileInterface}.
      */
     public void build() {
-        ImperiumCore.files.stream()
-                .map(ServiceLoader.Provider::get)
-                .forEach(action -> action.build(plugin, action.getYaml(), action.getFile(), null));
+        getAnnounceDelayFiles(plugin).build(plugin, trainConfig, trainFile, null);
+        getQuestCounterFiles(plugin).build();
     }
 
     public static QuestCounterFiles getQuestCounterFiles(ImperiumCore plugin) {

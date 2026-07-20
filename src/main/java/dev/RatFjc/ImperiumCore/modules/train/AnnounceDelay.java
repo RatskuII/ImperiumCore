@@ -25,19 +25,9 @@ public class AnnounceDelay extends SignAction implements Listener {
 
     private final ImperiumCore plugin = ImperiumCore.getInstance();
 
-    /**
-     * The message that will be sent to the player.
-     */
-    static @Nullable String message;
-    /**
-     * The set of tasks responsible for delivering the text to the player.
-     */
-    static ScheduledTask[] tasks = null;
-    private static final int MAX = 20;
-
     @Override
-    public boolean match(SignActionEvent signActionEvent) {
-        return signActionEvent.isType("radio");
+    public boolean match(SignActionEvent matcher) {
+        return matcher.isType("radio");
     }
 
     @Override
@@ -71,21 +61,19 @@ public class AnnounceDelay extends SignAction implements Listener {
     /**
      * Sends a delayed message to players in a train.
      * @param event The sign to read data from. This is where you define the delay, in seconds.
-     * @param group The MinecartGroup being targeted. This is your train.
+     * @param group The MinecartGroup being targeted. This is the train.
      */
     private void sendMessageDelayed(SignActionEvent event, MinecartGroup group) {
         long delay = Long.parseLong(event.getLine(2));
-        message = event.getLine(3);
+        String message = event.getLine(3);
 
         group.forEach(vehicle -> {
             List<Entity> passenger = vehicle.getEntity().getPassengers();
             passenger.stream()
                     .filter(target -> target instanceof Player)
-                    .filter(target -> vehicle.getEntity().getPlayerPassengers().contains(target))
                     .map(target -> (Player) target)
                     .forEach(player -> {
-                        if (message == null) return;
-                        tasks[0] = player.getScheduler().runDelayed(plugin, task -> player.sendMessage(message), null, delay * 20L);
+                        player.getScheduler().runDelayed(plugin, task -> player.sendMessage(message), null, delay * 20L);
                     });
         });
     }
