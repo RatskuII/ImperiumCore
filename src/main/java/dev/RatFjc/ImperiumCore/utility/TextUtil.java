@@ -31,4 +31,8 @@ public class TextUtil extends Utility {
     public static void sendMessage(Audience audience, String message) {
         audience.sendMessage(nbt(message));
     }
+
+    public static void announce(String message) {
+        plugin.getServer().broadcast(nbt(message));
+    }
 }

@@ -1,6 +1,6 @@
 package dev.RatFjc.ImperiumCore.modules.nv;
 
-import dev.RatFjc.ImperiumCore.file.Keys;
+import dev.RatFjc.ImperiumCore.Keys;
 import dev.RatFjc.ImperiumCore.utility.TextUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataContainer;

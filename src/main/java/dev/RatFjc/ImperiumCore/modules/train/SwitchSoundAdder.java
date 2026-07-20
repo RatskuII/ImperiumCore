@@ -18,16 +18,18 @@ public class SwitchSoundAdder implements Listener {
     public void onSwitch(SignActionEvent event) {
         if (event.isType("switcher")) {
 
-            if (task == null) {
-                play(event.getLocation(), Sound.BLOCK_IRON_DOOR_CLOSE, 1);
-            }
+            play(event.getLocation(), Sound.BLOCK_IRON_DOOR_CLOSE, 2);
+        }
+
+        if (event.isType("radio", "announcer")) {
+            play(event.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1);
         }
     }
 
     private static BukkitTask play(Location location, Sound sound, long duration) {
         task = plugin.getServer().getScheduler()
                 .runTaskTimer(plugin, () -> {
-                    location.getWorld().playSound(location, sound, 0.5F, 0.5F);
+                    location.getWorld().playSound(location, sound, 0.3F, 0.3F);
                 }, 0, duration);
 
         return task;

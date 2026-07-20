@@ -1,5 +1,9 @@
 package dev.RatFjc.ImperiumCore;
 
+import dev.RatFjc.ImperiumCore.utility.LogUtil;
+
+import java.util.logging.Level;
+
 /**
  * Represents a module that will be loaded when ImperiumCore starts.
  */
@@ -22,4 +26,8 @@ public abstract class Module {
      * @param instance The plugin being enabled
      */
     protected abstract void load(ImperiumCore instance);
+
+    public void postStartup() {
+        LogUtil.log("Successfully loaded the module.", this, Level.INFO, false);
+    }
 }

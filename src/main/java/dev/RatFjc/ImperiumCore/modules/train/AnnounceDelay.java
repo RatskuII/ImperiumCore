@@ -8,12 +8,10 @@ import com.bergerkiller.bukkit.tc.signactions.SignAction;
 import com.bergerkiller.bukkit.tc.signactions.SignActionType;
 import com.bergerkiller.bukkit.tc.utils.SignBuildOptions;
 import dev.RatFjc.ImperiumCore.ImperiumCore;
-import io.papermc.paper.threadedregions.scheduler.ScheduledTask;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -72,9 +70,7 @@ public class AnnounceDelay extends SignAction implements Listener {
             passenger.stream()
                     .filter(target -> target instanceof Player)
                     .map(target -> (Player) target)
-                    .forEach(player -> {
-                        player.getScheduler().runDelayed(plugin, task -> player.sendMessage(message), null, delay * 20L);
-                    });
+                    .forEach(player -> player.getScheduler().runDelayed(plugin, task -> player.sendMessage(message), null, delay * 20L));
         });
     }
 
