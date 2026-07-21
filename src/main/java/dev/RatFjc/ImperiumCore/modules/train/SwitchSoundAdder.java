@@ -2,37 +2,49 @@ package dev.RatFjc.ImperiumCore.modules.train;
 
 import com.bergerkiller.bukkit.tc.events.SignActionEvent;
 import dev.RatFjc.ImperiumCore.ImperiumCore;
+import dev.RatFjc.ImperiumCore.utility.PlayerUtil;
+import net.kyori.adventure.key.Key;
+import net.kyori.adventure.sound.Sound;
 import org.bukkit.Location;
-import org.bukkit.Sound;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.scheduler.BukkitTask;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SwitchSoundAdder implements Listener {
 
     private static final ImperiumCore plugin = ImperiumCore.getInstance();
 
-    private static BukkitTask task;
+    private static final Map<Location, Long> timers = new HashMap<>();
+
+    private static final Sound switchSound = Sound.sound()
+            .type(Key.key("minecraft:block.iron_door.close"))
+            .source(Sound.Source.MASTER)
+            .volume(0.1F)
+            .pitch(0.1F)
+            .build();
 
     @EventHandler
     public void onSwitch(SignActionEvent event) {
+        Location rail = event.getRailLocation();
+        if (rail == null) rail = event.getLocation();
+
+        if (PlayerUtil.getNearbyPlayers(rail, 25).isEmpty()) return;
+
         if (event.isType("switcher")) {
+            long current = System.currentTimeMillis();
+            long previous = timers.getOrDefault(rail, 0L);
 
-            play(event.getLocation(), Sound.BLOCK_IRON_DOOR_CLOSE, 2);
-        }
-
-        if (event.isType("radio", "announcer")) {
-            play(event.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1);
+            if (current - previous >= 300) {
+                timers.put(rail, current);
+                play(rail, switchSound);
+            }
         }
     }
 
-    private static BukkitTask play(Location location, Sound sound, long duration) {
-        task = plugin.getServer().getScheduler()
-                .runTaskTimer(plugin, () -> {
-                    location.getWorld().playSound(location, sound, 0.3F, 0.3F);
-                }, 0, duration);
-
-        return task;
+    private static void play(Location location, Sound sound) {
+        plugin.getServer().playSound(sound, location.x(), location.y(), location.z());
     }
 
 }
