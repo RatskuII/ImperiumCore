@@ -20,9 +20,9 @@ public class SwitchSoundAdder implements Listener {
 
     private static final Sound switchSound = Sound.sound()
             .type(Key.key("minecraft:block.iron_door.close"))
-            .source(Sound.Source.MASTER)
-            .volume(0.1F)
-            .pitch(0.1F)
+            .source(Sound.Source.BLOCK)
+            .volume(0.75F)
+            .pitch(0.15F)
             .build();
 
     @EventHandler
@@ -30,7 +30,7 @@ public class SwitchSoundAdder implements Listener {
         Location rail = event.getRailLocation();
         if (rail == null) rail = event.getLocation();
 
-        if (PlayerUtil.getNearbyPlayers(rail, 25).isEmpty()) return;
+        if (PlayerUtil.getNearbyPlayers(rail, 30).isEmpty()) return;
 
         if (event.isType("switcher")) {
             long current = System.currentTimeMillis();

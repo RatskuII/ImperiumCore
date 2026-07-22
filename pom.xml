@@ -6,7 +6,7 @@
 
     <groupId>dev.Fjc</groupId>
     <artifactId>ImperiumCore</artifactId>
-    <version>0.5.7-b</version>
+    <version>0.6.1-b</version>
     <packaging>jar</packaging>
 
     <name>ImperiumCore</name>

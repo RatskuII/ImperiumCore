@@ -2,12 +2,16 @@ package dev.RatFjc.ImperiumCore.modules.afk.listener;
 
 import dev.RatFjc.ImperiumCore.modules.afk.managers.TimerManager;
 import io.papermc.paper.event.player.AsyncChatEvent;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
+import org.bukkit.event.vehicle.VehicleMoveEvent;
+
+import java.util.List;
 
 public class PlayerListener implements Listener {
 
@@ -49,5 +53,15 @@ public class PlayerListener implements Listener {
     public void onInventoryClick(InventoryClickEvent event) {
         if (!(event.getWhoClicked() instanceof Player player)) return;
         TimerManager.resetPreAfkTimer(player);
+    }
+
+    @EventHandler
+    public void onVehicleMove(VehicleMoveEvent event) {
+        List<Entity> passengers = event.getVehicle().getPassengers();
+        passengers.forEach(entity -> {
+            if (entity instanceof Player player) {
+                TimerManager.resetPreAfkTimer(player);
+            }
+        });
     }
 }

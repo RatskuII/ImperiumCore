@@ -19,6 +19,7 @@ public final class ImperiumCore extends JavaPlugin {
     private JoinLeave joinLeave;
     private NightVision nightVision;
     private Afk afk;
+    private OffhandSlotBlocker offhandSlotBlocker;
 
     @Override
     public void onEnable() {
@@ -30,6 +31,7 @@ public final class ImperiumCore extends JavaPlugin {
         load(joinLeave);
         load(nightVision);
         load(afk);
+        load(offhandSlotBlocker);
 
         EventUtil.registerCommand(new ToggleExperimentals(), "allow-experiments");
         EventUtil.registerEvent(new OnByDefault());
@@ -56,6 +58,7 @@ public final class ImperiumCore extends JavaPlugin {
         joinLeave = new JoinLeave();
         nightVision = new NightVision();
         afk = new Afk();
+        offhandSlotBlocker = new OffhandSlotBlocker();
     }
 
     public void load(Module module) {
@@ -72,6 +75,7 @@ public final class ImperiumCore extends JavaPlugin {
         joinLeave = null;
         nightVision = null;
         afk = null;
+        offhandSlotBlocker = null;
 
     }
 }
