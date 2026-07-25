@@ -17,3 +17,9 @@ commands:
   allow-experiments:
     description: Allow certain experimental features to occur
     usage: /allow-experiments [allow/deny]
+  god:
+    description: Allows invincibility
+    usage: /god
+  ungod:
+    description: Removes invincibility
+    usage: /ungod

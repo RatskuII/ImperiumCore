@@ -20,6 +20,7 @@ public final class ImperiumCore extends JavaPlugin {
     private NightVision nightVision;
     private Afk afk;
     private OffhandSlotBlocker offhandSlotBlocker;
+    private BetterGod betterGod;
 
     @Override
     public void onEnable() {
@@ -32,6 +33,7 @@ public final class ImperiumCore extends JavaPlugin {
         load(nightVision);
         load(afk);
         load(offhandSlotBlocker);
+        load(betterGod);
 
         EventUtil.registerCommand(new ToggleExperimentals(), "allow-experiments");
         EventUtil.registerEvent(new OnByDefault());
@@ -59,6 +61,7 @@ public final class ImperiumCore extends JavaPlugin {
         nightVision = new NightVision();
         afk = new Afk();
         offhandSlotBlocker = new OffhandSlotBlocker();
+        betterGod = new BetterGod();
     }
 
     public void load(Module module) {
@@ -76,6 +79,7 @@ public final class ImperiumCore extends JavaPlugin {
         nightVision = null;
         afk = null;
         offhandSlotBlocker = null;
+        betterGod = null;
 
     }
 }

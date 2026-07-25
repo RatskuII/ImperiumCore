@@ -14,6 +14,10 @@ public final class Keys extends Utility {
 
     public static final NamespacedKey STUN = new NamespacedKey(plugin, "stun_afk-effect");
 
+    // Keys related to BetterGod
+    public static final NamespacedKey GOD = new NamespacedKey(plugin, "god");
+    public static final NamespacedKey GOD_CONTEXT = new NamespacedKey(plugin, "god-context");
+
     // Key to toggle experimental features
     public static final NamespacedKey ALLOW_EXPERIMENTAL = new NamespacedKey(plugin, "allow_experimental");
 }

@@ -17,12 +17,20 @@ public class SwitchSoundAdder implements Listener {
     private static final ImperiumCore plugin = ImperiumCore.getInstance();
 
     private static final Map<Location, Long> timers = new HashMap<>();
+    private static final Map<Location, Long> timers2 = new HashMap<>();
 
     private static final Sound switchSound = Sound.sound()
             .type(Key.key("minecraft:block.iron_door.close"))
             .source(Sound.Source.BLOCK)
-            .volume(0.75F)
-            .pitch(0.15F)
+            .volume(3F) // this might be kinda loud xd
+            .pitch(0.5F)
+            .build();
+
+    private static final Sound switchSound2 = Sound.sound()
+            .type(Key.key("minecraft:block.iron.place"))
+            .source(Sound.Source.BLOCK)
+            .volume(3F)
+            .pitch(0.5F)
             .build();
 
     @EventHandler
@@ -30,15 +38,23 @@ public class SwitchSoundAdder implements Listener {
         Location rail = event.getRailLocation();
         if (rail == null) rail = event.getLocation();
 
-        if (PlayerUtil.getNearbyPlayers(rail, 30).isEmpty()) return;
+        // don't play anything if there's no one to hear it
+        if (PlayerUtil.getNearbyPlayers(rail, 48).isEmpty()) return;
 
         if (event.isType("switcher")) {
             long current = System.currentTimeMillis();
             long previous = timers.getOrDefault(rail, 0L);
+            long previous2 = timers2.getOrDefault(rail, 0L);
 
+            // 300 ms
             if (current - previous >= 300) {
                 timers.put(rail, current);
                 play(rail, switchSound);
+            }
+            // 600 ms
+            if (current - previous2 >= 600) {
+                timers2.put(rail, current);
+                play(rail, switchSound2);
             }
         }
     }
