@@ -6,7 +6,7 @@
 
     <groupId>dev.Fjc</groupId>
     <artifactId>ImperiumCore</artifactId>
-    <version>0.7.3-b</version>
+    <version>0.9.3-b</version>
     <packaging>jar</packaging>
 
     <name>ImperiumCore</name>
@@ -89,6 +89,12 @@
             <artifactId>TrainCarts</artifactId>
             <version>1.21.10-v2-SNAPSHOT</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>RELEASE</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

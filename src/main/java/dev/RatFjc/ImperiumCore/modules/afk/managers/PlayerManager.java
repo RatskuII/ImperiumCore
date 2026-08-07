@@ -15,12 +15,13 @@ public class PlayerManager extends AfkManager {
         AttributeModifier modifier = new AttributeModifier(Keys.STUN, -100, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlotGroup.ANY);
 
         player.setInvulnerable(isAfk);
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + player.getName() + " permission set group.afk " + isAfk);
+
         AttributeInstance instance = player.getAttribute(Attribute.MOVEMENT_SPEED);
         if (isAfk) {
             if (instance != null) instance.addModifier(modifier);
         } else {
             if (instance != null) if (instance.getModifiers().contains(modifier)) instance.removeModifier(modifier);
         }
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + player.getName() + " permission set group.afk " + isAfk);
     }
 }

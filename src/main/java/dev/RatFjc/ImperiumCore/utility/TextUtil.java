@@ -4,6 +4,7 @@ import dev.RatFjc.ImperiumCore.Utility;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.ChatColor;
 
@@ -19,6 +20,12 @@ public class TextUtil extends Utility {
 
     public static String legacyColor(String text) {
         return ChatColor.translateAlternateColorCodes('&', text);
+    }
+
+    public static String strip(String text) {
+        Component component = nbt(text);
+
+        return LegacyComponentSerializer.legacySection().serialize(component);
     }
 
     public static Component color(String data, TextColor color) {

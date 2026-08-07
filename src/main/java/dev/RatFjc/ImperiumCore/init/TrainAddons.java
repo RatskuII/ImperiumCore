@@ -3,6 +3,7 @@ package dev.RatFjc.ImperiumCore.init;
 import com.bergerkiller.bukkit.tc.signactions.SignAction;
 import dev.RatFjc.ImperiumCore.ImperiumCore;
 import dev.RatFjc.ImperiumCore.Module;
+import dev.RatFjc.ImperiumCore.modules.train.SkeletonRemover;
 import dev.RatFjc.ImperiumCore.modules.train.SwitchSoundAdder;
 import dev.RatFjc.ImperiumCore.utility.EventUtil;
 import dev.RatFjc.ImperiumCore.utility.LogUtil;
@@ -40,6 +41,7 @@ public class TrainAddons extends Module {
 
         EventUtil.registerEvent(new AnnounceDelay());
         EventUtil.registerEvent(new SwitchSoundAdder());
+        EventUtil.registerEvent(new SkeletonRemover());
     }
     public static void unregister() {
         SignAction.unregister(new AnnounceDelay());

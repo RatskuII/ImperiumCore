@@ -2,7 +2,6 @@ package dev.RatFjc.ImperiumCore.modules.bettergod.handler;
 
 import dev.RatFjc.ImperiumCore.modules.bettergod.data.Context;
 import dev.RatFjc.ImperiumCore.modules.bettergod.data.GodStats;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -49,7 +48,7 @@ public class DamageIntercept implements Listener {
     }
 
     private boolean isCustom(EntityDamageEvent event) {
-        Entity damager = event.getDamageSource().getDirectEntity();
+        // Entity damager = event.getDamageSource().getDirectEntity();
 
         //todo Install mythic
 

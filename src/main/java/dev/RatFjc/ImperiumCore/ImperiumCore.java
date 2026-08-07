@@ -2,9 +2,14 @@ package dev.RatFjc.ImperiumCore;
 
 import dev.RatFjc.ImperiumCore.extras.cmds.ToggleExperimentals;
 import dev.RatFjc.ImperiumCore.extras.listener.OnByDefault;
+import dev.RatFjc.ImperiumCore.extras.multithreading.AsyncModule;
 import dev.RatFjc.ImperiumCore.init.*;
 import dev.RatFjc.ImperiumCore.utility.EventUtil;
+import dev.RatFjc.ImperiumCore.utility.LogUtil;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 
 /**
  * The global plugin instance that all modules will initialize from.
@@ -21,6 +26,12 @@ public final class ImperiumCore extends JavaPlugin {
     private Afk afk;
     private OffhandSlotBlocker offhandSlotBlocker;
     private BetterGod betterGod;
+    private PetConverter petConverter;
+    private UltraBans ultraBans;
+    private HexSigns hexSigns;
+    private InvisFrame invisFrame;
+    private ShulkerBoxPreview shulkerBoxPreview;
+    private PlayerWarps playerWarps;
 
     @Override
     public void onEnable() {
@@ -34,6 +45,12 @@ public final class ImperiumCore extends JavaPlugin {
         load(afk);
         load(offhandSlotBlocker);
         load(betterGod);
+        load(petConverter);
+        load(ultraBans);
+        load(hexSigns);
+        load(invisFrame);
+        load(shulkerBoxPreview);
+        load(playerWarps);
 
         EventUtil.registerCommand(new ToggleExperimentals(), "allow-experiments");
         EventUtil.registerEvent(new OnByDefault());
@@ -62,12 +79,22 @@ public final class ImperiumCore extends JavaPlugin {
         afk = new Afk();
         offhandSlotBlocker = new OffhandSlotBlocker();
         betterGod = new BetterGod();
+        petConverter = new PetConverter();
+        ultraBans = new UltraBans();
+        hexSigns = new HexSigns();
+        invisFrame = new InvisFrame();
+        shulkerBoxPreview = new ShulkerBoxPreview();
+        playerWarps = new PlayerWarps();
     }
 
     public void load(Module module) {
         if (!module.enabled()) return;
         module.load(instance);
         module.postStartup();
+
+        if (module instanceof AsyncModule<?> asyncModule) {
+            asyncModule.displayWarning();
+        }
     }
 
     private void shutdown() {
@@ -80,6 +107,12 @@ public final class ImperiumCore extends JavaPlugin {
         afk = null;
         offhandSlotBlocker = null;
         betterGod = null;
+        petConverter = null;
+        ultraBans = null;
+        hexSigns = null;
+        invisFrame = null;
+        shulkerBoxPreview = null;
+        playerWarps = null;
 
     }
 }

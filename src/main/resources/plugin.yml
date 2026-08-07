@@ -23,3 +23,12 @@ commands:
   ungod:
     description: Removes invincibility
     usage: /ungod
+  pet-exchanger:
+    description: Allows you to exchange old pets for currency
+    usage: /pet-exchanger
+  frame:
+    description: Give invisible frames to a player
+    usage: /frame <player> <amount> [glow]
+  pw:
+    description: Allows you to teleport to and manage player warps.
+    usage: /pw [name] | /pw create [name] | /pw reset [name] | /pw remove [name]

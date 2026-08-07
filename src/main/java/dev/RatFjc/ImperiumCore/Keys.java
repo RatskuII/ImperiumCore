@@ -18,6 +18,17 @@ public final class Keys extends Utility {
     public static final NamespacedKey GOD = new NamespacedKey(plugin, "god");
     public static final NamespacedKey GOD_CONTEXT = new NamespacedKey(plugin, "god-context");
 
+    // Keys related to punishment entries
+    public static final NamespacedKey MUTE = new NamespacedKey(plugin, "muted");
+    public static final NamespacedKey MUTE_DURATION = new NamespacedKey(plugin, "mute-duration");
+
+    // Keys related to PetConverter
+    public static final NamespacedKey PET_UI = new NamespacedKey(plugin, "pet-ui");
+
+    // Keys related to invisible item frames
+    public static final NamespacedKey INVIS_FRAME = new NamespacedKey(plugin, "invis-frame");
+    public static final NamespacedKey GLOW_FRAME = new NamespacedKey(plugin, "invis-glow");
+
     // Key to toggle experimental features
     public static final NamespacedKey ALLOW_EXPERIMENTAL = new NamespacedKey(plugin, "allow_experimental");
 }

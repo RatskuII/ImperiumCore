@@ -2,6 +2,7 @@ package dev.RatFjc.ImperiumCore;
 
 import dev.RatFjc.ImperiumCore.utility.LogUtil;
 
+import java.util.concurrent.Executor;
 import java.util.logging.Level;
 
 /**
