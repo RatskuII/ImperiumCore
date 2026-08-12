@@ -5,6 +5,7 @@ import dev.RatFjc.ImperiumCore.init.PlayerWarps;
 import dev.RatFjc.ImperiumCore.modules.playerwarp.Rating;
 import dev.RatFjc.ImperiumCore.modules.playerwarp.Warp;
 import dev.RatFjc.ImperiumCore.modules.playerwarp.data.WarpType;
+import dev.RatFjc.ImperiumCore.modules.playerwarp.data.WarpUser;
 import dev.RatFjc.ImperiumCore.utility.DataUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -21,6 +22,7 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
+@Deprecated
 public class WarpSaver extends ConfigurationSaver {
 
     private static final File file = new File(plugin.getDataFolder(), "warps.yml");
@@ -34,7 +36,7 @@ public class WarpSaver extends ConfigurationSaver {
             // Structure will be type -> player -> warp name -> warp information
             String type = warp.getWarpType().name();
 
-            String playerName = warp.owner().getName();
+            String playerName = warp.owner().user().getName();
 
             String path = "warps." + type + "." + playerName + "." + warp.name();
 
@@ -111,7 +113,7 @@ public class WarpSaver extends ConfigurationSaver {
                         // Warp type
                         WarpType warpType = WarpType.get(type);
 
-                        OfflinePlayer owner = Bukkit.getOfflinePlayer(player);
+                        WarpUser owner = new WarpUser(player);
                         Warp warp = new Warp(owner, resultLocation, warpName, description, warpType, uuid);
                         warp.setRating(rating);
                         return warp;
@@ -173,7 +175,8 @@ public class WarpSaver extends ConfigurationSaver {
                         // WarpType
                         WarpType warpType = WarpType.get(type);
 
-                        Warp warp = new Warp(player, resultingLocation, warpName, description, warpType, uuid);
+                        WarpUser warpUser = new WarpUser(player);
+                        Warp warp = new Warp(warpUser, resultingLocation, warpName, description, warpType, uuid);
                         warp.setRating(rating);
                         warps.add(warp);
                     }
@@ -184,7 +187,7 @@ public class WarpSaver extends ConfigurationSaver {
         }, PlayerWarps.executor());
     }
 
-    public static CompletableFuture<List<Warp>> getWarps(OfflinePlayer player) {
+    public static CompletableFuture<List<Warp>> getWarps(WarpUser player) {
         if (fileConfiguration == null) return nullFail("The configuration is unavailable.");
 
         return CompletableFuture.supplyAsync(() -> {
@@ -199,7 +202,7 @@ public class WarpSaver extends ConfigurationSaver {
                 if (types == null) continue;
 
                 for (String playerName : types.getKeys(false)) {
-                    if (!playerName.equals(player.getName())) continue;
+                    if (!playerName.equals(player.user().getName())) continue;
 
                     ConfigurationSection warpNames = fileConfiguration.getConfigurationSection(playerName);
                     if (warpNames == null) continue;
@@ -245,12 +248,12 @@ public class WarpSaver extends ConfigurationSaver {
         }, PlayerWarps.executor());
     }
 
-    public static CompletableFuture<List<Warp>> getWarps(OfflinePlayer player, WarpType warpType) {
+    public static CompletableFuture<List<Warp>> getWarps(WarpUser player, WarpType warpType) {
         if (fileConfiguration == null) return nullFail("The configuration is unavailable.");
 
         return CompletableFuture.supplyAsync(() -> {
             String type = warpType.name();
-            String path = "warps." + type + "." + player.getName();
+            String path = "warps." + type + "." + player.user().getName();
 
             ConfigurationSection section = fileConfiguration.getConfigurationSection(path);
             if (section == null) return List.of();

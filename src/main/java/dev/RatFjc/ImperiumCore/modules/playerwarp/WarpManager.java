@@ -2,15 +2,19 @@ package dev.RatFjc.ImperiumCore.modules.playerwarp;
 
 import dev.RatFjc.ImperiumCore.init.PlayerWarps;
 import dev.RatFjc.ImperiumCore.modules.playerwarp.data.WarpType;
+import dev.RatFjc.ImperiumCore.modules.playerwarp.data.WarpUser;
+import dev.RatFjc.ImperiumCore.modules.playerwarp.database.DBWarpSaver;
 import dev.RatFjc.ImperiumCore.modules.playerwarp.event.WarpCreateEvent;
-import dev.RatFjc.ImperiumCore.modules.playerwarp.file.WarpSaver;
 import dev.RatFjc.ImperiumCore.utility.LogUtil;
 import dev.RatFjc.ImperiumCore.utility.TextUtil;
 import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
@@ -27,12 +31,16 @@ public class WarpManager {
      */
     public static @Nullable Warp create(Player owner, String name, Location location) {
         for (Warp warp : warps()) {
-            if (warp.name().equals(name)) return null;
+            if (warp.name().equals(name)) {
+                TextUtil.sendMessage(owner, "A warp already exists with this name.");
+                return null;
+            }
         }
-        Warp warp = new Warp(owner, location, name, "", WarpType.MISC);
+        WarpUser warpUser = new WarpUser(owner);
+        Warp warp = new Warp(warpUser, location, name, "", WarpType.MISC);
         WarpCreateEvent warpCreateEvent = new WarpCreateEvent(warp);
         if (warpCreateEvent.isCancelled()) return null;
-        WarpSaver.saveWarp(warp);
+        DBWarpSaver.saveWarp(warp);
         TextUtil.sendMessage(owner, "Successfully created a new warp named " + name);
         return warp;
     }
@@ -51,6 +59,7 @@ public class WarpManager {
         warp.setDescription(description);
         TextUtil.sendMessage(owner, "Successfully created a new warp named " + name + " with description " +
                 description);
+        DBWarpSaver.saveWarp(warp);
         return warp;
     }
 
@@ -62,9 +71,11 @@ public class WarpManager {
     public static @Nullable Warp getWarp(String warpName) {
         Warp warp = null;
         try {
-            warp = WarpSaver.getWarp(warpName).get();
+            warp = DBWarpSaver.getWarp(warpName).get();
         } catch (ExecutionException | InterruptedException e) {
             LogUtil.log("Something went wrong. The warp might be corrupt or does not exist.", new PlayerWarps(), Level.WARNING, false);
+            LogUtil.log(e.getMessage());
+            LogUtil.log(Arrays.toString(e.getStackTrace()));
         }
         return warp;
     }
@@ -72,7 +83,7 @@ public class WarpManager {
     public static List<Warp> warps() {
         List<Warp> warps = new ArrayList<>();
         try {
-            warps.addAll(WarpSaver.getWarps().get());
+            warps.addAll(DBWarpSaver.getWarps().get());
         } catch (InterruptedException | ExecutionException ignored) {
 
         }
@@ -87,15 +98,33 @@ public class WarpManager {
 
     public static void reset(Warp warp, Location newLocation) {
         warp.setLocation(newLocation);
-        WarpSaver.saveWarp(warp);
+        DBWarpSaver.updateWarp(warp);
     }
 
     public static void remove(String name) {
-        WarpSaver.removeWarp(name);
+        Warp warp = getWarp(name);
+        if (warp != null) DBWarpSaver.removeWarp(warp);
+        else LogUtil.log("Tried to remove a warp but couldn't find it!", new PlayerWarps(), Level.WARNING, true);
     }
 
     public static void setDesc(Warp warp, String description) {
         warp.setDescription(description);
-        WarpSaver.saveWarp(warp);
+        DBWarpSaver.updateWarp(warp);
+    }
+
+    /**
+     * Gets the {@link WarpUser} assigned to this player. If none exists, a new one will be created.
+     * @param player The player to assign to the WarpUser instance
+     * @return A non-null {@link WarpUser}
+     */
+    public static @NotNull WarpUser elseCreateUser(OfflinePlayer player) {
+        WarpUser result;
+        try {
+            result = DBWarpSaver.getWarpUser(player.getUniqueId()).get();
+        } catch (InterruptedException | ExecutionException e) {
+            result = new WarpUser(player);
+        }
+        if (result == null) result = new WarpUser(player);
+        return result;
     }
 }

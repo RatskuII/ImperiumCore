@@ -2,7 +2,7 @@ package dev.RatFjc.ImperiumCore.modules.playerwarp.command;
 
 import dev.RatFjc.ImperiumCore.modules.playerwarp.Warp;
 import dev.RatFjc.ImperiumCore.modules.playerwarp.WarpManager;
-import dev.RatFjc.ImperiumCore.modules.playerwarp.file.WarpSaver;
+import dev.RatFjc.ImperiumCore.modules.playerwarp.database.DBWarpSaver;
 import dev.RatFjc.ImperiumCore.utility.TextUtil;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -32,13 +32,7 @@ public class PWCommand implements TabExecutor {
                 return false;
             }
 
-            Warp warp;
-            try {
-                warp = WarpSaver.getWarp(args[0]).get();
-            } catch (ExecutionException | InterruptedException e) {
-                TextUtil.sendMessage(player, invalid);
-                return false;
-            }
+            Warp warp = WarpManager.getWarp(args[0]);
             if (warp == null) {
                 TextUtil.sendMessage(player, invalid);
                 return false;
@@ -72,7 +66,7 @@ public class PWCommand implements TabExecutor {
 
                 Warp warp;
                 try {
-                    warp = WarpSaver.getWarp(name).get();
+                    warp = DBWarpSaver.getWarp(name).get();
                 } catch (ExecutionException | InterruptedException e) {
                     TextUtil.sendMessage(player, invalid);
                     return false;
@@ -86,18 +80,7 @@ public class PWCommand implements TabExecutor {
 
             // Remove pw (2 args allow for "remove" arg and pw name)
             if (args[0].equals("remove")) {
-                if (!(sender instanceof Player player)) {
-                    TextUtil.sendMessage(sender, playerOnly);
-                    return false;
-                }
-
                 String name = args[1];
-
-                Warp warp = WarpManager.getWarp(name);
-                if (warp == null) {
-                    TextUtil.sendMessage(player, invalid);
-                    return false;
-                }
                 WarpManager.remove(name);
             }
         }
