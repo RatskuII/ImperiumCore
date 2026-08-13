@@ -49,6 +49,14 @@ public abstract class ConfigurationSaver {
      */
     protected static CompletableFuture<Void> save(File file, FileConfiguration fileConfiguration, Executor executor) {
         if (file == null || fileConfiguration == null) return nullFail("File or configuration is missing or corrupt.");
+        if (executor == null) return CompletableFuture.runAsync(() -> {
+            try {
+                fileConfiguration.save(file);
+            } catch (IOException e) {
+                LogUtil.log("Something went wrong while trying to save a file.", new UltraBans(), Level.SEVERE, false);
+                LogUtil.log(e.getMessage());
+            }
+        });
         return CompletableFuture.runAsync(() -> {
             try {
                 fileConfiguration.save(file);

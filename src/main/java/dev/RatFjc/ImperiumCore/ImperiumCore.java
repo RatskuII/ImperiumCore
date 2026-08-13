@@ -32,6 +32,7 @@ public final class ImperiumCore extends JavaPlugin {
     private InvisFrame invisFrame;
     private ShulkerBoxPreview shulkerBoxPreview;
     private PlayerWarps playerWarps;
+    private PinataQuestCounter pinataQuestCounter;
 
     @Override
     public void onEnable() {
@@ -51,6 +52,7 @@ public final class ImperiumCore extends JavaPlugin {
         load(invisFrame);
         load(shulkerBoxPreview);
         load(playerWarps);
+        load(pinataQuestCounter);
 
         EventUtil.registerCommand(new ToggleExperimentals(), "allow-experiments");
         EventUtil.registerEvent(new OnByDefault());
@@ -85,6 +87,7 @@ public final class ImperiumCore extends JavaPlugin {
         invisFrame = new InvisFrame();
         shulkerBoxPreview = new ShulkerBoxPreview();
         playerWarps = new PlayerWarps();
+        pinataQuestCounter = new PinataQuestCounter();
     }
 
     public void load(Module module) {
@@ -113,6 +116,7 @@ public final class ImperiumCore extends JavaPlugin {
         invisFrame = null;
         shulkerBoxPreview = null;
         playerWarps = null;
+        pinataQuestCounter = null;
 
     }
 }
