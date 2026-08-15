@@ -8,6 +8,7 @@ description: The one stop core for all odd and sod. Imperium hook and fix plugin
 
 softdepend:
   - ODailyQuests
+  - LuckPerms
   - Train_Carts
 
 commands:
@@ -32,3 +33,22 @@ commands:
   pw:
     description: Allows you to teleport to and manage player warps.
     usage: /pw [name] | /pw create [name] | /pw reset [name] | /pw remove [name]
+  mail:
+    aliases: [ mailbox, send, gift, rewards, reward ]
+    description: Player mailbox and mail-sending commands.
+    usage: /mail
+  adminmail:
+    aliases: [ adminmailbox, adminsend, admingift, adminrewards, adminreward ]
+    description: Admin reward + mailbox management commands.
+    usage: /adminmail
+
+permissions:
+  imperium.mail.player:
+    default: true
+
+  imperium.mail.reminder:
+    description: Enables mailbox reminder notifications
+    default: true
+
+  imperium.mail.admin:
+    default: op

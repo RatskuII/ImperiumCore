@@ -7,7 +7,6 @@ import dev.RatFjc.ImperiumCore.init.*;
 import dev.RatFjc.ImperiumCore.utility.EventUtil;
 import dev.RatFjc.ImperiumCore.utility.LogUtil;
 import org.bukkit.plugin.java.JavaPlugin;
-
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
@@ -33,6 +32,7 @@ public final class ImperiumCore extends JavaPlugin {
     private ShulkerBoxPreview shulkerBoxPreview;
     private PlayerWarps playerWarps;
     private PinataQuestCounter pinataQuestCounter;
+    private MailboxModule mailboxModule;
 
     @Override
     public void onEnable() {
@@ -53,6 +53,7 @@ public final class ImperiumCore extends JavaPlugin {
         load(shulkerBoxPreview);
         load(playerWarps);
         load(pinataQuestCounter);
+        load(mailboxModule);
 
         EventUtil.registerCommand(new ToggleExperimentals(), "allow-experiments");
         EventUtil.registerEvent(new OnByDefault());
@@ -88,6 +89,7 @@ public final class ImperiumCore extends JavaPlugin {
         shulkerBoxPreview = new ShulkerBoxPreview();
         playerWarps = new PlayerWarps();
         pinataQuestCounter = new PinataQuestCounter();
+        mailboxModule = new MailboxModule();
     }
 
     public void load(Module module) {
@@ -117,6 +119,7 @@ public final class ImperiumCore extends JavaPlugin {
         shulkerBoxPreview = null;
         playerWarps = null;
         pinataQuestCounter = null;
+        mailboxModule = null;
 
     }
 }

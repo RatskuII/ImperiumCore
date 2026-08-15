@@ -1,0 +1,36 @@
+gui:
+  title: "&8Mailbox"
+  size: 54
+  mail-range: "0,44"
+  max-pages: 50
+
+  sorting-button:
+    slot: 47
+    material: PAPER
+    names:
+      newest: "&aSort: Newest"
+      oldest: "&eSort: Oldest"
+      sender: "&bSort: Sender"
+
+  claim-all-button:
+    slot: 46
+    material: CHEST
+    name: "&aClaim All"
+
+  previous-page:
+    slot: 45
+    material: ARROW
+    name: "&cPrevious Page"
+
+  page-indicator:
+    slot: 49
+    material: PAPER
+    name: "&7Page: %page%/%max_pages%"
+
+  next-page:
+    slot: 53
+    material: ARROW
+    name: "&aNext Page"
+
+lore:
+  date-format: "yyyy-MM-dd"
