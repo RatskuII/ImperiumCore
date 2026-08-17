@@ -1,0 +1,29 @@
+Mailbox:
+  mail:
+    sending-cost: 500
+    require-coinsengine: false
+    max-pages: 50
+    page-size: 45
+  lore:
+    player-sent: "&7Sent by: &a%player%"
+    admin-sent: "&7Sent by: &cAdmin"
+    system-sent: "&7Sent by: &e%plugin%"
+    date-format: "yyyy-MM-dd"
+  sounds:
+    claim-success: "ENTITY_EXPERIENCE_ORB_PICKUP"
+    claim-failed: "BLOCK_NOTE_BLOCK_BASS"
+    open-gui: "UI_BUTTON_CLICK"
+    send: "ENTITY_PLAYER_LEVELUP"
+    received: "ENTITY_EXPERIENCE_ORB_PICKUP"
+    next_page: "UI_BUTTON_CLICK"
+    previous_page: "UI_BUTTON_CLICK"
+    item_sort: "ITEM_BOOK_PAGE_TURN"
+  cooldown:
+    send-mail: 20
+  economy:
+    base-cost: 500
+    admin-bypass: true
+  reminder:
+    periodic_ticks: 24000
+    login_reminder: true
+    login_delay_ticks: 100
