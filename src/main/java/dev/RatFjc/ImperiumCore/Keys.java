@@ -29,6 +29,9 @@ public final class Keys extends Utility {
     public static final NamespacedKey INVIS_FRAME = new NamespacedKey(plugin, "invis-frame");
     public static final NamespacedKey GLOW_FRAME = new NamespacedKey(plugin, "invis-glow");
 
+    // Keys related to quests
+    public static final NamespacedKey PROGRESSION = new NamespacedKey(plugin, "quest-progression");
+
     // Key to toggle experimental features
     public static final NamespacedKey ALLOW_EXPERIMENTAL = new NamespacedKey(plugin, "allow_experimental");
 }

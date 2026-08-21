@@ -4,9 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>dev.Fjc</groupId>
+    <groupId>dev.RatFjc</groupId>
     <artifactId>ImperiumCore</artifactId>
-    <version>0.11.5-b</version>
+    <version>0.12.2-b</version>
     <packaging>jar</packaging>
 
     <name>ImperiumCore</name>

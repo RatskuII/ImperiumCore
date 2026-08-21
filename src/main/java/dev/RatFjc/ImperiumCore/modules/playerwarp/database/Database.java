@@ -16,11 +16,6 @@ import java.util.logging.Level;
 
 public interface Database {
 
-    // Initial setup
-    void initialize();
-
-    void close();
-
     // ** GET **;
 
     Warp warp(String name);

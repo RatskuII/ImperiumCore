@@ -3,6 +3,7 @@ package dev.RatFjc.ImperiumCore.init;
 import dev.RatFjc.ImperiumCore.ImperiumCore;
 import dev.RatFjc.ImperiumCore.Module;
 import dev.RatFjc.ImperiumCore.modules.mailbox.MailMain;
+import dev.RatFjc.ImperiumCore.utility.BukkitUtil;
 
 public class MailboxModule extends Module {
 
@@ -23,13 +24,8 @@ public class MailboxModule extends Module {
         try {
             mailMain = new MailMain(instance);
 
-            if (instance.getCommand("adminmail") != null) {
-                instance.getCommand("adminmail").setExecutor(mailMain.getCommands());
-            }
-
-            if (instance.getCommand("mail") != null) {
-                instance.getCommand("mail").setExecutor(mailMain.getCommands());
-            }
+            BukkitUtil.registerCommand(mailMain.getCommands(), "adminmail");
+            BukkitUtil.registerCommand(mailMain.getCommands(), "mail");
 
             instance.getLogger().info("Mailbox module loaded.");
 

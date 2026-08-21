@@ -4,7 +4,7 @@ import dev.RatFjc.ImperiumCore.ImperiumCore;
 import dev.RatFjc.ImperiumCore.Module;
 import dev.RatFjc.ImperiumCore.modules.invisframe.command.GetFrameCommand;
 import dev.RatFjc.ImperiumCore.modules.invisframe.listener.FrameEventHandler;
-import dev.RatFjc.ImperiumCore.utility.EventUtil;
+import dev.RatFjc.ImperiumCore.utility.BukkitUtil;
 
 public class InvisFrame extends Module {
     @Override
@@ -19,7 +19,7 @@ public class InvisFrame extends Module {
 
     @Override
     protected void load(ImperiumCore instance) {
-        EventUtil.registerEvent(new FrameEventHandler());
-        EventUtil.registerCommand(new GetFrameCommand(), "frame");
+        BukkitUtil.registerEvent(new FrameEventHandler());
+        BukkitUtil.registerCommand(new GetFrameCommand(), "frame");
     }
 }

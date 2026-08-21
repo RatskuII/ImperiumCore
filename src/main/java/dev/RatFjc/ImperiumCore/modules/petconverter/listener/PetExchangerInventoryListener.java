@@ -3,7 +3,7 @@ package dev.RatFjc.ImperiumCore.modules.petconverter.listener;
 import dev.RatFjc.ImperiumCore.modules.petconverter.HeadData;
 import dev.RatFjc.ImperiumCore.modules.petconverter.HeadFinder;
 import dev.RatFjc.ImperiumCore.modules.petconverter.InvBuilder;
-import dev.RatFjc.ImperiumCore.utility.EventUtil;
+import dev.RatFjc.ImperiumCore.utility.BukkitUtil;
 import dev.RatFjc.ImperiumCore.utility.TextUtil;
 import net.kyori.adventure.text.Component;
 import org.bukkit.World;
@@ -79,7 +79,7 @@ public class PetExchangerInventoryListener implements Listener {
 
     private void execute(Player player, int petLevel) {
         int total = Math.max((int) (petLevel * 0.15), 1);
-        EventUtil.dispatchCommand("silver give " + player.getName() + " " + total);
+        BukkitUtil.dispatchCommand("silver give " + player.getName() + " " + total);
         TextUtil.sendMessage(player, "You received " + total + " silver for trading in a level " + petLevel + " pet.");
     }
 

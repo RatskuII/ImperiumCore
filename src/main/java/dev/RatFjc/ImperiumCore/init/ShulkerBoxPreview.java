@@ -3,7 +3,7 @@ package dev.RatFjc.ImperiumCore.init;
 import dev.RatFjc.ImperiumCore.ImperiumCore;
 import dev.RatFjc.ImperiumCore.Module;
 import dev.RatFjc.ImperiumCore.modules.shulkerboxpreview.ShulkerBoxListener;
-import dev.RatFjc.ImperiumCore.utility.EventUtil;
+import dev.RatFjc.ImperiumCore.utility.BukkitUtil;
 
 public class ShulkerBoxPreview extends Module {
     @Override
@@ -18,6 +18,6 @@ public class ShulkerBoxPreview extends Module {
 
     @Override
     protected void load(ImperiumCore instance) {
-        EventUtil.registerEvent(new ShulkerBoxListener());
+        BukkitUtil.registerEvent(new ShulkerBoxListener());
     }
 }

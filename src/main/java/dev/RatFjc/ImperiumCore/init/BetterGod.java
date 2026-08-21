@@ -5,7 +5,7 @@ import dev.RatFjc.ImperiumCore.Module;
 import dev.RatFjc.ImperiumCore.modules.bettergod.command.GodCmd;
 import dev.RatFjc.ImperiumCore.modules.bettergod.command.UnGodCmd;
 import dev.RatFjc.ImperiumCore.modules.bettergod.handler.DamageIntercept;
-import dev.RatFjc.ImperiumCore.utility.EventUtil;
+import dev.RatFjc.ImperiumCore.utility.BukkitUtil;
 
 public class BetterGod extends Module {
     @Override
@@ -20,9 +20,9 @@ public class BetterGod extends Module {
 
     @Override
     protected void load(ImperiumCore instance) {
-        EventUtil.registerEvent(new DamageIntercept());
+        BukkitUtil.registerEvent(new DamageIntercept());
 
-        EventUtil.registerCommand(new GodCmd(), "god");
-        EventUtil.registerCommand(new UnGodCmd(), "ungod");
+        BukkitUtil.registerCommand(new GodCmd(), "god");
+        BukkitUtil.registerCommand(new UnGodCmd(), "ungod");
     }
 }

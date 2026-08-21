@@ -4,11 +4,8 @@ import dev.RatFjc.ImperiumCore.extras.cmds.ToggleExperimentals;
 import dev.RatFjc.ImperiumCore.extras.listener.OnByDefault;
 import dev.RatFjc.ImperiumCore.extras.multithreading.AsyncModule;
 import dev.RatFjc.ImperiumCore.init.*;
-import dev.RatFjc.ImperiumCore.utility.EventUtil;
-import dev.RatFjc.ImperiumCore.utility.LogUtil;
+import dev.RatFjc.ImperiumCore.utility.BukkitUtil;
 import org.bukkit.plugin.java.JavaPlugin;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 
 /**
  * The global plugin instance that all modules will initialize from.
@@ -55,8 +52,8 @@ public final class ImperiumCore extends JavaPlugin {
         load(pinataQuestCounter);
         load(mailboxModule);
 
-        EventUtil.registerCommand(new ToggleExperimentals(), "allow-experiments");
-        EventUtil.registerEvent(new OnByDefault());
+        BukkitUtil.registerCommand(new ToggleExperimentals(), "allow-experiments");
+        BukkitUtil.registerEvent(new OnByDefault());
     }
 
     @Override
@@ -99,6 +96,9 @@ public final class ImperiumCore extends JavaPlugin {
 
         if (module instanceof AsyncModule<?> asyncModule) {
             asyncModule.displayWarning();
+        }
+        if (module instanceof DependentModule dependentModule) {
+            dependentModule.verify(module);
         }
     }
 

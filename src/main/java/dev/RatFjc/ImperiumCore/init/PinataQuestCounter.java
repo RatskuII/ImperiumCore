@@ -5,7 +5,7 @@ import dev.RatFjc.ImperiumCore.Module;
 import dev.RatFjc.ImperiumCore.extras.multithreading.AsyncModule;
 import dev.RatFjc.ImperiumCore.modules.pinatacounter.Counter;
 import dev.RatFjc.ImperiumCore.modules.pinatacounter.CounterSaver;
-import dev.RatFjc.ImperiumCore.utility.EventUtil;
+import dev.RatFjc.ImperiumCore.utility.BukkitUtil;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -27,7 +27,7 @@ public class PinataQuestCounter extends Module implements AsyncModule<ScheduledE
 
     @Override
     protected void load(ImperiumCore instance) {
-        EventUtil.registerEvent(new Counter());
+        BukkitUtil.registerEvent(new Counter());
         instance.saveResource("pinata.yml", false);
         CounterSaver.set();
     }

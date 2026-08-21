@@ -1,6 +1,5 @@
 package dev.RatFjc.ImperiumCore;
 
-import dev.RatFjc.ImperiumCore.init.PlayerWarps;
 import dev.RatFjc.ImperiumCore.init.UltraBans;
 import dev.RatFjc.ImperiumCore.utility.LogUtil;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -26,6 +25,7 @@ public abstract class ConfigurationSaver {
      * @param file The file to target. If the file does not exist, it will be created.
      * @return A new {@link FileConfiguration} that can be accessed for this file, or null if something went wrong.
      */
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     protected static @Nullable FileConfiguration build(File file) {
         if (!file.exists()) plugin.getDataFolder().mkdirs();
         try {

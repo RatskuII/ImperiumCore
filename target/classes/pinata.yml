@@ -1,8 +1,0 @@
-counter: 0
-messages:
-  progress: "&6%player% has completed a quest %current%/%cap% quests!"
-  spawn: "&c%player% has spawned the pinata!"
-
-settings:
-  quests_cap: 50
-  progress_complete_command: "pinataparty:pparty spawn"

@@ -1,5 +1,7 @@
 package dev.RatFjc.ImperiumCore.utility;
 
+import dev.RatFjc.ImperiumCore.extras.Pair;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.time.Duration;
@@ -52,6 +54,16 @@ public final class DataUtil {
         return result;
     }
 
+    public static int parseInt(String value) {
+        int result;
+        try {
+            result = Integer.parseInt(value);
+        } catch (NumberFormatException ignored) {
+            result = 0;
+        }
+        return result;
+    }
+
     /**
      * Converts the string provided into a valid UUID.
      * @param input The string to convert
@@ -66,5 +78,26 @@ public final class DataUtil {
 
         }
         return result;
+    }
+
+    /**
+     * Intended to get a string-integer {@link Pair} with the following expression:
+     * <br>
+     * <br>
+     * {@link String}:{@link Integer}
+     * @param input The string to parse
+     * @return The resulting {@link Pair}, not null
+     * @throws NumberFormatException if the input does not match the required expression, or if the object
+     * found is not a valid integer
+     * @throws IllegalArgumentException if the input provided is invalid in some way
+     * @throws NullPointerException if the input provided is null
+     */
+    public static @NotNull Pair<String, Integer> parseData(String input) {
+        if (input == null) throw new NullPointerException("The input provided is invalid.");
+        if (!input.contains(":")) throw new IllegalArgumentException("The input provided is invalid.");
+        String[] splits = input.split(":", 2);
+        if (splits[1].length() > 4) throw new IllegalArgumentException("The value extracted is too large.");
+        if (splits[0].isEmpty()) throw new IllegalArgumentException("The input provided is empty.");
+        return new Pair<>(splits[0], Integer.parseInt(splits[1].trim()));
     }
 }

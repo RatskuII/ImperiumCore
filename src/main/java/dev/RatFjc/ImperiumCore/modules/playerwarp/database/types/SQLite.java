@@ -7,7 +7,7 @@ import dev.RatFjc.ImperiumCore.modules.playerwarp.data.Cache;
 import dev.RatFjc.ImperiumCore.modules.playerwarp.data.WarpType;
 import dev.RatFjc.ImperiumCore.modules.playerwarp.data.WarpUser;
 import dev.RatFjc.ImperiumCore.modules.playerwarp.database.Database;
-import dev.RatFjc.ImperiumCore.modules.playerwarp.database.DatabaseType;
+import dev.RatFjc.ImperiumCore.extras.HeadDatabase;
 import dev.RatFjc.ImperiumCore.utility.DataUtil;
 import dev.RatFjc.ImperiumCore.utility.LogUtil;
 import org.bukkit.Bukkit;
@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 
-public class SQLite implements Database, DatabaseType {
+public class SQLite implements Database, HeadDatabase {
 
     private final Cache<WarpUser> userCache = Cache.create();
     private final Cache<String> nameCache = Cache.create();

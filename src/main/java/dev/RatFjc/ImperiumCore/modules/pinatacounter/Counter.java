@@ -3,7 +3,7 @@ package dev.RatFjc.ImperiumCore.modules.pinatacounter;
 import com.ordwen.odailyquests.api.events.QuestCompletedEvent;
 import dev.RatFjc.ImperiumCore.init.PinataQuestCounter;
 import dev.RatFjc.ImperiumCore.modules.pinatacounter.timer.QuestTimer;
-import dev.RatFjc.ImperiumCore.utility.EventUtil;
+import dev.RatFjc.ImperiumCore.utility.BukkitUtil;
 import dev.RatFjc.ImperiumCore.utility.LogUtil;
 import dev.RatFjc.ImperiumCore.utility.TextUtil;
 import net.md_5.bungee.api.ChatColor;
@@ -36,7 +36,7 @@ public class Counter implements Listener {
             String command = CounterSaver.getCompletionCmd();
             command = command.replace("%player%", player.getName());
             LogUtil.log("Running console cmd: " + command, new PinataQuestCounter(), Level.INFO, true);
-            EventUtil.dispatchCommand(command);
+            BukkitUtil.dispatchCommand(command);
 
             CounterSaver.resetCounter();
             QuestTimer.reset();

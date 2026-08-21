@@ -1,5 +1,6 @@
 package dev.RatFjc.ImperiumCore.modules.afk.listener;
 
+import dev.RatFjc.ImperiumCore.extras.multithreading.Threader;
 import dev.RatFjc.ImperiumCore.modules.afk.managers.TimerManager;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import org.bukkit.entity.Entity;
@@ -46,7 +47,9 @@ public class PlayerListener implements Listener {
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onPlayerChat(AsyncChatEvent event) {
         Player player = event.getPlayer();
-        TimerManager.resetPreAfkTimer(player);
+        if (event.isAsynchronous()) {
+            Threader.execute(() -> TimerManager.resetPreAfkTimer(player));
+        }
     }
 
     @EventHandler(ignoreCancelled = true)

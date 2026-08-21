@@ -6,7 +6,7 @@ import dev.RatFjc.ImperiumCore.extras.multithreading.AsyncModule;
 import dev.RatFjc.ImperiumCore.modules.playerwarp.command.PWCommand;
 import dev.RatFjc.ImperiumCore.modules.playerwarp.database.types.SQLite;
 import dev.RatFjc.ImperiumCore.modules.playerwarp.event.listener.WarpCreationListener;
-import dev.RatFjc.ImperiumCore.utility.EventUtil;
+import dev.RatFjc.ImperiumCore.utility.BukkitUtil;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
@@ -34,9 +34,9 @@ public class PlayerWarps extends Module implements AsyncModule<ScheduledExecutor
         sqLite = new SQLite();
         sqLite.connection();
         sqLite.initialize();
-        EventUtil.registerCommand(new PWCommand(), "pw");
+        BukkitUtil.registerCommand(new PWCommand(), "pw");
 
-        EventUtil.registerEvent(new WarpCreationListener());
+        BukkitUtil.registerEvent(new WarpCreationListener());
     }
 
     @Override

@@ -1,18 +1,23 @@
 package dev.RatFjc.ImperiumCore.init;
 
+import com.bergerkiller.bukkit.tc.TrainCarts;
 import com.bergerkiller.bukkit.tc.signactions.SignAction;
+import dev.RatFjc.ImperiumCore.DependentModule;
 import dev.RatFjc.ImperiumCore.ImperiumCore;
 import dev.RatFjc.ImperiumCore.Module;
 import dev.RatFjc.ImperiumCore.modules.train.SkeletonRemover;
 import dev.RatFjc.ImperiumCore.modules.train.SwitchSoundAdder;
-import dev.RatFjc.ImperiumCore.utility.EventUtil;
+import dev.RatFjc.ImperiumCore.utility.BukkitUtil;
 import dev.RatFjc.ImperiumCore.utility.LogUtil;
 import dev.RatFjc.ImperiumCore.modules.train.AnnounceDelay;
+import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.logging.Level;
 
 
-public class TrainAddons extends Module {
+public class TrainAddons extends Module implements DependentModule {
 
     @Override
     public String name() {
@@ -39,11 +44,18 @@ public class TrainAddons extends Module {
     public static void register() {
         SignAction.register(new AnnounceDelay());
 
-        EventUtil.registerEvent(new AnnounceDelay());
-        EventUtil.registerEvent(new SwitchSoundAdder());
-        EventUtil.registerEvent(new SkeletonRemover());
+        BukkitUtil.registerEvent(new AnnounceDelay());
+        BukkitUtil.registerEvent(new SwitchSoundAdder());
+        BukkitUtil.registerEvent(new SkeletonRemover());
     }
     public static void unregister() {
         SignAction.unregister(new AnnounceDelay());
+    }
+
+    @Override
+    public List<@Nullable Plugin> dependencies() {
+        return List.of(
+                TrainCarts.plugin
+        );
     }
 }

@@ -4,7 +4,7 @@ import dev.RatFjc.ImperiumCore.ImperiumCore;
 import dev.RatFjc.ImperiumCore.Module;
 import dev.RatFjc.ImperiumCore.modules.petconverter.command.PetGUICommand;
 import dev.RatFjc.ImperiumCore.modules.petconverter.listener.PetExchangerInventoryListener;
-import dev.RatFjc.ImperiumCore.utility.EventUtil;
+import dev.RatFjc.ImperiumCore.utility.BukkitUtil;
 
 public class PetConverter extends Module {
     @Override
@@ -19,7 +19,7 @@ public class PetConverter extends Module {
 
     @Override
     protected void load(ImperiumCore instance) {
-        EventUtil.registerEvent(new PetExchangerInventoryListener());
-        EventUtil.registerCommand(new PetGUICommand(), "pet-exchanger");
+        BukkitUtil.registerEvent(new PetExchangerInventoryListener());
+        BukkitUtil.registerCommand(new PetGUICommand(), "pet-exchanger");
     }
 }

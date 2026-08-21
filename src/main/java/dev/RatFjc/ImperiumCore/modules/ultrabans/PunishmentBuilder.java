@@ -6,7 +6,7 @@ import dev.RatFjc.ImperiumCore.modules.ultrabans.data.PunishmentType;
 import dev.RatFjc.ImperiumCore.modules.ultrabans.data.Tag;
 import dev.RatFjc.ImperiumCore.modules.ultrabans.data.files.PunishmentSaver;
 import dev.RatFjc.ImperiumCore.modules.ultrabans.event.PunishmentEvent;
-import dev.RatFjc.ImperiumCore.utility.EventUtil;
+import dev.RatFjc.ImperiumCore.utility.BukkitUtil;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
 
@@ -71,7 +71,7 @@ public class PunishmentBuilder<T> {
 
         Punishment<T> punishment = new Punishment<>(target, type, source, reason, duration, tags);
         PunishmentEvent<T> punishmentEvent = new PunishmentEvent<>(punishment);
-        EventUtil.callEvent(punishmentEvent);
+        BukkitUtil.callEvent(punishmentEvent);
         if (punishmentEvent.isCancelled()) return punishment;
         switch (type) {
             case BAN -> Operation.ban(punishment);
@@ -90,7 +90,7 @@ public class PunishmentBuilder<T> {
         }
         Punishment<Player> punishment = new Punishment<>(player, type, source, reason, duration, tags);
         PunishmentEvent<Player> punishmentEvent = new PunishmentEvent<>(punishment);
-        EventUtil.callEvent(punishmentEvent);
+        BukkitUtil.callEvent(punishmentEvent);
         if (punishmentEvent.isCancelled()) return punishment;
 
         switch (type) {
