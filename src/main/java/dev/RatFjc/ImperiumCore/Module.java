@@ -28,6 +28,14 @@ public abstract class Module {
      */
     protected abstract void load(ImperiumCore instance);
 
+    /**
+     * What should this module do when the plugin is disabled? Leave empty for default.
+     * @param instance The plugin being disabled
+     * @apiNote Most modules won't need to implement this, as Bukkit already handles it. This is mostly useful for
+     * external tasks or APIs that need to be shutdown or disabled explicitly.
+     */
+    protected void unload(ImperiumCore instance) {}
+
     public void postStartup() {
         LogUtil.log("Successfully loaded the module.", this, Level.INFO, false);
     }

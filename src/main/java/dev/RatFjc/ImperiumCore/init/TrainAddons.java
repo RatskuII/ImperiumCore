@@ -5,6 +5,7 @@ import com.bergerkiller.bukkit.tc.signactions.SignAction;
 import dev.RatFjc.ImperiumCore.DependentModule;
 import dev.RatFjc.ImperiumCore.ImperiumCore;
 import dev.RatFjc.ImperiumCore.Module;
+import dev.RatFjc.ImperiumCore.modules.train.RouteInfo;
 import dev.RatFjc.ImperiumCore.modules.train.SkeletonRemover;
 import dev.RatFjc.ImperiumCore.modules.train.SwitchSoundAdder;
 import dev.RatFjc.ImperiumCore.utility.BukkitUtil;
@@ -31,6 +32,14 @@ public class TrainAddons extends Module implements DependentModule {
 
     @Override
     public void load(ImperiumCore instance) {
+        SignAction.register(new AnnounceDelay());
+
+        BukkitUtil.registerEvent(new AnnounceDelay());
+        BukkitUtil.registerEvent(new SwitchSoundAdder());
+        BukkitUtil.registerEvent(new SkeletonRemover());
+
+        BukkitUtil.registerCommand(new RouteInfo(), "route-lookup");
+
         instance.getServer().getScheduler().runTaskLater(instance, () -> {
             try {
                 Class.forName("com.bergerkiller.bukkit.tc.signactions.SignAction");
@@ -38,17 +47,11 @@ public class TrainAddons extends Module implements DependentModule {
                 LogUtil.log("Could not find the appropriate dependencies. That is a problem.", this, Level.SEVERE, false);
             }
         }, 1000L);
-        register();
+
     }
 
-    public static void register() {
-        SignAction.register(new AnnounceDelay());
-
-        BukkitUtil.registerEvent(new AnnounceDelay());
-        BukkitUtil.registerEvent(new SwitchSoundAdder());
-        BukkitUtil.registerEvent(new SkeletonRemover());
-    }
-    public static void unregister() {
+    @Override
+    public void unload(ImperiumCore instance) {
         SignAction.unregister(new AnnounceDelay());
     }
 

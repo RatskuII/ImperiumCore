@@ -1,6 +1,7 @@
 package dev.RatFjc.ImperiumCore;
 
 import org.bukkit.NamespacedKey;
+import org.bukkit.persistence.PersistentDataType;
 
 public final class Keys extends Utility {
 
@@ -30,6 +31,7 @@ public final class Keys extends Utility {
     public static final NamespacedKey GLOW_FRAME = new NamespacedKey(plugin, "invis-glow");
 
     // Keys related to quests
+    public static final NamespacedKey QUEST = new NamespacedKey(plugin, "quest-item");
     public static final NamespacedKey PROGRESSION = new NamespacedKey(plugin, "quest-progression");
 
     // Key to toggle experimental features

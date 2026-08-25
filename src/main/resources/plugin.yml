@@ -41,6 +41,9 @@ commands:
     aliases: [ adminmailbox, adminsend, admingift, adminrewards, adminreward ]
     description: Admin reward + mailbox management commands.
     usage: /adminmail
+  route-lookup:
+    description: Allows you to lookup destinations present on a route.
+    usage: /route-lookup <routeName>
 
 permissions:
   imperium.mail.player:

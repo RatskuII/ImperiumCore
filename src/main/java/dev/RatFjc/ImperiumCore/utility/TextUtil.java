@@ -8,6 +8,8 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.ChatColor;
 
+import java.util.List;
+
 public class TextUtil extends Utility {
 
     public static Component nbt(String data) {
@@ -37,6 +39,14 @@ public class TextUtil extends Utility {
 
     public static void sendMessage(Audience audience, String message) {
         audience.sendMessage(nbt(message));
+    }
+
+    public static void sendMessages(Audience audience, String... messages) {
+        for (String message : messages) sendMessage(audience, message);
+    }
+
+    public static void sendMessages(Audience audience, List<String> messages) {
+        for (String message : messages) sendMessage(audience, message);
     }
 
     public static void announce(String message) {

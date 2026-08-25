@@ -2,7 +2,6 @@ package dev.RatFjc.ImperiumCore.modules.itemquests.impl;
 
 import dev.RatFjc.ImperiumCore.modules.itemquests.AbstractQuest;
 import dev.RatFjc.ImperiumCore.modules.itemquests.Reward;
-import dev.RatFjc.ImperiumCore.modules.itemquests.context.Targetable;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.block.Biome;

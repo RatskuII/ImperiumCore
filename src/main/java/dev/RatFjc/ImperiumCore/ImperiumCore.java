@@ -58,6 +58,7 @@ public final class ImperiumCore extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        unload(trainAddons);
         shutdown();
         instance = null;
     }
@@ -102,9 +103,12 @@ public final class ImperiumCore extends JavaPlugin {
         }
     }
 
-    private void shutdown() {
-        TrainAddons.unregister();
+    public void unload(Module module) {
+        if (!module.enabled()) return;
+        module.unload(instance);
+    }
 
+    private void shutdown() {
         petaPit = null;
         trainAddons = null;
         joinLeave = null;
