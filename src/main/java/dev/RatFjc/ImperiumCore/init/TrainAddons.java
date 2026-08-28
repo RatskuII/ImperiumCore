@@ -5,12 +5,10 @@ import com.bergerkiller.bukkit.tc.signactions.SignAction;
 import dev.RatFjc.ImperiumCore.DependentModule;
 import dev.RatFjc.ImperiumCore.ImperiumCore;
 import dev.RatFjc.ImperiumCore.Module;
-import dev.RatFjc.ImperiumCore.modules.train.RouteInfo;
-import dev.RatFjc.ImperiumCore.modules.train.SkeletonRemover;
-import dev.RatFjc.ImperiumCore.modules.train.SwitchSoundAdder;
+import dev.RatFjc.ImperiumCore.modules.train.*;
+import dev.RatFjc.ImperiumCore.modules.train.configuration.TrainDataSaver;
 import dev.RatFjc.ImperiumCore.utility.BukkitUtil;
 import dev.RatFjc.ImperiumCore.utility.LogUtil;
-import dev.RatFjc.ImperiumCore.modules.train.AnnounceDelay;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.Nullable;
 
@@ -32,11 +30,14 @@ public class TrainAddons extends Module implements DependentModule {
 
     @Override
     public void load(ImperiumCore instance) {
+        fileSetup(new TrainDataSaver());
+
         SignAction.register(new AnnounceDelay());
 
         BukkitUtil.registerEvent(new AnnounceDelay());
         BukkitUtil.registerEvent(new SwitchSoundAdder());
         BukkitUtil.registerEvent(new SkeletonRemover());
+        BukkitUtil.registerEvent(new PassengerCreator());
 
         BukkitUtil.registerCommand(new RouteInfo(), "route-lookup");
 

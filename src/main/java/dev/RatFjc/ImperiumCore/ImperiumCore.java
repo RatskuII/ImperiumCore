@@ -1,5 +1,6 @@
 package dev.RatFjc.ImperiumCore;
 
+import dev.RatFjc.ImperiumCore.extras.cmds.CoreReload;
 import dev.RatFjc.ImperiumCore.extras.cmds.ToggleExperimentals;
 import dev.RatFjc.ImperiumCore.extras.listener.OnByDefault;
 import dev.RatFjc.ImperiumCore.extras.multithreading.AsyncModule;
@@ -52,6 +53,7 @@ public final class ImperiumCore extends JavaPlugin {
         load(pinataQuestCounter);
         load(mailboxModule);
 
+        BukkitUtil.registerCommand(new CoreReload(), "core-reload");
         BukkitUtil.registerCommand(new ToggleExperimentals(), "allow-experiments");
         BukkitUtil.registerEvent(new OnByDefault());
     }

@@ -2,6 +2,7 @@ package dev.RatFjc.ImperiumCore.modules.bettergod;
 
 import dev.RatFjc.ImperiumCore.ImperiumCore;
 import dev.RatFjc.ImperiumCore.Keys;
+import dev.RatFjc.ImperiumCore.PluginProvider;
 import dev.RatFjc.ImperiumCore.modules.bettergod.data.Context;
 import dev.RatFjc.ImperiumCore.modules.bettergod.data.ContextPDC;
 import dev.RatFjc.ImperiumCore.utility.TextUtil;
@@ -17,9 +18,7 @@ import java.time.Duration;
  * NOT handled via {@link Player#setInvulnerable(boolean)}. Instead, a separate listener determines whether the
  * damage should be canceled.
  */
-public class InvincibilityBuilder {
-
-    private static final ImperiumCore instance = ImperiumCore.getInstance();
+public class InvincibilityBuilder implements PluginProvider {
 
     private final Player player;
 
@@ -65,7 +64,7 @@ public class InvincibilityBuilder {
      * @return This builder, for chaining
      */
     public InvincibilityBuilder setDuration(Duration duration) {
-        instance.getServer().getScheduler().runTaskLater(instance,
+        plugin.getServer().getScheduler().runTaskLater(plugin,
                 task -> removeInvincibility()
                         .message("Your temporary invincibility has expired (" + duration.toSeconds() + " seconds).")
                         .build(),

@@ -28,6 +28,10 @@ public abstract class Module {
      */
     protected abstract void load(ImperiumCore instance);
 
+    protected void fileSetup(ConfigurationSaver saver) {
+        saver.set();
+    }
+
     /**
      * What should this module do when the plugin is disabled? Leave empty for default.
      * @param instance The plugin being disabled

@@ -12,11 +12,13 @@ public class CounterSaver extends ConfigurationSaver {
 
     private static final FileConfiguration fileConfiguration = build(file);
 
-    public static void set() {
+    @Override
+    public void set() {
         if (fileConfiguration == null) {
             nullFail("Configuration is unavailable.");
             return;
         }
+        plugin.saveResource("pinata.yml", false);
         // Counter
         fileConfiguration.set("counter", 0);
 

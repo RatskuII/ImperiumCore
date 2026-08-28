@@ -12,6 +12,8 @@ softdepend:
   - Train_Carts
 
 commands:
+  core-reload:
+    description: Command portal to reload available configurations.
   nv:
     description: Toggles night vision
     usage: /nv [on/off]

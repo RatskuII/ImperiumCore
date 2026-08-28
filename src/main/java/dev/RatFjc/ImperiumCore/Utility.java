@@ -1,6 +1,5 @@
 package dev.RatFjc.ImperiumCore;
 
-public abstract class Utility {
+public abstract class Utility implements PluginProvider {
 
-    protected static final ImperiumCore plugin = ImperiumCore.getInstance();
 }

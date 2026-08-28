@@ -28,8 +28,7 @@ public class PinataQuestCounter extends Module implements AsyncModule<ScheduledE
     @Override
     protected void load(ImperiumCore instance) {
         BukkitUtil.registerEvent(new Counter());
-        instance.saveResource("pinata.yml", false);
-        CounterSaver.set();
+        fileSetup(new CounterSaver());
     }
 
     @Override

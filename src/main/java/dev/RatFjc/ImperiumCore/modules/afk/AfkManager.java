@@ -1,8 +1,7 @@
 package dev.RatFjc.ImperiumCore.modules.afk;
 
-import dev.RatFjc.ImperiumCore.ImperiumCore;
+import dev.RatFjc.ImperiumCore.PluginProvider;
 
-public abstract class AfkManager {
+public abstract class AfkManager implements PluginProvider {
 
-    protected static final ImperiumCore plugin = ImperiumCore.getInstance();
 }

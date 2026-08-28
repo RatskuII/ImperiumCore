@@ -41,11 +41,11 @@ public class TextUtil extends Utility {
         audience.sendMessage(nbt(message));
     }
 
-    public static void sendMessages(Audience audience, String... messages) {
+    public static void sendMessage(Audience audience, String... messages) {
         for (String message : messages) sendMessage(audience, message);
     }
 
-    public static void sendMessages(Audience audience, List<String> messages) {
+    public static void sendMessage(Audience audience, List<String> messages) {
         for (String message : messages) sendMessage(audience, message);
     }
 

@@ -323,4 +323,9 @@ public class WarpSaver extends ConfigurationSaver {
             }
         }, PlayerWarps.executor());
     }
+
+    @Override
+    protected void set() {
+
+    }
 }

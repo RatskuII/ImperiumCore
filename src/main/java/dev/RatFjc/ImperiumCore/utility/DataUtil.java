@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.time.Duration;
-import java.util.UUID;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -99,5 +99,21 @@ public final class DataUtil {
         if (splits[1].length() > 4) throw new IllegalArgumentException("The value extracted is too large.");
         if (splits[0].isEmpty()) throw new IllegalArgumentException("The input provided is empty.");
         return new Pair<>(splits[0], Integer.parseInt(splits[1].trim()));
+    }
+
+    public static <R> R randomElementFromList(List<R> input) {
+        Random random = new Random();
+        int index = random.nextInt(input.size());
+        return input.get(index);
+    }
+
+    /**
+     * Converts an array ([]) to a {@link List}.
+     * @param array The array to be converted
+     * @return A valid {@link List}, not null
+     * @param <R> The type of the elements within the array
+     */
+    public static <R> List<R> arrayToList(R[] array) {
+        return Arrays.asList(array);
     }
 }

@@ -13,9 +13,7 @@ public class QuestEntries extends ConfigurationSaver {
 
     private static final FileConfiguration fileConfiguration = build(file);
 
-    private static int index;
-
-    public static void set() {
+    public void set() {
         if (fileConfiguration == null) {
             nullFail("Configuration could not be found.");
             return;
@@ -29,9 +27,14 @@ public class QuestEntries extends ConfigurationSaver {
                 "This helps to track the configuration version."
         ));
 
+       ConfigurationSection initial = fileConfiguration.getConfigurationSection("quests");
+       if (initial == null) initial = fileConfiguration.createSection("quests");
+       int index = initial.getKeys(false).size();
+
         for (int i = 0; i < index; i++) {
             String path = "quests." + i;
             ConfigurationSection configurationSection = fileConfiguration.getConfigurationSection(path);
+            if (configurationSection == null) continue;
             QuestLoader.loadFromFile(configurationSection, i);
         }
     }

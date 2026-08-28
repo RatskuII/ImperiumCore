@@ -1,6 +1,5 @@
 package dev.RatFjc.ImperiumCore.modules.itemquests.file;
 
-import dev.RatFjc.ImperiumCore.extras.Pair;
 import dev.RatFjc.ImperiumCore.extras.PairList;
 import dev.RatFjc.ImperiumCore.modules.itemquests.AbstractQuest;
 import dev.RatFjc.ImperiumCore.modules.itemquests.Reward;
@@ -23,22 +22,22 @@ public class QuestLoader {
         if (section == null) throw new NullPointerException();
 
         // Metadata
-        String name = section.getString(".name");
-        List<String> description = section.getStringList(".description");
-        final String type = section.getString(".type");
-        final int required = section.getInt(".total");
-        @Nullable World world = BukkitUtil.getWorld(section.getString(".world"));
-        @Nullable Biome region = BukkitUtil.getBiome(section.getString(".region"));
+        String name = section.getString("name");
+        List<String> description = section.getStringList("description");
+        final String type = section.getString("type");
+        final int required = section.getInt("total");
+        @Nullable World world = BukkitUtil.getWorld(section.getString("world"));
+        @Nullable Biome region = BukkitUtil.getBiome(section.getString("region"));
 
         // Rewards
         Reward reward = Reward.empty();
-        ConfigurationSection rewardPaths = section.getConfigurationSection(".reward");
+        ConfigurationSection rewardPaths = section.getConfigurationSection("reward");
         if (rewardPaths != null) {
-            List<ItemStack> items = rewardPaths.getStringList(".items").stream()
+            List<ItemStack> items = rewardPaths.getStringList("items").stream()
                     .filter(Objects::nonNull)
                     .map(obj -> ItemUtil.itemFromString(obj, DataUtil.parseData(obj).value()))
                     .toList();
-            List<String> commands = rewardPaths.getStringList(".commands");
+            List<String> commands = rewardPaths.getStringList("commands");
             reward = new Reward(items, commands);
         }
 

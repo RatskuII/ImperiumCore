@@ -2,7 +2,7 @@ package dev.RatFjc.ImperiumCore.modules.train;
 
 import com.bergerkiller.bukkit.tc.controller.MinecartMember;
 import com.bergerkiller.bukkit.tc.events.SignActionEvent;
-import dev.RatFjc.ImperiumCore.ImperiumCore;
+import dev.RatFjc.ImperiumCore.PluginProvider;
 import dev.RatFjc.ImperiumCore.utility.PlayerUtil;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
@@ -13,9 +13,7 @@ import org.bukkit.event.Listener;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SwitchSoundAdder implements Listener {
-
-    private static final ImperiumCore plugin = ImperiumCore.getInstance();
+public class SwitchSoundAdder implements Listener, PluginProvider {
 
     private static final Map<Location, Long> timers = new HashMap<>();
     private static final Map<Location, Long> timers2 = new HashMap<>();

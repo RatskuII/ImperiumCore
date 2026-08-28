@@ -180,7 +180,8 @@ public class PunishmentSaver extends ConfigurationSaver {
     }
 
 
+    @Override
+    protected void set() {
 
-
-
+    }
 }

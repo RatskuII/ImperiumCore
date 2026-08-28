@@ -23,7 +23,7 @@ public class RouteInfo implements TabExecutor {
         List<String> destinations = TCHook.destinations(routeName);
 
         TextUtil.sendMessage(sender, "These are the destinations that this route follows:");
-        TextUtil.sendMessages(sender, destinations);
+        TextUtil.sendMessage(sender, destinations);
         return true;
     }
 

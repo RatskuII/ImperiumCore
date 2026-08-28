@@ -7,7 +7,7 @@ import com.bergerkiller.bukkit.tc.events.SignChangeActionEvent;
 import com.bergerkiller.bukkit.tc.signactions.SignAction;
 import com.bergerkiller.bukkit.tc.signactions.SignActionType;
 import com.bergerkiller.bukkit.tc.utils.SignBuildOptions;
-import dev.RatFjc.ImperiumCore.ImperiumCore;
+import dev.RatFjc.ImperiumCore.PluginProvider;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -19,9 +19,7 @@ import java.util.List;
  * Represents the main event handler for the delayed announcements sign
  * (radio)
  */
-public class AnnounceDelay extends SignAction implements Listener {
-
-    private final ImperiumCore plugin = ImperiumCore.getInstance();
+public class AnnounceDelay extends SignAction implements Listener, PluginProvider {
 
     @Override
     public boolean match(SignActionEvent matcher) {

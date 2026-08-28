@@ -16,9 +16,9 @@ import java.util.logging.Level;
  * Represents an abstract class that can be inherited as a configuration helper class. The class includes
  * static utility methods like {@link #build(File)} and {@link #save(File, FileConfiguration, Executor)}.
  */
-public abstract class ConfigurationSaver {
+public abstract class ConfigurationSaver implements PluginProvider {
 
-    protected static final ImperiumCore plugin = ImperiumCore.getInstance();
+    protected abstract void set();
 
     /**
      * Sets up the file to allow read/writes.
@@ -37,6 +37,12 @@ public abstract class ConfigurationSaver {
         return YamlConfiguration.loadConfiguration(file);
     }
 
+    /**
+     * Can be used to indicate that an operation related to this class has failed.
+     * @param thrown
+     * @return
+     * @param <U>
+     */
     protected static <U> CompletableFuture<U> nullFail(String thrown) {
         return CompletableFuture.failedFuture(new NullPointerException(thrown));
     }
@@ -65,5 +71,15 @@ public abstract class ConfigurationSaver {
                 LogUtil.log(e.getMessage());
             }
         }, executor);
+    }
+
+    /**
+     * Reloads the provided file.
+     * @param file The file to be saved
+     * @apiNote This is not a thread-safe operation.
+     */
+    public static void syncSave(File file) {
+        YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
+        save(file, yaml, null);
     }
 }
