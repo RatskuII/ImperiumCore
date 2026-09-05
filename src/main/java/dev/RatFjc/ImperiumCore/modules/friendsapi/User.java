@@ -72,4 +72,8 @@ public record User(OfflinePlayer player) {
         }
         return uuids;
     }
+
+    public boolean equals(User user) {
+        return user != null && this.uuid().equals(user.uuid());
+    }
 }

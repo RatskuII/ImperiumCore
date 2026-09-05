@@ -27,6 +27,16 @@ public class FriendRequestCommand implements TabExecutor {
         User user = new User(player);
         User requested = User.fromName(args[1]);
 
+        if (user.asPlayer() == null || requested.asPlayer() == null) {
+            TextUtil.sendMessage(sender, "The player provided is offline.");
+            return false;
+        }
+
+        if (!user.equals(requested)) {
+            TextUtil.sendMessage(player, "You can't send a friend request to yourself.");
+            return false;
+        }
+
         FriendRequest request = new FriendRequest(user.asPlayer(), requested.asPlayer());
         switch (operator) {
             case "add" -> request.sendRequest();
@@ -36,7 +46,7 @@ public class FriendRequestCommand implements TabExecutor {
                 return false;
             }
         }
-        return false;
+        return true;
     }
 
     @Override
