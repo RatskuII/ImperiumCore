@@ -4,6 +4,9 @@ import dev.RatFjc.ImperiumCore.extras.Pair;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.File;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Duration;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -64,6 +67,16 @@ public final class DataUtil {
         return result;
     }
 
+    public static float parseFloat(String value) {
+        float result;
+        try {
+            result = Float.parseFloat(value);
+        } catch (NumberFormatException e) {
+            result = 0;
+        }
+        return result;
+    }
+
     /**
      * Converts the string provided into a valid UUID.
      * @param input The string to convert
@@ -101,10 +114,16 @@ public final class DataUtil {
         return new Pair<>(splits[0], Integer.parseInt(splits[1].trim()));
     }
 
-    public static <R> R randomElementFromList(List<R> input) {
+    public static <R> @Nullable R randomElementFromList(List<R> input) {
         Random random = new Random();
+        if (input.isEmpty()) return null;
         int index = random.nextInt(input.size());
         return input.get(index);
+    }
+
+    public static <P> boolean containsType(List<?> list, Class<P> type) {
+        return list.stream()
+                .anyMatch(type::isInstance);
     }
 
     /**
@@ -115,5 +134,29 @@ public final class DataUtil {
      */
     public static <R> List<R> arrayToList(R[] array) {
         return Arrays.asList(array);
+    }
+
+    public static byte[] addToArray(byte[] array, byte element) {
+        byte[] result = new byte[array.length + 1];
+
+        System.arraycopy(array, 0, result, 0, array.length);
+        result[result.length - 1] = element;
+        return result;
+    }
+
+    /**
+     * Ensures that the file provided is a YAML configuration file.
+     * @param file The file to validate
+     * @return Whether the file provided is YAML.
+     */
+    public static boolean validateYaml(File file) {
+        String name = file.getName();
+        return name.endsWith(".yml") || name.endsWith(".yaml");
+    }
+
+    public static double truncate(double input) {
+        return new BigDecimal(String.valueOf(input))
+                .setScale(2, RoundingMode.DOWN)
+                .doubleValue();
     }
 }

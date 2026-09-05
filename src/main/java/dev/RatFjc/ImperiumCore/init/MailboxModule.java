@@ -2,6 +2,7 @@ package dev.RatFjc.ImperiumCore.init;
 
 import dev.RatFjc.ImperiumCore.ImperiumCore;
 import dev.RatFjc.ImperiumCore.Module;
+import dev.RatFjc.ImperiumCore.modules.mailbox.MailCommands;
 import dev.RatFjc.ImperiumCore.modules.mailbox.MailMain;
 import dev.RatFjc.ImperiumCore.utility.BukkitUtil;
 

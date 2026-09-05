@@ -20,6 +20,7 @@ public class PlayerListener implements Listener {
     public void playerMovementWatcher(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         TimerManager.resetPreAfkTimer(player);
+        TimerManager.cancelKickTimer(player);
     }
     @EventHandler(ignoreCancelled = true)
     public void onPlayerMove(PlayerMoveEvent event) {

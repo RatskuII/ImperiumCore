@@ -1,6 +1,5 @@
 package dev.RatFjc.ImperiumCore;
 
-import dev.RatFjc.ImperiumCore.init.UltraBans;
 import dev.RatFjc.ImperiumCore.utility.LogUtil;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -30,6 +29,7 @@ public abstract class ConfigurationSaver implements PluginProvider {
         if (!file.exists()) plugin.getDataFolder().mkdirs();
         try {
             file.createNewFile();
+            plugin.saveResource(file.getName(), false);
         } catch (IOException e) {
             LogUtil.log("An error occurred while trying to load a file: " + e.getMessage(), null, Level.WARNING, false);
             return null;
@@ -39,35 +39,37 @@ public abstract class ConfigurationSaver implements PluginProvider {
 
     /**
      * Can be used to indicate that an operation related to this class has failed.
-     * @param thrown
-     * @return
-     * @param <U>
+     * @param thrown The error to show when the exception is thrown
+     * @return A failed future
      */
     protected static <U> CompletableFuture<U> nullFail(String thrown) {
-        return CompletableFuture.failedFuture(new NullPointerException(thrown));
+        return CompletableFuture.failedFuture(new Exception(thrown));
     }
 
     /**
      * Saves the provided configuration to the specified file.
      * @param file The file to save to
      * @param fileConfiguration The configuration to save
+     * @param executor An optional executor for async operation, or null to use any available thread
      * @return A successful future where the config is saved, or a failed future if something went wrong.
      */
     protected static CompletableFuture<Void> save(File file, FileConfiguration fileConfiguration, Executor executor) {
         if (file == null || fileConfiguration == null) return nullFail("File or configuration is missing or corrupt.");
-        if (executor == null) return CompletableFuture.runAsync(() -> {
-            try {
-                fileConfiguration.save(file);
-            } catch (IOException e) {
-                LogUtil.log("Something went wrong while trying to save a file.", new UltraBans(), Level.SEVERE, false);
-                LogUtil.log(e.getMessage());
-            }
-        });
+        if (executor == null) {
+            return CompletableFuture.runAsync(() -> {
+                try {
+                    fileConfiguration.save(file);
+                } catch (IOException e) {
+                    LogUtil.log("Something went wrong while trying to save a file.", null, Level.SEVERE, false);
+                    LogUtil.log(e.getMessage());
+                }
+            });
+        }
         return CompletableFuture.runAsync(() -> {
             try {
                 fileConfiguration.save(file);
             } catch (IOException e) {
-                LogUtil.log("Something went wrong while trying to save a file.", new UltraBans(), Level.SEVERE, false);
+                LogUtil.log("Something went wrong while trying to save a file.", null, Level.SEVERE, false);
                 LogUtil.log(e.getMessage());
             }
         }, executor);
@@ -76,10 +78,9 @@ public abstract class ConfigurationSaver implements PluginProvider {
     /**
      * Reloads the provided file.
      * @param file The file to be saved
-     * @apiNote This is not a thread-safe operation.
+     * @return The resulting configuration
      */
-    public static void syncSave(File file) {
-        YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
-        save(file, yaml, null);
+    public static FileConfiguration reload(File file) {
+        return YamlConfiguration.loadConfiguration(file);
     }
 }

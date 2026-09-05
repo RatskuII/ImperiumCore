@@ -3,12 +3,17 @@ package dev.RatFjc.ImperiumCore.utility;
 import dev.RatFjc.ImperiumCore.Utility;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.ComponentBuilder;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.ChatColor;
 
+import java.time.Duration;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class TextUtil extends Utility {
 
@@ -35,6 +40,11 @@ public class TextUtil extends Utility {
                 .content(data)
                 .color(color)
                 .build();
+    }
+
+    public static Component sendMessage(Audience audience, Component component) {
+        audience.sendMessage(component);
+        return component;
     }
 
     public static void sendMessage(Audience audience, String message) {

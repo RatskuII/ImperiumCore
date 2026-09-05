@@ -1,4 +1,4 @@
-package dev.RatFjc.ImperiumCore.modules.train;
+package dev.RatFjc.ImperiumCore.modules.train.signadder;
 
 import com.bergerkiller.bukkit.tc.Permission;
 import com.bergerkiller.bukkit.tc.controller.MinecartGroup;
@@ -73,6 +73,6 @@ public class AnnounceDelay extends SignAction implements Listener, PluginProvide
     }
 
     private void printErr() {
-        this.plugin.getLogger().warning("Something went wrong while attempting to construct this sign.");
+        plugin.getLogger().warning("Something went wrong while attempting to construct this sign.");
     }
 }

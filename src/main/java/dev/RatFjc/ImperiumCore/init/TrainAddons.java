@@ -7,6 +7,8 @@ import dev.RatFjc.ImperiumCore.ImperiumCore;
 import dev.RatFjc.ImperiumCore.Module;
 import dev.RatFjc.ImperiumCore.modules.train.*;
 import dev.RatFjc.ImperiumCore.modules.train.configuration.TrainDataSaver;
+import dev.RatFjc.ImperiumCore.modules.train.signadder.AnnounceDelay;
+import dev.RatFjc.ImperiumCore.modules.train.signadder.TrainPopulator;
 import dev.RatFjc.ImperiumCore.utility.BukkitUtil;
 import dev.RatFjc.ImperiumCore.utility.LogUtil;
 import org.bukkit.plugin.Plugin;
@@ -17,6 +19,9 @@ import java.util.logging.Level;
 
 
 public class TrainAddons extends Module implements DependentModule {
+
+    private final AnnounceDelay announceDelay = new AnnounceDelay();
+    private final TrainPopulator trainPopulator = new TrainPopulator();
 
     @Override
     public String name() {
@@ -32,12 +37,13 @@ public class TrainAddons extends Module implements DependentModule {
     public void load(ImperiumCore instance) {
         fileSetup(new TrainDataSaver());
 
-        SignAction.register(new AnnounceDelay());
+        SignAction.register(announceDelay);
+        SignAction.register(trainPopulator);
 
-        BukkitUtil.registerEvent(new AnnounceDelay());
+        BukkitUtil.registerEvent(announceDelay);
         BukkitUtil.registerEvent(new SwitchSoundAdder());
         BukkitUtil.registerEvent(new SkeletonRemover());
-        BukkitUtil.registerEvent(new PassengerCreator());
+        BukkitUtil.registerEvent(trainPopulator);
 
         BukkitUtil.registerCommand(new RouteInfo(), "route-lookup");
 
@@ -53,7 +59,8 @@ public class TrainAddons extends Module implements DependentModule {
 
     @Override
     public void unload(ImperiumCore instance) {
-        SignAction.unregister(new AnnounceDelay());
+        SignAction.unregister(announceDelay);
+        SignAction.unregister(trainPopulator);
     }
 
     @Override

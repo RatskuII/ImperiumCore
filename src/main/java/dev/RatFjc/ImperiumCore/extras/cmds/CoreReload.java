@@ -7,6 +7,7 @@ import dev.RatFjc.ImperiumCore.utility.TextUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -34,8 +35,12 @@ public class CoreReload implements TabExecutor, PluginProvider {
             TextUtil.sendMessage(sender, "The file provided is invalid or does not exist.");
             return false;
         }
-        ConfigurationSaver.syncSave(file);
-        TextUtil.sendMessage(sender, "The file provided was successfully saved.");
+        if (!DataUtil.validateYaml(file)) {
+            TextUtil.sendMessage(sender, "The file provided is not a valid configuration file.");
+            return false;
+        }
+        ConfigurationSaver.reload(file);
+        TextUtil.sendMessage(sender, "The file provided was successfully reloaded.");
         return true;
     }
 
@@ -46,6 +51,7 @@ public class CoreReload implements TabExecutor, PluginProvider {
             return DataUtil.arrayToList(targets).stream()
                     .filter(Objects::nonNull)
                     .map(File::getName)
+                    .filter(obj -> obj.endsWith(".yml"))
                     .toList();
         }
         return List.of();

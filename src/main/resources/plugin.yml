@@ -46,6 +46,9 @@ commands:
   route-lookup:
     description: Allows you to lookup destinations present on a route.
     usage: /route-lookup <routeName>
+  friend:
+    description: Allows you to manage friends.
+    usage: /friend <operator> <target>
 
 permissions:
   imperium.mail.player:
@@ -56,4 +59,8 @@ permissions:
     default: true
 
   imperium.mail.admin:
+    default: op
+
+  imperium.afk.immunity:
+    description: Provides immunity to being afk kicked
     default: op

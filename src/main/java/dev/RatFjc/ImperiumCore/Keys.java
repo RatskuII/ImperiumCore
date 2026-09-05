@@ -12,6 +12,7 @@ public final class Keys extends Utility {
     public static final NamespacedKey AFK = new NamespacedKey(plugin, "AFK");
     public static final NamespacedKey POST = new NamespacedKey(plugin, "post-afk");
     public static final NamespacedKey PRE = new NamespacedKey(plugin, "pre-afk");
+    public static final NamespacedKey KICKTIME = new NamespacedKey(plugin, "kick-afk");
 
     public static final NamespacedKey STUN = new NamespacedKey(plugin, "stun_afk-effect");
 
@@ -33,6 +34,9 @@ public final class Keys extends Utility {
     // Keys related to quests
     public static final NamespacedKey QUEST = new NamespacedKey(plugin, "quest-item");
     public static final NamespacedKey PROGRESSION = new NamespacedKey(plugin, "quest-progression");
+
+    // Keys related to FriendsAPI
+    public static final NamespacedKey FRIENDS = new NamespacedKey(plugin, "friends");
 
     // Key to toggle experimental features
     public static final NamespacedKey ALLOW_EXPERIMENTAL = new NamespacedKey(plugin, "allow_experimental");

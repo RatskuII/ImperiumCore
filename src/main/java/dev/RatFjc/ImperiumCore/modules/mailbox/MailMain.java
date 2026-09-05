@@ -56,7 +56,7 @@ public class MailMain {
     public MailboxGUI getGUI() { return gui; }
 
     public void startReminder() {
-        MailReminder reminder = new MailReminder(plugin, db, cfg, messages);
+        MailReminder reminder = new MailReminder(db, cfg, messages);
 
     }
 }

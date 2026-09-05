@@ -1,6 +1,7 @@
 package dev.RatFjc.ImperiumCore.modules.mailbox;
 
 import dev.RatFjc.ImperiumCore.ImperiumCore;
+import dev.RatFjc.ImperiumCore.PluginProvider;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -14,9 +15,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class MailReminder implements Listener {
+public class MailReminder implements Listener, PluginProvider {
 
-    private final ImperiumCore plugin;
     private final MailDatabase db;
     private final FileConfiguration cfg;
     private final FileConfiguration messages;
@@ -24,10 +24,7 @@ public class MailReminder implements Listener {
     // stores either the pending delayed task id (initial delay) OR the repeating task id after swap
     private final Map<UUID, Integer> reminderTasks = new HashMap<>();
 
-    public MailReminder(ImperiumCore plugin, MailDatabase db,
-                        FileConfiguration cfg, FileConfiguration messages) {
-
-        this.plugin = plugin;
+    public MailReminder(MailDatabase db, FileConfiguration cfg, FileConfiguration messages) {
         this.db = db;
         this.cfg = cfg;
         this.messages = messages;
