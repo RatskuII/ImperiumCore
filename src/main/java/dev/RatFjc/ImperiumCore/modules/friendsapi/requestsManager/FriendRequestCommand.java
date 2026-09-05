@@ -32,7 +32,7 @@ public class FriendRequestCommand implements TabExecutor {
             return false;
         }
 
-        if (!user.equals(requested)) {
+        if (user.equals(requested)) {
             TextUtil.sendMessage(player, "You can't send a friend request to yourself.");
             return false;
         }
