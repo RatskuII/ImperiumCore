@@ -1,13 +1,13 @@
 package dev.RatFjc.ImperiumCore.modules.friendsapi;
 
 import dev.RatFjc.ImperiumCore.Keys;
+import dev.RatFjc.ImperiumCore.modules.friendsapi.data.ListType;
 import dev.RatFjc.ImperiumCore.utility.DataUtil;
 import io.papermc.paper.persistence.PersistentDataContainerView;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -60,7 +60,7 @@ public record User(OfflinePlayer player) {
 
     public @NotNull List<@NotNull UUID> getFriends() {
         PersistentDataContainerView container = player.getPersistentDataContainer();
-        List<String> list = container.get(Keys.FRIENDS, PersistentDataType.LIST.strings());
+        List<String> list = container.get(Keys.FRIENDS, ListType.STRING);
         if (list == null) return List.of();
 
         List<UUID> uuids = new ArrayList<>();

@@ -24,7 +24,7 @@ public class FriendRequest implements PluginProvider {
     private final User s;
     private final User r;
 
-    private AtomicReference<Result> atomicResult = new AtomicReference<>();
+    private final AtomicReference<Result> atomicResult = new AtomicReference<>();
     private boolean requestSent = false;
 
     private long timeout;
@@ -47,10 +47,16 @@ public class FriendRequest implements PluginProvider {
     }
 
     public void sendRequest() {
-        if (!receiver.isOnline()) return;
+        if (!receiver.isOnline()) return; // offline handling isn't implemented yet
+        // player accepting a request from themselves would be problematic
+        if (sender.equals(receiver)) {
+            TextUtil.sendMessage(sender, "You cannot send a friend request to yourself.");
+            return;
+        }
         TextUtil.sendMessage(sender, "A friend request was sent to " + receiver.getName());
-
         requestSent = true;
+
+        // cancel the request if no one responds to it within specified timeframe
         task = plugin.getServer().getScheduler().runTaskLater(
                 plugin, () -> handleRequest(Result.TIMED_OUT), timeout * 20
         );
@@ -82,17 +88,17 @@ public class FriendRequest implements PluginProvider {
         if (task != null) task.cancel();
         switch (result) {
             case ACCEPTED -> {
-                atomicResult = new AtomicReference<>(Result.ACCEPTED);
+                atomicResult.set(Result.ACCEPTED);
                 TextUtil.sendMessage(sender, receiver.getName() + " has accepted your friend request.");
                 TextUtil.sendMessage(receiver, "You have accepted the friend request from " + sender.getName() + ".");
                 Friend.addFriend(s, r);
             }
             case REJECTED -> {
-                atomicResult = new AtomicReference<>(Result.REJECTED);
+                atomicResult.set(Result.REJECTED);
                 TextUtil.sendMessage(sender, receiver.getName() + " has rejected your friend request.");
                 TextUtil.sendMessage(receiver, "You have turned down the friend request from " + sender.getName() + ".");
             } case TIMED_OUT -> {
-                atomicResult = new AtomicReference<>(Result.TIMED_OUT);
+                atomicResult.set(Result.TIMED_OUT);
                 TextUtil.sendMessage(sender, "The friend request to " + receiver.getName() + " has expired.");
                 TextUtil.sendMessage(receiver, "The friend request from " + sender.getName() + " has expired.");
             }

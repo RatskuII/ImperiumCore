@@ -2,6 +2,7 @@ package dev.RatFjc.ImperiumCore.modules.friendsapi;
 
 import dev.RatFjc.ImperiumCore.Keys;
 import dev.RatFjc.ImperiumCore.extras.Pair;
+import dev.RatFjc.ImperiumCore.modules.friendsapi.data.ListType;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
@@ -68,19 +69,19 @@ public class Friend {
         PersistentDataContainer container0 = sender.container();
         if (container0 == null) return new Pair<>(false, false);
 
-        var values = container0.get(Keys.FRIENDS, PersistentDataType.LIST.strings());
+        var values = container0.get(Keys.FRIENDS, ListType.STRING);
         if (values == null) values = new ArrayList<>(); // i cant leave it uninitialized
         String removed = target.uuid().toString();
         one = values.remove(removed);
-        container0.set(Keys.FRIENDS, PersistentDataType.LIST.strings(), values);
+        container0.set(Keys.FRIENDS, ListType.STRING, values);
 
         PersistentDataContainer container1 = target.container();
         if (container1 == null) return new Pair<>(one, false);
-        var values1 = container1.get(Keys.FRIENDS, PersistentDataType.LIST.strings());
+        var values1 = container1.get(Keys.FRIENDS, ListType.STRING);
         if (values1 == null) values1 = new ArrayList<>();
         String removed1 = sender.uuid().toString();
         two = values1.remove(removed1);
-        container1.set(Keys.FRIENDS, PersistentDataType.LIST.strings(), values1);
+        container1.set(Keys.FRIENDS, ListType.STRING, values1);
 
         return new Pair<>(one, two);
     }
