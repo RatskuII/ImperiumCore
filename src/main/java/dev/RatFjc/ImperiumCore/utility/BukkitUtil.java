@@ -54,4 +54,8 @@ public class BukkitUtil extends Utility {
         Key biomeKey = Key.key(input);
         return biomeRegistry.get(biomeKey);
     }
+
+    public static void broadcast(String message) {
+        Bukkit.broadcast(TextUtil.nbt(message));
+    }
 }

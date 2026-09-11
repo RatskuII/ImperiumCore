@@ -38,6 +38,13 @@ public final class Keys extends Utility {
     // Keys related to FriendsAPI
     public static final NamespacedKey FRIENDS = new NamespacedKey(plugin, "friends");
 
+    // Keys related to StackResize
+    public static final NamespacedKey DUMMY = new NamespacedKey(plugin, "stackresize-dummy");
+
+    // Keys related to BossLevelSystem
+    public static final NamespacedKey BOSS_XP = new NamespacedKey(plugin, "boss-xp");
+    public static final NamespacedKey BOSS_LVL = new NamespacedKey(plugin, "boss-lvl");
+
     // Key to toggle experimental features
     public static final NamespacedKey ALLOW_EXPERIMENTAL = new NamespacedKey(plugin, "allow_experimental");
 }

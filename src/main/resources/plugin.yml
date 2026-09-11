@@ -10,6 +10,7 @@ softdepend:
   - ODailyQuests
   - LuckPerms
   - Train_Carts
+  - MythicMobs
 
 commands:
   core-reload:
