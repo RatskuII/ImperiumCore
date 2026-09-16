@@ -24,10 +24,12 @@ public class PDCManager extends AfkManager {
         PlayerManager.afkEffects(player, setAfkStatus);
         if (setAfkStatus) {
             container.set(Keys.POST, PersistentDataType.LONG, System.currentTimeMillis());
+            healthCache.put(player.getUniqueId(), player.getHealth());
             if (message) TextUtil.announce(player.getName() + " is now afk.");
             // LogUtil.log("Player " + player.getName() + " is now AFK.", new Afk(), Level.INFO, true);
         } else {
             container.set(Keys.POST, PersistentDataType.LONG, 0L);
+            if (player.isOnline()) healthCache.remove(player.getUniqueId());
             if (message) TextUtil.announce(player.getName() + " is no longer afk.");
             // LogUtil.log("Player " + player.getName() + " is no longer AFK.", new Afk(), Level.INFO, true);
         }

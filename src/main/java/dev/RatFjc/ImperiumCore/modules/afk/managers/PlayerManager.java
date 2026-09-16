@@ -2,6 +2,7 @@ package dev.RatFjc.ImperiumCore.modules.afk.managers;
 
 import dev.RatFjc.ImperiumCore.Keys;
 import dev.RatFjc.ImperiumCore.modules.afk.AfkManager;
+import dev.RatFjc.ImperiumCore.modules.afk.conf.TimerConfiguration;
 import dev.RatFjc.ImperiumCore.modules.ultrabans.data.Operation;
 import dev.RatFjc.ImperiumCore.utility.TextUtil;
 import org.bukkit.Bukkit;
@@ -30,6 +31,7 @@ public class PlayerManager extends AfkManager {
 
     public static void afkKick(Player player) {
         if (player.hasPermission(kickImmunity)) return;
+        if (!TimerConfiguration.isKickAllowed()) return;
         player.kick(TextUtil.nbt("AFK timeout!"), PlayerKickEvent.Cause.IDLING);
         TextUtil.announce(player.getName() + " was kicked for idling.");
     }

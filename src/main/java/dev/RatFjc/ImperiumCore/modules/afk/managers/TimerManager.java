@@ -3,6 +3,7 @@ package dev.RatFjc.ImperiumCore.modules.afk.managers;
 import dev.RatFjc.ImperiumCore.Keys;
 import dev.RatFjc.ImperiumCore.init.Afk;
 import dev.RatFjc.ImperiumCore.modules.afk.AfkManager;
+import dev.RatFjc.ImperiumCore.modules.afk.conf.TimerConfiguration;
 import dev.RatFjc.ImperiumCore.utility.LogUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -62,7 +63,7 @@ public class TimerManager extends AfkManager {
                         container.set(Keys.KICKTIME, PersistentDataType.INTEGER, value);
                     }
 
-                    if (getPostAfkTimer(player) > 600) {
+                    if (getPostAfkTimer(player) > TimerConfiguration.getKickTimer()) {
                         LogUtil.log("Kick timer maxed out for " + player.getName() + ". Attempting to afk kick...", new Afk(), Level.INFO, true);
                         cancelKickTimer(player);
                         PlayerManager.afkKick(player);
@@ -88,6 +89,7 @@ public class TimerManager extends AfkManager {
         container.set(Keys.PRE, PersistentDataType.INTEGER, 0);
 
         PDCManager.setAfk(player, false, true);
+        cancelKickTimer(player);
         startPreAfkTimer(player);
     }
 

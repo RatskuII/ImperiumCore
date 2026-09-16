@@ -2,6 +2,7 @@ package dev.RatFjc.ImperiumCore.init;
 
 import dev.RatFjc.ImperiumCore.ImperiumCore;
 import dev.RatFjc.ImperiumCore.Module;
+import dev.RatFjc.ImperiumCore.modules.afk.conf.TimerConfiguration;
 import dev.RatFjc.ImperiumCore.modules.afk.listener.PlayerListener;
 import dev.RatFjc.ImperiumCore.utility.BukkitUtil;
 
@@ -19,5 +20,6 @@ public class Afk extends Module {
     @Override
     protected void load(ImperiumCore instance) {
         BukkitUtil.registerEvent(new PlayerListener());
+        fileSetup(new TimerConfiguration());
     }
 }
