@@ -1,6 +1,7 @@
 package dev.RatFjc.ImperiumCore.modules.invisframe;
 
 import dev.RatFjc.ImperiumCore.Keys;
+import dev.RatFjc.ImperiumCore.utility.PDCUtil;
 import dev.RatFjc.ImperiumCore.utility.TextUtil;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -62,8 +63,7 @@ public class Frame {
     }
 
     public final ItemStack build() {
-        PersistentDataContainer container = meta.getPersistentDataContainer();
-        container.set(Keys.INVIS_FRAME, PersistentDataType.BOOLEAN, true);
+        PDCUtil.set(meta, Keys.INVIS_FRAME, PersistentDataType.BOOLEAN, true);
         itemStack.setItemMeta(meta);
 
         return itemStack;

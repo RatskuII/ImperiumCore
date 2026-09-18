@@ -1,7 +1,9 @@
 package dev.RatFjc.ImperiumCore.modules.invisframe.listener;
 
 import dev.RatFjc.ImperiumCore.Keys;
+import dev.RatFjc.ImperiumCore.init.InvisFrame;
 import dev.RatFjc.ImperiumCore.modules.invisframe.Frame;
+import dev.RatFjc.ImperiumCore.utility.LogUtil;
 import org.bukkit.Location;
 import org.bukkit.entity.Hanging;
 import org.bukkit.entity.ItemFrame;
@@ -15,6 +17,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.util.logging.Level;
+
 public class FrameEventHandler implements Listener {
 
     @EventHandler
@@ -22,6 +26,7 @@ public class FrameEventHandler implements Listener {
         Hanging hanging = event.getEntity();
 
         if (Frame.isFrame(hanging)) {
+            LogUtil.log("Frame match found. Trying to drop item...", new InvisFrame(), Level.INFO, true);
             event.setCancelled(true);
             hanging.remove();
 
@@ -45,6 +50,7 @@ public class FrameEventHandler implements Listener {
 
         if (player == null) return;
         if (!Frame.isFrame(hanging)) return;
+        LogUtil.log("Frame match found. Trying to place item...", new InvisFrame(), Level.INFO, true);
 
         if (!(hanging instanceof ItemFrame itemFrame)) return;
         itemFrame.setVisible(false);

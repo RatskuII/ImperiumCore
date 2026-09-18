@@ -37,6 +37,7 @@ public final class Keys extends Utility {
 
     // Keys related to FriendsAPI
     public static final NamespacedKey FRIENDS = new NamespacedKey(plugin, "friends");
+    public static final NamespacedKey FRIEND_LOCK = new NamespacedKey(plugin, "friends-lock");
 
     // Keys related to StackResize
     public static final NamespacedKey DUMMY = new NamespacedKey(plugin, "stackresize-dummy");

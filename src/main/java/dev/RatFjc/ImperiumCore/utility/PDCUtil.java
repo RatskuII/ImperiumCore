@@ -7,6 +7,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataHolder;
 import org.bukkit.persistence.PersistentDataType;
+import org.jspecify.annotations.Nullable;
 
 public class PDCUtil extends Utility {
 
@@ -25,6 +26,11 @@ public class PDCUtil extends Utility {
         PersistentDataContainer result = container.getPersistentDataContainer();
         result.set(key, type, output);
         return container;
+    }
+
+    public static <R extends PersistentDataHolder, P, C> @Nullable C get(R container, NamespacedKey key, PersistentDataType<P, C> type) {
+        PersistentDataContainer result = container.getPersistentDataContainer();
+        return result.get(key, type);
     }
 
     public static <R extends PersistentDataHolder> void clear(R container, NamespacedKey key) {

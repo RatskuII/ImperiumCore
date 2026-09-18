@@ -1,5 +1,6 @@
 package dev.RatFjc.ImperiumCore.modules.hexsigns;
 
+import com.google.errorprone.annotations.DoNotCall;
 import dev.RatFjc.ImperiumCore.extras.Pair;
 import dev.RatFjc.ImperiumCore.utility.DataUtil;
 import dev.RatFjc.ImperiumCore.utility.TextUtil;
@@ -17,6 +18,7 @@ import org.bukkit.event.block.SignChangeEvent;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class SignAlter implements Listener {
 
@@ -38,8 +40,8 @@ public class SignAlter implements Listener {
 
     @EventHandler
     public void onMessage(AsyncChatEvent event) {
-        String colored = buildLegacyColorString(TextUtil.data(event.message()));
-        Component result = TextUtil.nbt(colored);
+        Component message = event.message();
+        Component result = build(message);
         event.message(result);
     }
 
@@ -58,6 +60,7 @@ public class SignAlter implements Listener {
         return TextUtil.legacyColor(text);
     }
 
+    @Deprecated
     private Component build(String input) {
         Matcher matcher = compPattern.matcher(input);
         Pair<TextColor, TextDecoration> style = Pair.empty();
@@ -94,7 +97,11 @@ public class SignAlter implements Listener {
     }
 
     private Component build(Component input) {
-        Pair<TextColor, Set<TextDecoration>> style = new Pair<>(input.color(), input.decorations().keySet());
+        Set<TextDecoration> initialDecor = input.decorations().entrySet().stream()
+                .filter(obj -> obj.getValue() == TextDecoration.State.TRUE)
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toSet());
+        Pair<TextColor, Set<TextDecoration>> style = new Pair<>(input.color(), initialDecor);
         String parser = TextUtil.data(input);
         Matcher matcher = compPattern.matcher(parser);
 

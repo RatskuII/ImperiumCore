@@ -10,6 +10,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -76,6 +77,7 @@ public class FriendTextList {
         Component out = Component.empty();
         if (entries.isEmpty()) {
             bodyColor = NamedTextColor.RED;
+            entries = new ArrayList<>();
             entries.add("Your friends list is currently empty.");
         }
         for (String entry : entries) {

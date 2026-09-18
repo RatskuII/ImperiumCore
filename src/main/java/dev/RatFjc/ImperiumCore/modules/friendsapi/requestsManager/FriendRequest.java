@@ -1,14 +1,20 @@
 package dev.RatFjc.ImperiumCore.modules.friendsapi.requestsManager;
 
+import dev.RatFjc.ImperiumCore.Keys;
 import dev.RatFjc.ImperiumCore.PluginProvider;
+import dev.RatFjc.ImperiumCore.extras.Pair;
 import dev.RatFjc.ImperiumCore.modules.friendsapi.Friend;
 import dev.RatFjc.ImperiumCore.modules.friendsapi.User;
+import dev.RatFjc.ImperiumCore.utility.PDCUtil;
 import dev.RatFjc.ImperiumCore.utility.TextUtil;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.entity.Player;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitTask;
+import org.jspecify.annotations.Nullable;
 
 import java.time.Duration;
 import java.util.concurrent.atomic.AtomicReference;
@@ -25,7 +31,7 @@ public class FriendRequest implements PluginProvider {
     private final User r;
 
     private final AtomicReference<Result> atomicResult = new AtomicReference<>();
-    private boolean requestSent = false;
+    private Pair<User, @Nullable FriendRequest> lock = Pair.empty();
 
     private long timeout;
     private BukkitTask task;
@@ -46,15 +52,23 @@ public class FriendRequest implements PluginProvider {
         this.timeout = timeout;
     }
 
+    /**
+     * Initializes the friend request process. Note that a player who has already sent a request will not be
+     * able to send another one until the current request is completed or expires.
+     */
     public void sendRequest() {
         if (!receiver.isOnline()) return; // offline handling isn't implemented yet
+        if (isLocked()) {
+            TextUtil.sendMessage(sender, "You have already sent a friend request. Wait a while before sending another one.");
+            return;
+        }
         // player accepting a request from themselves would be problematic
         if (sender.equals(receiver)) {
             TextUtil.sendMessage(sender, "You cannot send a friend request to yourself.");
             return;
         }
         TextUtil.sendMessage(sender, "A friend request was sent to " + receiver.getName());
-        requestSent = true;
+        lock = lock(true);
 
         // cancel the request if no one responds to it within specified timeframe
         task = plugin.getServer().getScheduler().runTaskLater(
@@ -82,7 +96,6 @@ public class FriendRequest implements PluginProvider {
     }
 
     private void handleRequest(Result result) {
-        if (!requestSent) return;
         if (!atomicResult.compareAndSet(null, result)) return;
         if (s.asPlayer() == null || r.asPlayer() == null) return; // Make sure the players don't go offline before the request is done
         if (task != null) task.cancel();
@@ -93,6 +106,7 @@ public class FriendRequest implements PluginProvider {
                 TextUtil.sendMessage(receiver, "You have accepted the friend request from " + sender.getName() + ".");
                 Friend.addFriend(s, r);
             }
+            // for some reason this never gets reached
             case REJECTED -> {
                 atomicResult.set(Result.REJECTED);
                 TextUtil.sendMessage(sender, receiver.getName() + " has rejected your friend request.");
@@ -103,7 +117,26 @@ public class FriendRequest implements PluginProvider {
                 TextUtil.sendMessage(receiver, "The friend request from " + sender.getName() + " has expired.");
             }
         }
-        requestSent = false;
+        lock = lock(false);
+    }
+
+    private Pair<User, FriendRequest> lock(boolean state) {
+        if (state) {
+            PDCUtil.set(sender, Keys.FRIEND_LOCK, PersistentDataType.BOOLEAN, true);
+            return new Pair<>(s, this);
+        } else {
+            PDCUtil.clear(sender, Keys.FRIEND_LOCK);
+            return new Pair<>(s, null);
+        }
+    }
+
+    private boolean isLocked() {
+        var value = PDCUtil.get(sender, Keys.FRIEND_LOCK, PersistentDataType.BOOLEAN);
+        return value != null;
+    }
+
+    public final Pair<User, FriendRequest> lockState() {
+        return this.lock;
     }
 
     /**

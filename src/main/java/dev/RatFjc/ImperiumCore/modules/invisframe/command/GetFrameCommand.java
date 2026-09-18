@@ -1,6 +1,7 @@
 package dev.RatFjc.ImperiumCore.modules.invisframe.command;
 
 import dev.RatFjc.ImperiumCore.modules.invisframe.Frame;
+import dev.RatFjc.ImperiumCore.utility.PlayerUtil;
 import dev.RatFjc.ImperiumCore.utility.TextUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -66,6 +67,10 @@ public class GetFrameCommand implements TabExecutor {
 
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
+        if (!sender.isOp()) return List.of();
+        if (args.length == 1) return PlayerUtil.getOnlinePlayerList();
+        if (args.length == 2) return List.of("1", "2", "10", "32", "64");
+        if (args.length == 3) return List.of("glow");
         return List.of();
     }
 }

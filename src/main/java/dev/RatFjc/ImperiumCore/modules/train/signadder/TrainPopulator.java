@@ -63,7 +63,7 @@ public class TrainPopulator extends SignAction implements Listener {
 
         for (MinecartMember<?> cart : train) {
             if (cart == null) continue; // In-case weird stuff happens
-            if (!cart.getEntity().getPassengers().isEmpty()) return; // don't boot off an existing passenger
+            if (!cart.getEntity().getPassengers().isEmpty()) continue; // don't boot off an existing passenger
             if (random.nextFloat() >= chance) continue;
 
             LivingEntity result = DataUtil.randomElementFromList(validEntities(location));
