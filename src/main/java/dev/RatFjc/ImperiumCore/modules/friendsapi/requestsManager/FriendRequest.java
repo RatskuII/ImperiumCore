@@ -123,11 +123,12 @@ public class FriendRequest implements PluginProvider {
         if (state) {
             PDCUtil.set(sender, Keys.FRIEND_LOCK, PersistentDataType.BOOLEAN, true);
             PDCUtil.set(receiver, Keys.FRIEND_LOCK, PersistentDataType.BOOLEAN, true);
+            return new Pair<>(s, r);
         } else {
             PDCUtil.clear(sender, Keys.FRIEND_LOCK);
             PDCUtil.clear(receiver, Keys.FRIEND_LOCK);
+            return Pair.empty();
         }
-        return new Pair<>(s, r);
     }
 
     private boolean isLocked() {
