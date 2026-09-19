@@ -31,7 +31,7 @@ public class FriendRequest implements PluginProvider {
     private final User r;
 
     private final AtomicReference<Result> atomicResult = new AtomicReference<>();
-    private Pair<User, @Nullable FriendRequest> lock = Pair.empty();
+    private Pair<User, User> lock = Pair.empty();
 
     private long timeout;
     private BukkitTask task;
@@ -106,7 +106,6 @@ public class FriendRequest implements PluginProvider {
                 TextUtil.sendMessage(receiver, "You have accepted the friend request from " + sender.getName() + ".");
                 Friend.addFriend(s, r);
             }
-            // for some reason this never gets reached
             case REJECTED -> {
                 atomicResult.set(Result.REJECTED);
                 TextUtil.sendMessage(sender, receiver.getName() + " has rejected your friend request.");
@@ -120,22 +119,24 @@ public class FriendRequest implements PluginProvider {
         lock = lock(false);
     }
 
-    private Pair<User, FriendRequest> lock(boolean state) {
+    private Pair<User, User> lock(boolean state) {
         if (state) {
             PDCUtil.set(sender, Keys.FRIEND_LOCK, PersistentDataType.BOOLEAN, true);
-            return new Pair<>(s, this);
+            PDCUtil.set(receiver, Keys.FRIEND_LOCK, PersistentDataType.BOOLEAN, true);
         } else {
             PDCUtil.clear(sender, Keys.FRIEND_LOCK);
-            return new Pair<>(s, null);
+            PDCUtil.clear(receiver, Keys.FRIEND_LOCK);
         }
+        return new Pair<>(s, r);
     }
 
     private boolean isLocked() {
         var value = PDCUtil.get(sender, Keys.FRIEND_LOCK, PersistentDataType.BOOLEAN);
-        return value != null;
+        var value1 = PDCUtil.get(receiver, Keys.FRIEND_LOCK, PersistentDataType.BOOLEAN);
+        return value != null || value1 != null;
     }
 
-    public final Pair<User, FriendRequest> lockState() {
+    public final Pair<User, User> lockState() {
         return this.lock;
     }
 
