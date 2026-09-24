@@ -1,15 +1,11 @@
 package dev.RatFjc.ImperiumCore.modules.hexsigns;
 
-import com.google.errorprone.annotations.DoNotCall;
 import dev.RatFjc.ImperiumCore.extras.Pair;
-import dev.RatFjc.ImperiumCore.utility.DataUtil;
 import dev.RatFjc.ImperiumCore.utility.TextUtil;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.ComponentBuilder;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.*;
-import net.kyori.adventure.util.RGBLike;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -43,57 +39,6 @@ public class SignAlter implements Listener {
         Component message = event.message();
         Component result = build(message);
         event.message(result);
-    }
-
-    private String buildLegacyColorString(String text) {
-        text = register(text, "#6A4439", "&g"); // Brown
-        text = register(text, "#7582AE", "&h"); // Light-ish blue
-        text = register(text, "D6D39A", "&i"); // Beige
-
-        Matcher matcher = pattern.matcher(text);
-        while (matcher.find()) {
-            String parsed = text.substring(matcher.start(), matcher.end());
-            text = text.replace(parsed, ChatColor.of(parsed) + "");
-            matcher = pattern.matcher(text);
-        }
-
-        return TextUtil.legacyColor(text);
-    }
-
-    @Deprecated
-    private Component build(String input) {
-        Matcher matcher = compPattern.matcher(input);
-        Pair<TextColor, TextDecoration> style = Pair.empty();
-
-        TextComponent.Builder out = Component.text();
-        int end = 0;
-
-        while (matcher.find()) {
-            if (matcher.start() > end) {
-                String string = input.substring(end, matcher.start());
-                Component partial = Component.text(string);
-                if (style.key() != null) partial = partial.color(style.key());
-                if (style.value() != null) partial = partial.decorate(style.value());
-                out.append(partial);
-            }
-
-            if (matcher.group(1) != null) {
-                char obj = matcher.group(1).charAt(0);
-                style = new Pair<>(fromLegacy(obj), legacyFormat(obj));
-            }
-            else if (matcher.group(2) != null) style = new Pair<>(TextColor.fromHexString(matcher.group(2)), style.value());
-
-            end = matcher.end();
-        }
-        if (end < input.length()) {
-            String string = input.substring(end);
-            Component partial = Component.text(string);
-            if (style.key() != null) partial = partial.color(style.key());
-            if (style.value() != null) partial = partial.decorate(style.value());
-            out.append(partial);
-        }
-
-        return out.build();
     }
 
     private Component build(Component input) {
@@ -198,5 +143,58 @@ public class SignAlter implements Listener {
             return text;
         }
         return text;
+    }
+
+    // LEGACY METHODS
+
+    private String buildLegacyColorString(String text) {
+        text = register(text, "#6A4439", "&g"); // Brown
+        text = register(text, "#7582AE", "&h"); // Light-ish blue
+        text = register(text, "D6D39A", "&i"); // Beige
+
+        Matcher matcher = pattern.matcher(text);
+        while (matcher.find()) {
+            String parsed = text.substring(matcher.start(), matcher.end());
+            text = text.replace(parsed, ChatColor.of(parsed) + "");
+            matcher = pattern.matcher(text);
+        }
+
+        return TextUtil.legacyColor(text);
+    }
+
+    @Deprecated
+    private Component build(String input) {
+        Matcher matcher = compPattern.matcher(input);
+        Pair<TextColor, TextDecoration> style = Pair.empty();
+
+        TextComponent.Builder out = Component.text();
+        int end = 0;
+
+        while (matcher.find()) {
+            if (matcher.start() > end) {
+                String string = input.substring(end, matcher.start());
+                Component partial = Component.text(string);
+                if (style.key() != null) partial = partial.color(style.key());
+                if (style.value() != null) partial = partial.decorate(style.value());
+                out.append(partial);
+            }
+
+            if (matcher.group(1) != null) {
+                char obj = matcher.group(1).charAt(0);
+                style = new Pair<>(fromLegacy(obj), legacyFormat(obj));
+            }
+            else if (matcher.group(2) != null) style = new Pair<>(TextColor.fromHexString(matcher.group(2)), style.value());
+
+            end = matcher.end();
+        }
+        if (end < input.length()) {
+            String string = input.substring(end);
+            Component partial = Component.text(string);
+            if (style.key() != null) partial = partial.color(style.key());
+            if (style.value() != null) partial = partial.decorate(style.value());
+            out.append(partial);
+        }
+
+        return out.build();
     }
 }

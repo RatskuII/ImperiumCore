@@ -46,6 +46,9 @@ public final class Keys extends Utility {
     public static final NamespacedKey BOSS_XP = new NamespacedKey(plugin, "boss-xp");
     public static final NamespacedKey BOSS_LVL = new NamespacedKey(plugin, "boss-lvl");
 
+    // Keys related to LocalDiff
+    public static final NamespacedKey LOCAL_DIFF = new NamespacedKey(plugin, "local-diff");
+
     // Key to toggle experimental features
     public static final NamespacedKey ALLOW_EXPERIMENTAL = new NamespacedKey(plugin, "allow_experimental");
 }

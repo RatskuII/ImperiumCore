@@ -1,6 +1,8 @@
 package dev.RatFjc.ImperiumCore.utility;
 
 import dev.RatFjc.ImperiumCore.Utility;
+import io.papermc.paper.persistence.PersistentDataContainerView;
+import io.papermc.paper.persistence.PersistentDataViewHolder;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -31,6 +33,11 @@ public class PDCUtil extends Utility {
     public static <R extends PersistentDataHolder, P, C> @Nullable C get(R container, NamespacedKey key, PersistentDataType<P, C> type) {
         PersistentDataContainer result = container.getPersistentDataContainer();
         return result.get(key, type);
+    }
+
+    public static <P, C> @Nullable C getView(PersistentDataViewHolder view, NamespacedKey key, PersistentDataType<P, C> type) {
+        PersistentDataContainerView resultView = view.getPersistentDataContainer();
+        return resultView.get(key, type);
     }
 
     public static <R extends PersistentDataHolder> void clear(R container, NamespacedKey key) {

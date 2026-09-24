@@ -141,6 +141,11 @@ public class FriendRequest implements PluginProvider {
         return this.lock;
     }
 
+    public final Result status() {
+        if (atomicResult.getAcquire() == null) return Result.INVALID;
+        return atomicResult.get();
+    }
+
     /**
      * Represents the result of a friend request operation.
      */

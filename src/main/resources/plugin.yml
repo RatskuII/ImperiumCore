@@ -11,6 +11,7 @@ softdepend:
   - LuckPerms
   - Train_Carts
   - MythicMobs
+  - ProtocolLib
 
 commands:
   core-reload:

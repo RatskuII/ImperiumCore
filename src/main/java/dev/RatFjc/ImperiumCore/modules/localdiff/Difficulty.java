@@ -1,10 +1,11 @@
 package dev.RatFjc.ImperiumCore.modules.localdiff;
 
+import dev.RatFjc.ImperiumCore.PluginProvider;
 import org.bukkit.entity.Player;
 
 import java.util.Optional;
 
-public abstract class Difficulty {
+public abstract class Difficulty implements PluginProvider {
 
     protected Player player;
 

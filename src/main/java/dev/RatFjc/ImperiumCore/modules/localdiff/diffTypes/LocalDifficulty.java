@@ -1,12 +1,15 @@
 package dev.RatFjc.ImperiumCore.modules.localdiff.diffTypes;
 
+import dev.RatFjc.ImperiumCore.Keys;
 import dev.RatFjc.ImperiumCore.extras.hooks.MMOHook;
 import dev.RatFjc.ImperiumCore.init.LocalDiff;
 import dev.RatFjc.ImperiumCore.modules.localdiff.Difficulty;
 import dev.RatFjc.ImperiumCore.utility.DataUtil;
 import dev.RatFjc.ImperiumCore.utility.LogUtil;
+import dev.RatFjc.ImperiumCore.utility.PDCUtil;
 import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -42,6 +45,7 @@ public class LocalDifficulty extends Difficulty {
         double result = experienceValue + mmoPower + playtime;
         result = DataUtil.truncate(result);
 
+        PDCUtil.set(player, Keys.LOCAL_DIFF, PersistentDataType.DOUBLE, result);
         return result;
     }
 }
