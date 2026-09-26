@@ -6,7 +6,7 @@
 
     <groupId>dev.RatFjc</groupId>
     <artifactId>ImperiumCore</artifactId>
-    <version>0.14.11-b</version>
+    <version>0.14.12-b</version>
     <packaging>jar</packaging>
 
     <name>ImperiumCore</name>

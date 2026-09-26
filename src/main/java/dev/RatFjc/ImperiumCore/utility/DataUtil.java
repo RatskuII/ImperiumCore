@@ -159,4 +159,11 @@ public final class DataUtil {
                 .setScale(2, RoundingMode.DOWN)
                 .doubleValue();
     }
+
+    public static boolean matches(String original, String... entries) {
+        for (String entry : entries) {
+            if (original.equalsIgnoreCase(entry)) return true;
+        }
+        return false;
+    }
 }

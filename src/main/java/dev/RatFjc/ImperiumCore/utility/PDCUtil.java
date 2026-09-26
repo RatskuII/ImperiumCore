@@ -30,6 +30,16 @@ public class PDCUtil extends Utility {
         return container;
     }
 
+    /**
+     * Gets a value associated with the key in the specified container.
+     * @param container The data holder
+     * @param key The key associated with this value
+     * @param type The {@link PersistentDataType} of this value
+     * @return A value that conforms to the specified type
+     * @param <R> An instance of the container
+     * @param <P> The primary type
+     * @param <C> The complex type
+     */
     public static <R extends PersistentDataHolder, P, C> @Nullable C get(R container, NamespacedKey key, PersistentDataType<P, C> type) {
         PersistentDataContainer result = container.getPersistentDataContainer();
         return result.get(key, type);
