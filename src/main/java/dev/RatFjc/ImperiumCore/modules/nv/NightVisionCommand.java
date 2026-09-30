@@ -1,5 +1,6 @@
 package dev.RatFjc.ImperiumCore.modules.nv;
 
+import dev.RatFjc.ImperiumCore.extras.cmds.CommandInterface;
 import dev.RatFjc.ImperiumCore.utility.TextUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -10,18 +11,12 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class NightVisionCommand implements TabExecutor {
+public class NightVisionCommand implements TabExecutor, CommandInterface {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String @NotNull [] args) {
-        if (!(sender instanceof Player player)) {
-            TextUtil.sendMessage(sender, "Only players can run this command.");
-            return false;
-        }
+        if (!(sender instanceof Player player)) return playerOnly(sender);
 
-        if (args.length > 1) {
-            TextUtil.sendMessage(player, "Invalid arguments.");
-            return false;
-        }
+        if (args.length > 1) return badArguments(sender, "/nv <on/off>", "/nv");
 
         if (args.length == 0) {
             boolean nv = NVController.hasNightVision(player);

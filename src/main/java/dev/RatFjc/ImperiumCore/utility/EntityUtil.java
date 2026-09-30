@@ -4,6 +4,7 @@ import dev.RatFjc.ImperiumCore.Utility;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Sittable;
 import org.bukkit.entity.Tameable;
+import org.bukkit.entity.WaterMob;
 
 public class EntityUtil extends Utility {
 

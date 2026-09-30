@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.*;
+import java.util.stream.Collector;
 import java.util.stream.Stream;
 
 /**
@@ -32,11 +33,22 @@ public final class Streamer<T> {
         this.elements = elements;
     }
 
+    /**
+     * Filters the stream to match the given predicate.
+     * @param predicate A stateless predicate that determines the condition for inclusion
+     * @return This builder
+     */
     public Streamer<T> filter(Predicate<? super T> predicate) {
         elements = elements.filter(predicate);
         return this;
     }
 
+    /**
+     * Applies a given function to the stream, conforming it into another type.
+     * @param function A stateless function to apply to the stream's elements
+     * @return A new builder that conforms to the resulting type
+     * @param <R> The resulting type of the new stream
+     */
     public <R> Streamer<R> map(Function<? super T, ? extends R> function) {
         Stream<R> result = elements.map(function);
         return new Streamer<>(result);
@@ -120,6 +132,10 @@ public final class Streamer<T> {
 
     public <B> B reduce(B identity, BiFunction<B, ? super T, B> accumulate, BinaryOperator<B> combine) {
         return elements.reduce(identity, accumulate, combine);
+    }
+
+    public <R, A> R collect(Collector<? super T, A, R> collector) {
+        return elements.collect(collector);
     }
 
     public <R> R collect(Supplier<R> supplier, BiConsumer<R, ? super T> accumulate, BiConsumer<R, R> combine) {

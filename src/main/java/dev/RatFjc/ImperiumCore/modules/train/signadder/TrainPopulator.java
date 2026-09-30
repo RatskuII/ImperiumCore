@@ -12,14 +12,13 @@ import dev.RatFjc.ImperiumCore.extras.Streamer;
 import dev.RatFjc.ImperiumCore.utility.DataUtil;
 import dev.RatFjc.ImperiumCore.utility.EntityUtil;
 import dev.RatFjc.ImperiumCore.utility.TextUtil;
+import io.papermc.paper.entity.Bucketable;
 import org.bukkit.Location;
-import org.bukkit.Nameable;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.event.Listener;
 
 import java.util.*;
-import java.util.stream.Stream;
 
 public class TrainPopulator extends SignAction implements Listener {
 
@@ -110,7 +109,7 @@ public class TrainPopulator extends SignAction implements Listener {
     }
 
     private List<? extends LivingEntity> validEntities(Location location, String... tags) {
-        Collection<LivingEntity> entities = location.getNearbyLivingEntities(48);
+        Collection<LivingEntity> entities = location.getNearbyLivingEntities(32);
 
         if (tags.length == 0) tags = new String[]{"animal"};
         Streamer<LivingEntity> targets = new Streamer<>(entities);
@@ -126,6 +125,8 @@ public class TrainPopulator extends SignAction implements Listener {
         }
         // other necessary boundaries
         targets
+                .filter(obj -> !(obj instanceof Bucketable)) // Seeing axolotls asphyxiate is sad
+                .filter(obj -> !(obj instanceof WaterMob)) // Fish should not be in a train
                 .filter(obj -> obj.customName() == null)
                 .filter(obj -> !obj.isInsideVehicle())
                 .filter(obj -> !EntityUtil.isTamed(obj))

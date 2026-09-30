@@ -32,6 +32,7 @@ public final class ImperiumCore extends JavaPlugin {
     private PinataQuestCounter pinataQuestCounter;
     private MailboxModule mailboxModule;
     private FriendsAPI friendsAPI;
+    private LastDeath lastDeath;
 
     @Override
     public void onEnable() {
@@ -54,6 +55,7 @@ public final class ImperiumCore extends JavaPlugin {
         load(pinataQuestCounter);
         load(mailboxModule);
         load(friendsAPI);
+        load(lastDeath);
 
         BukkitUtil.registerCommand(new CoreReload(), "core-reload");
         BukkitUtil.registerCommand(new ToggleExperimentals(), "allow-experiments");
@@ -93,6 +95,7 @@ public final class ImperiumCore extends JavaPlugin {
         pinataQuestCounter = new PinataQuestCounter();
         mailboxModule = new MailboxModule();
         friendsAPI = new FriendsAPI();
+        lastDeath = new LastDeath();
     }
 
     public void load(Module module) {
@@ -130,6 +133,7 @@ public final class ImperiumCore extends JavaPlugin {
         pinataQuestCounter = null;
         mailboxModule = null;
         friendsAPI = null;
+        lastDeath = null;
 
     }
 }

@@ -1,5 +1,6 @@
 package dev.RatFjc.ImperiumCore.modules.friendsapi.requestsManager;
 
+import dev.RatFjc.ImperiumCore.extras.cmds.CommandInterface;
 import dev.RatFjc.ImperiumCore.init.FriendsAPI;
 import dev.RatFjc.ImperiumCore.modules.friendsapi.Friend;
 import dev.RatFjc.ImperiumCore.modules.friendsapi.User;
@@ -21,13 +22,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.logging.Level;
 
-public class FriendRequestCommand implements TabExecutor {
+public class FriendRequestCommand implements TabExecutor, CommandInterface {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
-        if (!(sender instanceof Player player)) {
-            TextUtil.sendMessage(sender, "Only players can run this command.");
-            return false;
-        }
+        if (!(sender instanceof Player player)) return playerOnly(sender);
         if (args.length == 2) {
 
             String operator = args[0];
@@ -50,8 +48,7 @@ public class FriendRequestCommand implements TabExecutor {
                 case "add" -> request.sendRequest();
                 case "remove" -> Friend.removeFriend(user, requested);
                 default -> {
-                    TextUtil.sendMessage(player, "Invalid operator argument.");
-                    return false;
+                    return badArguments(player, "/friend <add/remove> <user>");
                 }
             }
             return true;

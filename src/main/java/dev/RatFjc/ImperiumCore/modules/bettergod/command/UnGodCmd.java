@@ -1,5 +1,6 @@
 package dev.RatFjc.ImperiumCore.modules.bettergod.command;
 
+import dev.RatFjc.ImperiumCore.extras.cmds.CommandInterface;
 import dev.RatFjc.ImperiumCore.modules.bettergod.InvincibilityBuilder;
 import dev.RatFjc.ImperiumCore.utility.PlayerUtil;
 import dev.RatFjc.ImperiumCore.utility.TextUtil;
@@ -13,14 +14,11 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class UnGodCmd implements TabExecutor {
+public class UnGodCmd implements TabExecutor, CommandInterface {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
         if (args.length == 0) {
-            if (!(sender instanceof Player player)) {
-                TextUtil.sendMessage(sender, "You must specify a player.");
-                return false;
-            }
+            if (!(sender instanceof Player player)) return playerOnly(sender);
 
             InvincibilityBuilder builder = new InvincibilityBuilder(player);
             builder
@@ -31,9 +29,7 @@ public class UnGodCmd implements TabExecutor {
         }
 
         if (args.length == 1) {
-            if (!sender.isOp()) {
-                TextUtil.sendMessage(sender, "No permission.");
-            }
+            if (!sender.isOp()) return noPermission(sender);
             Player player = Bukkit.getPlayer(args[0]);
             if (player == null) {
                 TextUtil.sendMessage(sender, "The player specified does not exist.");

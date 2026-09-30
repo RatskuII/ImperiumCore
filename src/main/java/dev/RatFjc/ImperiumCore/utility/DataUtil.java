@@ -166,4 +166,14 @@ public final class DataUtil {
         }
         return false;
     }
+
+    public static <P> boolean equalsAll(P original, P... objects) {
+        for (P obj : objects) if (original != obj) return false;
+        return true;
+    }
+
+    public static <P> boolean equalsAny(P original, P... objects) {
+        for (P obj : objects) if (original == obj) return true;
+        return false;
+    }
 }

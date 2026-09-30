@@ -37,6 +37,11 @@ public abstract class ConfigurationSaver implements PluginProvider {
         return YamlConfiguration.loadConfiguration(file);
     }
 
+    protected static @Nullable FileConfiguration build(String file) {
+        File input = new File(plugin.getDataFolder(), file);
+        return build(input);
+    }
+
     /**
      * Can be used to indicate that an operation related to this class has failed.
      * @param thrown The error to show when the exception is thrown

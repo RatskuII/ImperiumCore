@@ -18,17 +18,12 @@ import java.util.Objects;
 /**
  * Command portal to reload all configurations.
  */
-public class CoreReload implements TabExecutor, PluginProvider {
+public class CoreReload implements TabExecutor, PluginProvider, CommandInterface {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
-        if (!sender.isOp()) {
-            TextUtil.sendMessage(sender, "You do not have permission to run this command.");
-            return false;
-        }
-        if (args.length != 1) {
-            TextUtil.sendMessage(sender, "Invalid arguments.");
-            return false;
-        }
+        if (!sender.isOp()) return noPermission(sender);
+        if (args.length != 1) return badArguments(sender);
+
         String targetFile = args[0];
         File file = new File(plugin.getDataFolder(), targetFile);
         if (!file.exists()) {

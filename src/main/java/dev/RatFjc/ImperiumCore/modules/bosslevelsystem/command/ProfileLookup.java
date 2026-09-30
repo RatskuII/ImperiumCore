@@ -1,5 +1,6 @@
 package dev.RatFjc.ImperiumCore.modules.bosslevelsystem.command;
 
+import dev.RatFjc.ImperiumCore.extras.cmds.CommandInterface;
 import dev.RatFjc.ImperiumCore.modules.bosslevelsystem.BossProfile;
 import dev.RatFjc.ImperiumCore.modules.bosslevelsystem.stats.BossLevel;
 import dev.RatFjc.ImperiumCore.utility.PlayerUtil;
@@ -13,14 +14,12 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class ProfileLookup implements TabExecutor {
+public class ProfileLookup implements TabExecutor, CommandInterface {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
         if (args.length == 0) {
-            if (!(sender instanceof Player player)) {
-                TextUtil.sendMessage(sender, "You need to be a player to run this command.");
-                return false;
-            }
+            if (!(sender instanceof Player player)) return playerOnly(sender);
+
             BossProfile bossProfile = new BossProfile(player);
             if (bossProfile.getLevel() == BossLevel.GODLIKE) {
                 TextUtil.sendMessage(player, "You have " + bossProfile.xp() + " boss XP, and you have reached the maximum level.");

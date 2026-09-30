@@ -1,6 +1,7 @@
 package dev.RatFjc.ImperiumCore.modules.bettergod.command;
 
 import dev.RatFjc.ImperiumCore.extras.ExperimentController;
+import dev.RatFjc.ImperiumCore.extras.cmds.CommandInterface;
 import dev.RatFjc.ImperiumCore.modules.bettergod.InvincibilityBuilder;
 import dev.RatFjc.ImperiumCore.modules.bettergod.data.Context;
 import dev.RatFjc.ImperiumCore.utility.PlayerUtil;
@@ -17,17 +18,14 @@ import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 
-public class GodCmd implements TabExecutor {
+public class GodCmd implements TabExecutor, CommandInterface {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
         // Syntax: /god <player> [context] [duration]
         // Note that the duration is currently in seconds only
 
         if (args.length == 0) {
-            if (!(sender instanceof Player player)) {
-                TextUtil.sendMessage(sender, "You need to specify a player.");
-                return false;
-            }
+            if (!(sender instanceof Player player)) return playerOnly(sender);
             if (!ExperimentController.areExperimentsAllowed(player)) {
                 TextUtil.sendMessage(player, "To use this command, turn on experimental features.");
                 TextUtil.sendMessage(player, "/allow-experiments");
@@ -43,10 +41,7 @@ public class GodCmd implements TabExecutor {
         }
 
         if (args.length == 1) {
-            if (!sender.isOp()) {
-                TextUtil.sendMessage(sender, "No permission.");
-                return false;
-            }
+            if (!sender.isOp()) return noPermission(sender);
             Player player = Bukkit.getPlayer(args[0]);
             if (player == null) {
                 TextUtil.sendMessage(sender, "The player specified does not exist.");
@@ -61,10 +56,7 @@ public class GodCmd implements TabExecutor {
         }
 
         if (args.length == 2) {
-            if (!sender.isOp()) {
-                TextUtil.sendMessage(sender, "No permission");
-                return false;
-            }
+            if (!sender.isOp()) return noPermission(sender);
             Player player = Bukkit.getPlayer(args[0]);
             Context context = Context.fromString(args[1]);
             if (player == null) {
@@ -84,10 +76,7 @@ public class GodCmd implements TabExecutor {
         }
 
         if (args.length == 3) {
-            if (!sender.isOp()) {
-                TextUtil.sendMessage(sender, "No permission.");
-                return false;
-            }
+            if (!sender.isOp()) return noPermission(sender);
             Player player = Bukkit.getPlayer(args[0]);
             Context context = Context.fromString(args[1]);
             Duration duration;

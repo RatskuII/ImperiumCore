@@ -11,18 +11,12 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class ToggleExperimentals implements TabExecutor {
+public class ToggleExperimentals implements TabExecutor, CommandInterface {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
-        if (!(sender instanceof Player player)) {
-            TextUtil.sendMessage(sender, "Only players can run this command.");
-            return false;
-        }
+        if (!(sender instanceof Player player)) return playerOnly(sender);
 
-        if (args.length > 1) {
-            TextUtil.sendMessage(player, "Invalid arguments.");
-            return false;
-        }
+        if (args.length > 1) return badArguments(sender);
 
         if (args.length == 1) {
             String toggle = args[0];

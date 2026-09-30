@@ -7,6 +7,7 @@ import dev.RatFjc.ImperiumCore.ImperiumCore;
 import dev.RatFjc.ImperiumCore.Module;
 import dev.RatFjc.ImperiumCore.modules.train.*;
 import dev.RatFjc.ImperiumCore.modules.train.configuration.TrainDataSaver;
+import dev.RatFjc.ImperiumCore.modules.train.route.RouteInfo;
 import dev.RatFjc.ImperiumCore.modules.train.signadder.AnnounceDelay;
 import dev.RatFjc.ImperiumCore.modules.train.signadder.TrainPopulator;
 import dev.RatFjc.ImperiumCore.utility.BukkitUtil;

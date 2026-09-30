@@ -51,6 +51,9 @@ commands:
   friend:
     description: Allows you to manage friends.
     usage: /friend <operator> <target>
+  lastdeath:
+    description: Sends you to the last location of death
+    usage: /lastdeath
 
 permissions:
   imperium.mail.player:

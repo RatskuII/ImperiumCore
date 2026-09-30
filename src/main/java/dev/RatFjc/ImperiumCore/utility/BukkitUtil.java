@@ -55,6 +55,12 @@ public class BukkitUtil extends Utility {
         return biomeRegistry.get(biomeKey);
     }
 
+    public static boolean isWater(Biome biome) {
+        return DataUtil.equalsAny(biome, Biome.COLD_OCEAN, Biome.DEEP_COLD_OCEAN, Biome.FROZEN_OCEAN,
+                Biome.DEEP_FROZEN_OCEAN, Biome.LUKEWARM_OCEAN, Biome.DEEP_LUKEWARM_OCEAN, Biome.RIVER,
+                Biome.FROZEN_RIVER);
+    }
+
     public static void broadcast(String message) {
         Bukkit.broadcast(TextUtil.nbt(message));
     }
