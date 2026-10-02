@@ -51,13 +51,17 @@ public class TrainPopulator extends SignAction implements Listener {
         // Entities with names are always excluded
         // animal is default
         String mobs = event.getLine(3);
+        if (mobs != null) mobs = mobs.strip();
 
         Player player = event.getPlayer();
 
         if (mobs == null || mobs.isBlank()) mobs = "animal";
-        if (!DataUtil.matches(mobs, "animal", "hostile", "villager")) {
-            TextUtil.sendMessage(player, "The flag provided is invalid.", "Valid types include animal, hostile, villager");
-            return false;
+        String[] outlets = mobs.split(",");
+        for (String out : outlets) {
+            if (!DataUtil.equalsAny(out, "animal", "hostile", "villager")) {
+                TextUtil.sendMessage(player, "The flag provided is invalid.", "Valid types include animal, hostile, villager");
+                return false;
+            }
         }
 
         TextUtil.sendMessage(player, "Successfully set the chance to " + result + ".", "Note: invalid inputs will be sanitized to 0 automatically.");
@@ -118,6 +122,7 @@ public class TrainPopulator extends SignAction implements Listener {
                 // animals only
                 case "animal" -> targets.filter(obj -> obj instanceof Animals);
                 // include hostiles
+                // note that animals can still be selected
                 case "hostile" -> targets.filter(obj -> obj instanceof Mob);
             }
             // if villager is not present, exclude them
@@ -127,6 +132,9 @@ public class TrainPopulator extends SignAction implements Listener {
         targets
                 .filter(obj -> !(obj instanceof Bucketable)) // Seeing axolotls asphyxiate is sad
                 .filter(obj -> !(obj instanceof WaterMob)) // Fish should not be in a train
+                .filter(obj -> !(obj instanceof AbstractSkeleton)) // i hate skeletons
+                .filter(obj -> !(obj instanceof Creeper)) // he came out of nowhere and blew me up
+                .filter(obj -> !(obj instanceof ArmorStand)) // ???????
                 .filter(obj -> obj.customName() == null)
                 .filter(obj -> !obj.isInsideVehicle())
                 .filter(obj -> !EntityUtil.isTamed(obj))

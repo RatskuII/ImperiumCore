@@ -50,13 +50,21 @@ public class SignAlter implements Listener {
         String parser = TextUtil.data(input);
         Matcher matcher = compPattern.matcher(parser);
 
-        TextComponent.Builder out = Component.text().style(input.style());
+        // Start with formatting from input component, then build on it
+        TextComponent.Builder out = Component
+                .text()
+                .style(input.style())
+                .color(input.color())
+                .decorate(input.decorations().keySet().toArray(new TextDecoration[0]));
         int end = 0;
 
         while (matcher.find()) {
             if (matcher.start() > end) {
                 String string = parser.substring(end, matcher.start());
-                Component partial = Component.text(string).style(input.style());
+                Component partial = Component
+                        .text(string)
+                        .style(input.style())
+                        .color(input.color());
                 if (style.key() != null) partial = partial.color(style.key());
                 if (!style.value().isEmpty()) partial = partial.decorate(style.value().toArray(new TextDecoration[0]));
                 out.append(partial);
@@ -83,7 +91,11 @@ public class SignAlter implements Listener {
 
         if (end < parser.length()) {
             String string = parser.substring(end);
-            Component partial = Component.text(string).style(input.style());
+            Component partial = Component
+                    .text(string)
+                    .style(input.style())
+                    .color(input.color())
+                    .decorate(input.decorations().keySet().toArray(new TextDecoration[0]));
             if (style.key() != null) partial = partial.color(style.key());
             if (!style.value().isEmpty()) partial = partial.decorate(style.value().toArray(new TextDecoration[0]));
             out.append(partial);

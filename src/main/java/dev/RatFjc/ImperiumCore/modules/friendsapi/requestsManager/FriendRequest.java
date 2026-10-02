@@ -95,7 +95,7 @@ public class FriendRequest implements PluginProvider {
         TextUtil.sendMessage(receiver, out);
     }
 
-    private void handleRequest(Result result) {
+    private void handleRequest(final Result result) {
         if (!atomicResult.compareAndSet(null, result)) return;
         if (s.asPlayer() == null || r.asPlayer() == null) return; // Make sure the players don't go offline before the request is done
         if (task != null) task.cancel();

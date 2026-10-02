@@ -12,10 +12,10 @@ public class StringMatcherTest {
         input1 = "test";
         input2 = "foo";
         input3 = "bar";
-        Assert.assertTrue(DataUtil.matches(original, input1, input2, input3));
+        Assert.assertTrue(DataUtil.equalsAny(original, input1, input2, input3));
 
         original = "";
         input1 = "673";
-        Assert.assertFalse(DataUtil.matches(original, input1, input2, input3));
+        Assert.assertFalse(DataUtil.equalsAny(original, input1, input2, input3));
     }
 }

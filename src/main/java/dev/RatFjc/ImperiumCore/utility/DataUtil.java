@@ -160,20 +160,32 @@ public final class DataUtil {
                 .doubleValue();
     }
 
-    public static boolean matches(String original, String... entries) {
-        for (String entry : entries) {
-            if (original.equalsIgnoreCase(entry)) return true;
-        }
-        return false;
-    }
-
     public static <P> boolean equalsAll(P original, P... objects) {
         for (P obj : objects) if (original != obj) return false;
         return true;
     }
 
+    /**
+     * Determines whether an object is original, or equal to any other object provided. What exactly determines
+     * equality depends on the object's {@link #equals(Object)} implementation.
+     * @param original The original object
+     * @param objects The objects to compare to the original
+     * @return Whether any of the objects provided are equal to the original
+     * @param <P> The object type
+     */
     public static <P> boolean equalsAny(P original, P... objects) {
         for (P obj : objects) if (original == obj) return true;
+        return false;
+    }
+
+    /**
+     * The same as {@link #equalsAny(Object, Object[])} but with strings. This implementation is not case-sensitive.
+     * @param original The original string
+     * @param objects The strings to match against
+     * @return Whether the original string is a match with any of the provided values
+     */
+    public static boolean equalsAny(String original, String... objects) {
+        for (String string : objects) if (original.equalsIgnoreCase(string)) return true;
         return false;
     }
 }
