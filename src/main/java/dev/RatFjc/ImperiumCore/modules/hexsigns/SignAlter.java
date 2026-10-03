@@ -6,6 +6,7 @@ import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.*;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -29,7 +30,7 @@ public class SignAlter implements Listener {
             Component original = event.line(i);
             if (original == null) continue;
 
-            Component result = build(original);
+            Component result = TextUtil.legacyColor(original);
             event.line(i, result);
         }
     }

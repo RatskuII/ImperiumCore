@@ -5,23 +5,34 @@ import dev.RatFjc.ImperiumCore.modules.friendsapi.User;
 import java.util.HashMap;
 import java.util.Map;
 
-public interface FriendHolder {
+public class FriendHolder {
 
-    Map<User, User> staleFriendships = new HashMap<>();
+    public FriendHolder() {}
 
-    default void add(User remover, User removed) {
+    public FriendHolder(Map<User, User> relationships) {
+        this.staleFriendships = relationships;
+    }
+
+    private Map<User, User> staleFriendships = new HashMap<>();
+
+    public FriendHolder addStale(User remover, User removed) {
         staleFriendships.put(remover, removed);
+        return this;
     }
 
-    default void remove(User remover, User removed) {
+    public FriendHolder removeStale(User remover, User removed) {
         staleFriendships.remove(remover, removed);
+        return this;
     }
 
-    default void clear(User user) {
+    public FriendHolder clearStale(User user) {
         staleFriendships.remove(user);
+        return this;
     }
 
-    default void clear() {
+    public FriendHolder clearStale() {
         staleFriendships.clear();
+        return this;
     }
+
 }

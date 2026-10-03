@@ -2,12 +2,12 @@ package dev.RatFjc.ImperiumCore.modules.friendsapi;
 
 import dev.RatFjc.ImperiumCore.Keys;
 import dev.RatFjc.ImperiumCore.extras.Pair;
+import dev.RatFjc.ImperiumCore.modules.friendsapi.data.FriendHolder;
 import dev.RatFjc.ImperiumCore.modules.friendsapi.data.ListType;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
-
 /**
  * Utility class that handles the adding, removal, and messaging of friends
  */
@@ -82,6 +82,7 @@ public class Friend {
         String removed1 = sender.uuid().toString();
         two = values1.remove(removed1);
         container1.set(Keys.FRIENDS, ListType.STRING, values1);
+
 
         return new Pair<>(one, two);
     }

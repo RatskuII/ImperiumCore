@@ -42,6 +42,10 @@ public class TextUtil extends Utility {
                 .build();
     }
 
+    public static Component legacyColor(Component colored) {
+        return LegacyComponentSerializer.legacyAmpersand().deserialize(data(colored));
+    }
+
     public static Component sendMessage(Audience audience, Component component) {
         audience.sendMessage(component);
         return component;

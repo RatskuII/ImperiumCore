@@ -13,9 +13,6 @@ public class DeathLocationUpdater implements Listener {
     public void onDeath(PlayerDeathEvent event) {
         OfflinePlayer player = event.getPlayer();
         Location location = player.getLastDeathLocation();
-        if (location == null) location = player.getLocation();
-        if (location == null) return;
-
-        DeathStore.cacheLocation(player, location);
+        if (location != null) DeathStore.cacheLocation(player, location);
     }
 }
