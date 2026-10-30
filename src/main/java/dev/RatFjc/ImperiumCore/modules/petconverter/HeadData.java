@@ -30,7 +30,7 @@ public class HeadData {
     public static Optional<Integer> getLevelFromLore(@Nullable List<Component> lore) {
         if (lore == null) return Optional.empty();
         for (Component component : lore) {
-            String string = TextUtil.data(component);
+            String string = TextUtil.fromComponent(component);
             string = TextUtil.strip(string);
 
             Matcher matcher = Pattern.compile("(?i)\\blvl\\s*(\\d+)").matcher(string);

@@ -27,7 +27,7 @@ public class InvBuilder {
     private static Inventory inventory;
 
     public InvBuilder create(Player player, int size, String title) {
-        this.name = TextUtil.nbt(title);
+        this.name = TextUtil.plainComponent(title);
         inventory = Bukkit.createInventory(player, size, name);
         return this;
     }
@@ -35,7 +35,7 @@ public class InvBuilder {
     public InvBuilder createUI() {
         ItemStack info = ItemStack.of(Material.PAPER);
         ItemMeta infoMeta = info.getItemMeta();
-        infoMeta.displayName(TextUtil.nbt("Dump old pets into this bin and receive compensation."));
+        infoMeta.displayName(TextUtil.plainComponent("Dump old pets into this bin and receive compensation."));
         infoMeta.lore(List.of(
                 TextUtil.color("Pets have been discontinued and serve no purpose other than historic means.", TextColor.color(100, 100, 100)),
                 TextUtil.color("Putting pets into this exchange bin will provide you with silver currency.", TextColor.color(100, 100, 100)),
@@ -45,8 +45,8 @@ public class InvBuilder {
 
         ItemStack close = ItemStack.of(Material.RED_WOOL);
         ItemMeta closeMeta = close.getItemMeta();
-        closeMeta.displayName(TextUtil.nbt("CLOSE"));
-        closeMeta.lore(List.of(TextUtil.nbt("Click here to close this menu.")));
+        closeMeta.displayName(TextUtil.plainComponent("CLOSE"));
+        closeMeta.lore(List.of(TextUtil.plainComponent("Click here to close this menu.")));
 
         info.setItemMeta(infoMeta);
         close.setItemMeta(closeMeta);

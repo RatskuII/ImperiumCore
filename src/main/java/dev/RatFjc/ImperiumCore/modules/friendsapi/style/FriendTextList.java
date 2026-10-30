@@ -82,7 +82,7 @@ public class FriendTextList {
         }
         for (String entry : entries) {
             out = out.append(
-                    TextUtil.nbt(entry)
+                    TextUtil.plainComponent(entry)
                             .color(bodyColor)
                             .appendNewline()
             );
@@ -101,7 +101,7 @@ public class FriendTextList {
      */
     public FriendTextList border(char key, int length, int thickness, @Nullable TextColor borderColor) {
         if (length > 64) length = 64;
-        Component out = TextUtil.nbt(String.valueOf(key).repeat(Math.max(0, length)));
+        Component out = TextUtil.plainComponent(String.valueOf(key).repeat(Math.max(0, length)));
         if (thickness < 1) thickness = 1;
         if (thickness > 8) thickness = 8;
         if (borderColor != null) out = out.color(borderColor);

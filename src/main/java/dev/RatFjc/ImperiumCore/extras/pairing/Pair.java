@@ -1,7 +1,9 @@
-package dev.RatFjc.ImperiumCore.extras;
+package dev.RatFjc.ImperiumCore.extras.pairing;
 
+import dev.RatFjc.ImperiumCore.utility.DataUtil;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
 import java.util.function.BiConsumer;
 
 /**
@@ -29,5 +31,20 @@ public record Pair<K, V>(K key, V value) {
      */
     public void apply(BiConsumer<K, V> consumer) {
         consumer.accept(key, value);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(key, value);
+    }
+
+    @Override
+    public boolean equals(Object pair) {
+        if (this == pair) return true;
+        if (pair == null) return false;
+        if (getClass() != pair.getClass()) return false;
+
+        Pair<?, ?> compare = (Pair<?, ?>) pair;
+        return DataUtil.equalsAll(key, compare.key) && DataUtil.equalsAll(value, compare.value);
     }
 }

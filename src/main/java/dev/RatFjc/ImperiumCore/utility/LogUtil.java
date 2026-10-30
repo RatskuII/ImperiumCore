@@ -32,4 +32,8 @@ public class LogUtil extends Utility {
     public static void log(String message) {
         log(message, null, Level.INFO, false);
     }
+
+    public static void debug(String message, Module module) {
+        log(message, module, Level.INFO, true);
+    }
 }

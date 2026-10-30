@@ -22,7 +22,7 @@ public class Operation {
         PunishmentSaver.savePunishment(entry);
         if (entry.target() instanceof Player player) {
 
-            Component message = TextUtil.nbt("You have been banned: " + entry.reason());
+            Component message = TextUtil.plainComponent("You have been banned: " + entry.reason());
             player.kick(message, PlayerKickEvent.Cause.BANNED);
         }
     }
@@ -59,7 +59,7 @@ public class Operation {
     }
 
     private static void kick(Player player, String reason) {
-        Component component = TextUtil.nbt(reason);
+        Component component = TextUtil.plainComponent(reason);
         player.kick(component);
     }
 

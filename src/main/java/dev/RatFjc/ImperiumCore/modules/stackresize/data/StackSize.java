@@ -1,6 +1,6 @@
 package dev.RatFjc.ImperiumCore.modules.stackresize.data;
 
-import dev.RatFjc.ImperiumCore.extras.Pair;
+import dev.RatFjc.ImperiumCore.extras.pairing.Pair;
 import org.bukkit.Material;
 
 import java.util.Arrays;

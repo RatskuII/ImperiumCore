@@ -5,7 +5,6 @@ import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
 import net.kyori.adventure.key.Key;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.Registry;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
@@ -14,7 +13,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.event.Event;
 import org.bukkit.event.Listener;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 public class BukkitUtil extends Utility {
@@ -62,6 +60,6 @@ public class BukkitUtil extends Utility {
     }
 
     public static void broadcast(String message) {
-        Bukkit.broadcast(TextUtil.nbt(message));
+        Bukkit.broadcast(TextUtil.plainComponent(message));
     }
 }

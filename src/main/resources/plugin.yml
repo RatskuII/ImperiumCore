@@ -54,6 +54,12 @@ commands:
   lastdeath:
     description: Sends you to the last location of death
     usage: /lastdeath
+  modernsign:
+    description: Allows you to modify signs using MiniMessage formatting
+    usage: /modernsign <set/clear> <number> <text>
+  rtp:
+    description: Pseudo-random teleportation
+    usage: /rtp <ignoreExclusion>
 
 permissions:
   imperium.mail.player:
@@ -69,3 +75,7 @@ permissions:
   imperium.afk.immunity:
     description: Provides immunity to being afk kicked
     default: op
+
+  imperium.modernsign.edit:
+    description: Allows editing of MiniMessage signs
+    default: false

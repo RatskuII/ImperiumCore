@@ -1,6 +1,6 @@
 package dev.RatFjc.ImperiumCore.modules.itemquests.file;
 
-import dev.RatFjc.ImperiumCore.extras.PairList;
+import dev.RatFjc.ImperiumCore.extras.pairing.PairList;
 import dev.RatFjc.ImperiumCore.modules.itemquests.AbstractQuest;
 import dev.RatFjc.ImperiumCore.modules.itemquests.Reward;
 import dev.RatFjc.ImperiumCore.utility.BukkitUtil;

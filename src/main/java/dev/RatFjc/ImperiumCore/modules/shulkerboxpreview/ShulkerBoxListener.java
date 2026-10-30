@@ -22,7 +22,7 @@ public class ShulkerBoxListener implements Listener {
         final String display = "Shulker Box Preview";
         Component title = event.getView().title();
 
-        if (title.contains(TextUtil.nbt(display))) event.setCancelled(true);
+        if (title.contains(TextUtil.plainComponent(display))) event.setCancelled(true);
         else if (event.getClick() == ClickType.RIGHT) {
             ItemStack current = event.getCurrentItem();
             if (current == null) return;
@@ -33,7 +33,7 @@ public class ShulkerBoxListener implements Listener {
             if (meta instanceof BlockStateMeta blockStateMeta) {
                 if (!(blockStateMeta.getBlockState() instanceof ShulkerBox shulkerBox)) return;
 
-                Inventory dummy = Bukkit.createInventory(null, InventoryType.SHULKER_BOX, TextUtil.nbt(display));
+                Inventory dummy = Bukkit.createInventory(null, InventoryType.SHULKER_BOX, TextUtil.plainComponent(display));
                 dummy.setContents(shulkerBox.getInventory().getContents());
 
                 if (!(event.getWhoClicked() instanceof Player player)) return;

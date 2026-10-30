@@ -34,7 +34,7 @@ public class Frame {
     }
 
     public Frame name(String name) {
-        meta.displayName(TextUtil.nbt(name));
+        meta.displayName(TextUtil.plainComponent(name));
         return this;
     }
 
@@ -56,7 +56,7 @@ public class Frame {
         var lore = meta.lore();
         if (lore == null) return this;
 
-        lore.add(TextUtil.nbt(loreLine));
+        lore.add(TextUtil.plainComponent(loreLine));
         meta.lore(lore);
 
         return this;

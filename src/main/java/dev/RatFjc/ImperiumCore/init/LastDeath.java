@@ -3,6 +3,7 @@ package dev.RatFjc.ImperiumCore.init;
 import dev.RatFjc.ImperiumCore.ImperiumCore;
 import dev.RatFjc.ImperiumCore.Module;
 import dev.RatFjc.ImperiumCore.modules.lastdeath.DeathStore;
+import dev.RatFjc.ImperiumCore.modules.lastdeath.command.KillCmd;
 import dev.RatFjc.ImperiumCore.modules.lastdeath.command.LastDeathCmd;
 import dev.RatFjc.ImperiumCore.modules.lastdeath.event.DeathLocationUpdater;
 import dev.RatFjc.ImperiumCore.utility.BukkitUtil;
@@ -21,7 +22,10 @@ public class LastDeath extends Module {
     @Override
     protected void load(ImperiumCore instance) {
         BukkitUtil.registerEvent(new DeathLocationUpdater());
+
         BukkitUtil.registerCommand(new LastDeathCmd(), "lastdeath");
+        BukkitUtil.registerCommand(new KillCmd(), "kill");
+        BukkitUtil.registerCommand(new KillCmd.Suicide(), "suicide");
     }
 
     @Override

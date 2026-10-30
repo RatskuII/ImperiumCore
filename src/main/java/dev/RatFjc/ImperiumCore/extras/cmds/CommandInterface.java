@@ -2,6 +2,9 @@ package dev.RatFjc.ImperiumCore.extras.cmds;
 
 import dev.RatFjc.ImperiumCore.utility.TextUtil;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+import java.util.List;
 
 /**
  * A simple interface that holds common operations for commands.

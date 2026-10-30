@@ -35,7 +35,7 @@ public class HeadFinder {
 
             Component customName = meta.customName();
             if (customName == null) customName = meta.itemName();
-            String name = TextUtil.data(customName)
+            String name = TextUtil.fromComponent(customName)
                     .toLowerCase();
             if (!name.contains("pet")) {
                 remainders.add(item);

@@ -1,6 +1,6 @@
 package dev.RatFjc.ImperiumCore.utility;
 
-import dev.RatFjc.ImperiumCore.extras.Pair;
+import dev.RatFjc.ImperiumCore.extras.pairing.Pair;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -9,6 +9,10 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Duration;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -136,6 +140,10 @@ public final class DataUtil {
         return Arrays.asList(array);
     }
 
+    public static <R> List<R> arrayToList(Collection<R> array) {
+        return new ArrayList<>(array);
+    }
+
     public static byte[] addToArray(byte[] array, byte element) {
         byte[] result = new byte[array.length + 1];
 
@@ -187,5 +195,40 @@ public final class DataUtil {
     public static boolean equalsAny(String original, String... objects) {
         for (String string : objects) if (original.equalsIgnoreCase(string)) return true;
         return false;
+    }
+
+    /**
+     * Waits if necessary for the future to complete, then returns its result. If there is no result, or the operation
+     * is interrupted or fails somehow, a default value is returned. The default value can be null.
+     * @param future The future to complete
+     * @param def The default value to return if the future fails
+     * @return A result, or the default if no result is available
+     * @param <C> The result's type
+     */
+    public static <C> @Nullable C getOrNull(CompletableFuture<C> future, @Nullable C def) {
+        try {
+            return future.get();
+        } catch (InterruptedException | ExecutionException e) {
+            LogUtil.log("The async task provided could not be completed: " + e);
+            return def;
+        }
+    }
+
+    /**
+     * Waits if necessary for the future to complete, then returns its result. If there is no result, or the operation
+     * is interrupted or fails somehow, a default value is returned. The default value can be null.
+     * @param future The future to complete
+     * @param def The default value to return if the future fails
+     * @param timeout How long, in seconds the task will wait for a result
+     * @return A result, or the default if no result is available
+     * @param <C> The result's type
+     */
+    public static <C> @Nullable C getOrNull(CompletableFuture<C> future, @Nullable C def, long timeout) {
+        try {
+            return future.get(timeout, TimeUnit.SECONDS);
+        } catch (InterruptedException | ExecutionException | TimeoutException e) {
+            LogUtil.log("The async task provided could not be completed: " + e);
+            return def;
+        }
     }
 }

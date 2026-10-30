@@ -1,14 +1,11 @@
 package dev.RatFjc.ImperiumCore.modules.hexsigns;
 
-import dev.RatFjc.ImperiumCore.extras.Pair;
+import dev.RatFjc.ImperiumCore.extras.pairing.Pair;
 import dev.RatFjc.ImperiumCore.utility.TextUtil;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.*;
-import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -19,7 +16,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class SignAlter implements Listener {
+public class SignAlter extends AbstractTagHolder implements Listener {
 
     private final Pattern pattern = Pattern.compile("#[a-fA-F0-9]");
     private final Pattern compPattern = Pattern.compile("(?i)&([0-9a-ik-or])|(#[0-9a-f]{6})");
@@ -27,22 +24,36 @@ public class SignAlter implements Listener {
     @EventHandler
     public void onSignAlter(SignChangeEvent event) {
         List<Component> lines = event.lines();
+
         int set = lines.size();
+        /*
         for (int i = 0; i < set; i++) {
             Component original = event.line(i);
             if (original == null) continue;
 
-            Component result = build(original);
+            Component result = TextUtil.toMiniMessage(original, resolvers);
             event.line(i, result);
 
+        }
+
+         */
+        for (int i = 0; i < set; i++) {
+            Component original = event.line(i);
+            if (original == null) continue;
+
+            String in = TextUtil.fromComponent(original);
+            Component out = TextUtil.legacy(buildLegacyColorString(in));
+            event.line(i, out);
         }
     }
 
     @EventHandler
     public void onMessage(AsyncChatEvent event) {
+
         Component message = event.message();
-        Component result = build(message);
+        Component result = TextUtil.legacy(message);
         event.message(result);
+
     }
 
     private Component build(Component input) {
@@ -51,7 +62,7 @@ public class SignAlter implements Listener {
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toSet());
         Pair<TextColor, Set<TextDecoration>> style = new Pair<>(input.color(), initialDecor);
-        String parser = TextUtil.data(input);
+        String parser = TextUtil.fromComponent(input);
         Matcher matcher = compPattern.matcher(parser);
 
         TextComponent.Builder out = Component.text();

@@ -1,8 +1,7 @@
 package dev.RatFjc.ImperiumCore.modules.friendsapi;
 
 import dev.RatFjc.ImperiumCore.Keys;
-import dev.RatFjc.ImperiumCore.extras.Pair;
-import dev.RatFjc.ImperiumCore.modules.friendsapi.data.FriendHolder;
+import dev.RatFjc.ImperiumCore.extras.pairing.Pair;
 import dev.RatFjc.ImperiumCore.modules.friendsapi.data.ListType;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;

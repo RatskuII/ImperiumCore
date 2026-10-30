@@ -2,7 +2,7 @@ package dev.RatFjc.ImperiumCore.modules.friendsapi.requestsManager;
 
 import dev.RatFjc.ImperiumCore.Keys;
 import dev.RatFjc.ImperiumCore.PluginProvider;
-import dev.RatFjc.ImperiumCore.extras.Pair;
+import dev.RatFjc.ImperiumCore.extras.pairing.Pair;
 import dev.RatFjc.ImperiumCore.modules.friendsapi.Friend;
 import dev.RatFjc.ImperiumCore.modules.friendsapi.User;
 import dev.RatFjc.ImperiumCore.utility.PDCUtil;
@@ -11,10 +11,8 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.entity.Player;
-import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitTask;
-import org.jspecify.annotations.Nullable;
 
 import java.time.Duration;
 import java.util.concurrent.atomic.AtomicReference;

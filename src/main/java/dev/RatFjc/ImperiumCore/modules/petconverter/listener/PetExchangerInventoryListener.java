@@ -64,7 +64,7 @@ public class PetExchangerInventoryListener implements Listener {
                 continue;
             }
 
-            String itemName = TextUtil.data(item.displayName());
+            String itemName = TextUtil.fromComponent(item.displayName());
             HeadData.getLevel(itemName).ifPresentOrElse(present -> {
                 if (present >= 1) execute(player, present);
                 if (present == 0) TextUtil.sendMessage(player, bad);

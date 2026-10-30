@@ -2,6 +2,7 @@ package dev.RatFjc.ImperiumCore.init;
 
 import dev.RatFjc.ImperiumCore.ImperiumCore;
 import dev.RatFjc.ImperiumCore.Module;
+import dev.RatFjc.ImperiumCore.modules.hexsigns.ModernSignCommand;
 import dev.RatFjc.ImperiumCore.modules.hexsigns.SignAlter;
 import dev.RatFjc.ImperiumCore.utility.BukkitUtil;
 
@@ -19,5 +20,6 @@ public class HexSigns extends Module {
     @Override
     protected void load(ImperiumCore instance) {
         BukkitUtil.registerEvent(new SignAlter());
+        BukkitUtil.registerCommand(new ModernSignCommand(), "modernsign");
     }
 }

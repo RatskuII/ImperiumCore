@@ -1,4 +1,4 @@
-package dev.RatFjc.ImperiumCore.extras;
+package dev.RatFjc.ImperiumCore.extras.pairing;
 
 import org.jetbrains.annotations.Nullable;
 

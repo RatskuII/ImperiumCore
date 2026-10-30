@@ -38,7 +38,7 @@ public class BanEnforcer implements CoreAsyncListener<AsyncPlayerPreLoginEvent, 
                 if (punishment != null) {
                     event.disallow(
                             AsyncPlayerPreLoginEvent.Result.KICK_BANNED,
-                            TextUtil.nbt(punishment.reason())
+                            TextUtil.plainComponent(punishment.reason())
                     );
                 }
             }
