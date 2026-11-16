@@ -48,6 +48,9 @@ commands:
   route-lookup:
     description: Allows you to lookup destinations present on a route.
     usage: /route-lookup <routeName>
+  route-set:
+    description: Saves a route to the file
+    usage: /route-set <routeName> <destinations...>
   friend:
     description: Allows you to manage friends.
     usage: /friend <operator> <target>
@@ -60,7 +63,15 @@ commands:
   rtp:
     description: Pseudo-random teleportation
     usage: /rtp <ignoreExclusion>
-
+  kill:
+    description: Kills the specified player
+    usage: /kill <playerName>
+  suicide:
+    description: I think you can figure this one out
+    usage: /suicide
+  fly:
+    description: Enables flying
+    usage: /fly
 permissions:
   imperium.mail.player:
     default: true
@@ -78,4 +89,11 @@ permissions:
 
   imperium.modernsign.edit:
     description: Allows editing of MiniMessage signs
+    default: false
+
+  imperium.fly.global:
+    description: Allows flight
+    default: op
+  imperium.fly.claim:
+    description: Allows flight, but only within claims
     default: false

@@ -49,6 +49,9 @@ public final class Keys extends Utility {
     // Keys related to LocalDiff
     public static final NamespacedKey LOCAL_DIFF = new NamespacedKey(plugin, "local-diff");
 
+    // Keys related to ClaimFly
+    public static final NamespacedKey FLYSTATE = new NamespacedKey(plugin, "fly-state");
+
     // Key to toggle experimental features
     public static final NamespacedKey ALLOW_EXPERIMENTAL = new NamespacedKey(plugin, "allow_experimental");
 }

@@ -33,6 +33,7 @@ public final class ImperiumCore extends JavaPlugin {
     private MailboxModule mailboxModule;
     private FriendsAPI friendsAPI;
     private LastDeath lastDeath;
+    private ClaimFly claimFly;
 
     @Override
     public void onEnable() {
@@ -56,6 +57,7 @@ public final class ImperiumCore extends JavaPlugin {
         load(mailboxModule);
         load(friendsAPI);
         load(lastDeath);
+        load(claimFly);
 
         BukkitUtil.registerCommand(new CoreReload(), "core-reload");
         BukkitUtil.registerCommand(new ToggleExperimentals(), "allow-experiments");
@@ -96,6 +98,7 @@ public final class ImperiumCore extends JavaPlugin {
         mailboxModule = new MailboxModule();
         friendsAPI = new FriendsAPI();
         lastDeath = new LastDeath();
+        claimFly = new ClaimFly();
     }
 
     public void load(Module module) {
@@ -134,6 +137,7 @@ public final class ImperiumCore extends JavaPlugin {
         mailboxModule = null;
         friendsAPI = null;
         lastDeath = null;
+        claimFly = null;
 
     }
 }

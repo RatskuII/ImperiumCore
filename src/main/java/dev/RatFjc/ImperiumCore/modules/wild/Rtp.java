@@ -2,6 +2,7 @@ package dev.RatFjc.ImperiumCore.modules.wild;
 
 import dev.RatFjc.ImperiumCore.ConfigurationSaver;
 import dev.RatFjc.ImperiumCore.PluginProvider;
+import dev.RatFjc.ImperiumCore.extras.hooks.GPHook;
 import dev.RatFjc.ImperiumCore.extras.pairing.Pair;
 import dev.RatFjc.ImperiumCore.extras.cmds.CommandInterface;
 import dev.RatFjc.ImperiumCore.extras.pairing.Trio;
@@ -50,10 +51,9 @@ public class Rtp extends ConfigurationSaver implements TabExecutor, CommandInter
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
         if (!(sender instanceof Player player)) return playerOnly(sender);
-        if (args.length > 1) return badArguments(sender, "/rtp <ignoreExclusion>");
-        boolean ignore = args.length == 1;
+        if (args.length > 2) return badArguments(sender, "/rtp <ignoreExclusion>");
 
-        randomTeleport(player, ignore, 8);
+        randomTeleport(player, false, 10);
 
         return true;
     }
@@ -146,15 +146,17 @@ public class Rtp extends ConfigurationSaver implements TabExecutor, CommandInter
             Biome biome = blockState.getBlock().getBiome();
 
             boolean water = BukkitUtil.isWater(biome);
-            while (water && attempts.size() < tries) {
+            boolean claim = GPHook.isInClaim(result) != null;
+            while ((water || claim) && attempts.size() < tries) {
                 result = DataUtil.getOrNull(pickLocationAsync(player, exclusion, maximum()), null);
                 if (result == null) continue;
 
                 biome = result.getBlock().getBiome();
                 water = BukkitUtil.isWater(biome);
+                claim = GPHook.isInClaim(result) != null;
                 attempts.add(result);
             }
-            if (attempts.size() > tries && water) result = null;
+            if (attempts.size() > tries && (water || claim)) result = null;
 
             return result;
         }, Wild.executor());

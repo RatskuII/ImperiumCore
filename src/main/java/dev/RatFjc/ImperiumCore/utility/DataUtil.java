@@ -18,14 +18,13 @@ import java.util.regex.Pattern;
 
 public final class DataUtil {
 
-    private static final Pattern pattern = Pattern.compile("(\\d+)([smhd])");
-
     /**
      * Parses a valid Duration from the given text.
      * @param context The text that will be converted into a Duration
      * @return A Duration
      */
     public static Duration parseDuration(String context) {
+        final Pattern pattern = Pattern.compile("(\\d+)([smhd])");
         if (context == null) throw new NullPointerException("The input provided cannot be null.");
 
         context = context.toLowerCase();
@@ -152,6 +151,14 @@ public final class DataUtil {
         return result;
     }
 
+    public static byte[] byteArray(Byte... elements) {
+        byte[] out = new byte[]{};
+        for (byte element : elements) {
+            out = addToArray(out, element);
+        }
+        return out;
+    }
+
     /**
      * Ensures that the file provided is a YAML configuration file.
      * @param file The file to validate
@@ -182,7 +189,7 @@ public final class DataUtil {
      * @param <P> The object type
      */
     public static <P> boolean equalsAny(P original, P... objects) {
-        for (P obj : objects) if (original == obj) return true;
+        for (P obj : objects) if (original.equals(obj)) return true;
         return false;
     }
 

@@ -20,7 +20,7 @@ import java.util.*;
 
 /**
  * Can be used to update a route without having to physically access the train. Keep in mind that specifying a
- * route name that does not exist will create a new route with the destinations provided. This
+ * route name that does not exist will create a new route with the destinations provided.
  */
 public class RouteSet implements TabExecutor, CommandInterface {
     @Override
@@ -29,7 +29,7 @@ public class RouteSet implements TabExecutor, CommandInterface {
         if (args.length < 2) return badArguments(sender, "/route-set <routeName> <destinations...>");
 
         final String routeName = args[0];
-        final List<String> destinations = new ArrayList<>(Arrays.asList(args).subList(0, args.length + 2));
+        final List<String> destinations = Arrays.asList(args).subList(1, args.length);
 
         TCHook.routeManager.storeRoute(routeName, destinations);
         TextUtil.sendMessage(sender, "Successfully updated the route to use the following destinations:");

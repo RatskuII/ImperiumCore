@@ -13,7 +13,7 @@ public class ShulkerBoxPreview extends Module {
 
     @Override
     public boolean enabled() {
-        return true;
+        return false;
     }
 
     @Override

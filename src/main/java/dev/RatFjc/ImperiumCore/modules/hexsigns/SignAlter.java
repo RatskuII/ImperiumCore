@@ -42,7 +42,12 @@ public class SignAlter extends AbstractTagHolder implements Listener {
             if (original == null) continue;
 
             String in = TextUtil.fromComponent(original);
-            Component out = TextUtil.legacy(buildLegacyColorString(in));
+            Component out;
+            try {
+                out = TextUtil.legacy(buildLegacyColorString(in));
+            } catch (Exception e) {
+                out = TextUtil.plainComponent(buildLegacyColorString(in));
+            }
             event.line(i, out);
         }
     }
@@ -153,6 +158,10 @@ public class SignAlter extends AbstractTagHolder implements Listener {
      * @return The new text
      */
     private String register(String text, String color, CharSequence data) {
+        // replace the translation code with the hex color
+        // then use pattern to process hex color
+        // ???
+        // profit
         if (color.startsWith("#") && color.length() == 7) if (text.contains(data)) {
             text = text.replace(data, color);
             return text;
@@ -165,12 +174,14 @@ public class SignAlter extends AbstractTagHolder implements Listener {
     private String buildLegacyColorString(String text) {
         text = register(text, "#6A4439", "&g"); // Brown
         text = register(text, "#7582AE", "&h"); // Light-ish blue
-        text = register(text, "D6D39A", "&i"); // Beige
+        text = register(text, "#D6D39A", "&i"); // Beige
 
         Matcher matcher = pattern.matcher(text);
         while (matcher.find()) {
             String parsed = text.substring(matcher.start(), matcher.end());
-            text = text.replace(parsed, ChatColor.of(parsed) + "");
+            try {
+                text = text.replace(parsed, ChatColor.of(parsed) + "");
+            } catch (Exception ignored) {}
             matcher = pattern.matcher(text);
         }
 

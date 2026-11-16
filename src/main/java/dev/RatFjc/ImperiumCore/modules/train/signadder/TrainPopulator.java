@@ -9,16 +9,20 @@ import com.bergerkiller.bukkit.tc.signactions.SignAction;
 import com.bergerkiller.bukkit.tc.signactions.SignActionType;
 import com.bergerkiller.bukkit.tc.utils.SignBuildOptions;
 import dev.RatFjc.ImperiumCore.extras.Streamer;
+import dev.RatFjc.ImperiumCore.extras.multithreading.Threader;
 import dev.RatFjc.ImperiumCore.utility.DataUtil;
 import dev.RatFjc.ImperiumCore.utility.EntityUtil;
 import dev.RatFjc.ImperiumCore.utility.TextUtil;
 import io.papermc.paper.entity.Bucketable;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.event.Listener;
 
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 public class TrainPopulator extends SignAction implements Listener {
 
@@ -86,17 +90,37 @@ public class TrainPopulator extends SignAction implements Listener {
         if (block == null) return;
         Location location = block.getLocation();
 
+        // Choose carts first
+        List<MinecartMember<?>> carts = new ArrayList<>();
         for (MinecartMember<?> cart : train) {
-            if (cart == null) continue; // In-case weird stuff happens
-            if (!cart.getEntity().getPassengers().isEmpty()) continue; // don't boot off an existing passenger
+            if (cart == null) continue;
+            if (!cart.getEntity().getPassengers().isEmpty()) continue;
             if (random.nextFloat() >= chance) continue;
-
-            LivingEntity result = DataUtil.randomElementFromList(validEntities(location, tags));
-            if (result == null) continue;
-            cart.addPassengerForced(result);
+            carts.add(cart);
         }
+
+        if (carts.isEmpty()) return;
+
+        // Run operations on carts
+        // Make sure everything stays on main thread
+        CompletableFuture<List<LivingEntity>> targets = validEntities(location, tags);
+        targets.thenAccept(list -> Threader.execute(() -> {
+            for (MinecartMember<?> cart : carts) {
+                if (list.isEmpty()) break;
+
+                if (!cart.getEntity().isValid()) continue;
+                if (!cart.getEntity().getPassengers().isEmpty()) continue;
+
+                LivingEntity selected = DataUtil.randomElementFromList(list);
+                if (selected == null || selected.isDead() || !selected.isValid()) continue;
+                cart.addPassengerForced(selected);
+                list.remove(selected);
+            }
+        }));
+
     }
 
+    @Deprecated
     private void ejectTrainRandomly(MinecartGroup train, float chance) {
         if (train == null) return;
         if (chance > 1) chance = 1;
@@ -112,33 +136,66 @@ public class TrainPopulator extends SignAction implements Listener {
         }
     }
 
-    private List<? extends LivingEntity> validEntities(Location location, String... tags) {
-        Collection<LivingEntity> entities = location.getNearbyLivingEntities(32);
+    /**
+     * Loads a grid of chunks asynchronously.
+     * @param start The initial location to start from
+     * @return A future that contains all the loaded chunks
+     */
+    private CompletableFuture<List<Chunk>> loadGrid(Location start) {
+        World world = start.getWorld();
+        Chunk chunk = start.getChunk();
+        int centerX = chunk.getX();
+        int centerZ = chunk.getZ();
 
-        if (tags.length == 0) tags = new String[]{"animal"};
-        Streamer<LivingEntity> targets = new Streamer<>(entities);
-        for (String tag : tags) {
-            switch (tag.toLowerCase()) {
-                // animals only
-                case "animal" -> targets.filter(obj -> obj instanceof Animals);
-                // include hostiles
-                // note that animals can still be selected
-                case "hostile" -> targets.filter(obj -> obj instanceof Mob);
-            }
-            // if villager is not present, exclude them
-            if (!tag.equalsIgnoreCase("villager")) targets.filter(obj -> !(obj instanceof Villager));
+        // Location center = new Location(world, centerX, start.getBlockY(), centerZ);
+
+        final int RADIUS = 3;
+        List<CompletableFuture<Chunk>> out = new ArrayList<>();
+
+        for (int x = -RADIUS; x <= RADIUS; x++) for (int z = -RADIUS; z <= RADIUS; z++) {
+            out.add(world.getChunkAtAsync(centerX + x, centerZ + z));
         }
-        // other necessary boundaries
-        targets
-                .filter(obj -> !(obj instanceof Bucketable)) // Seeing axolotls asphyxiate is sad
-                .filter(obj -> !(obj instanceof WaterMob)) // Fish should not be in a train
-                .filter(obj -> !(obj instanceof AbstractSkeleton)) // i hate skeletons
-                .filter(obj -> !(obj instanceof Creeper)) // he came out of nowhere and blew me up
-                .filter(obj -> !(obj instanceof ArmorStand)) // ???????
-                .filter(obj -> obj.customName() == null)
-                .filter(obj -> !obj.isInsideVehicle())
-                .filter(obj -> !EntityUtil.isTamed(obj))
-                .filter(obj -> !EntityUtil.sitting(obj));
-        return targets.list();
+        return CompletableFuture.allOf(out.toArray(new CompletableFuture[0]))
+                .thenApply(result -> out.stream()
+                        .map(CompletableFuture::join)
+                        .toList());
+    }
+
+    /**
+     * Gets a list of entities that are valid for train population.
+     * @param location The location to start searching
+     * @param tags An array of tags that can define which entities are valid
+     * @return A future that contains a valid list of entities
+     * @apiNote This future is returned on the main thread
+     */
+    private CompletableFuture<List<LivingEntity>> validEntities(Location location, String... tags) {
+        if (tags.length == 0) tags = new String[]{"animal"};
+        final String[] tags0 = tags;
+        CompletableFuture<List<Chunk>> chunks = loadGrid(location);
+
+        return chunks.thenCompose(loaded -> Threader.supplyFuture(() -> {
+            Collection<LivingEntity> entities = location.getNearbyLivingEntities(32);
+            Streamer<LivingEntity> entityStream = new Streamer<>(entities);
+
+            for (String tag : tags0) {
+                switch (tag.toLowerCase()) {
+                    case "animal" -> entityStream.filter(obj -> obj instanceof Animals);
+                    case "hostile" -> entityStream.filter(obj -> obj instanceof Mob);
+                }
+                if (!tag.equalsIgnoreCase("villager")) entityStream.filter(obj -> !(obj instanceof Villager));
+            }
+
+            return entityStream
+                    .filter(obj -> !(obj instanceof Bucketable)) // Seeing axolotls asphyxiate is sad
+                    .filter(obj -> !(obj instanceof WaterMob)) // Fish should not be in a train
+                    .filter(obj -> !(obj instanceof AbstractSkeleton)) // i hate skeletons
+                    .filter(obj -> !(obj instanceof Creeper)) // he came out of nowhere and blew me up
+                    .filter(obj -> !(obj instanceof ArmorStand)) // ???????
+                    .filter(obj -> obj.customName() == null)
+                    .filter(obj -> !obj.isInsideVehicle())
+                    .filter(obj -> !EntityUtil.isTamed(obj))
+                    .filter(obj -> !EntityUtil.sitting(obj))
+                    .list();
+        }));
     }
 }

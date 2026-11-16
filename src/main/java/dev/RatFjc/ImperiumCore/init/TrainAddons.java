@@ -8,6 +8,7 @@ import dev.RatFjc.ImperiumCore.Module;
 import dev.RatFjc.ImperiumCore.modules.train.*;
 import dev.RatFjc.ImperiumCore.modules.train.configuration.TrainDataSaver;
 import dev.RatFjc.ImperiumCore.modules.train.route.RouteInfo;
+import dev.RatFjc.ImperiumCore.modules.train.route.RouteSet;
 import dev.RatFjc.ImperiumCore.modules.train.signadder.AnnounceDelay;
 import dev.RatFjc.ImperiumCore.modules.train.signadder.TrainPopulator;
 import dev.RatFjc.ImperiumCore.utility.BukkitUtil;
@@ -47,6 +48,7 @@ public class TrainAddons extends Module implements DependentModule {
         BukkitUtil.registerEvent(trainPopulator);
 
         BukkitUtil.registerCommand(new RouteInfo(), "route-lookup");
+        BukkitUtil.registerCommand(new RouteSet(), "route-set");
 
         instance.getServer().getScheduler().runTaskLater(instance, () -> {
             try {
