@@ -6,6 +6,7 @@ import dev.RatFjc.ImperiumCore.PluginProvider;
 import dev.RatFjc.ImperiumCore.utility.PlayerUtil;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -45,6 +46,7 @@ public class SwitchSoundAdder implements Listener, PluginProvider {
         }
 
         // don't play anything if there's no one to hear it
+        if (Bukkit.getOnlinePlayers().isEmpty()) return;
         if (PlayerUtil.getNearbyPlayers(rail, 64).isEmpty()) return;
 
         if (event.isType("switcher")) {

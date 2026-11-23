@@ -3,6 +3,7 @@ package dev.RatFjc.ImperiumCore.extras.pairing;
 import dev.RatFjc.ImperiumCore.utility.DataUtil;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Map;
 import java.util.Objects;
 import java.util.function.BiConsumer;
 
@@ -23,6 +24,18 @@ public record Pair<K, V>(K key, V value) {
      */
     public static <K, V> @NotNull Pair<K, V> empty() {
         return new Pair<>(null, null);
+    }
+
+    /**
+     * Converts a {@link java.util.Map.Entry} into a {@link Pair} instance.
+     * @param entry The map entry to be converted
+     * @return The resulting {@link Pair}, not null. Will return an empty pair if the entry is null
+     * @param <K> The key's type
+     * @param <V> The value's type
+     */
+    public static <K, V> @NotNull Pair<K, V> fromEntry(Map.Entry<K, V> entry) {
+        if (entry == null) return empty();
+        return new Pair<>(entry.getKey(), entry.getValue());
     }
 
     /**

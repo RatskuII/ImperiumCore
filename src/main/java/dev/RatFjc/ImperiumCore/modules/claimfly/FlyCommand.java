@@ -17,6 +17,7 @@ public class FlyCommand extends FlyManagement implements CommandExecutor, Comman
 
         FlyState flyState = flyStatus(player);
 
+
         if (!checkGlobal(player)) {
             if (!checkClaimOnly(player)) return noPermission(sender);
             else if (GPHook.isInClaim(player) == null) {

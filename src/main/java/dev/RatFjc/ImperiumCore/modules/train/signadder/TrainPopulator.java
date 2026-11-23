@@ -114,7 +114,6 @@ public class TrainPopulator extends SignAction implements Listener {
                 LivingEntity selected = DataUtil.randomElementFromList(list);
                 if (selected == null || selected.isDead() || !selected.isValid()) continue;
                 cart.addPassengerForced(selected);
-                list.remove(selected);
             }
         }));
 

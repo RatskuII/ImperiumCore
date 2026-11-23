@@ -27,6 +27,11 @@
       <option name="url" value="https://repo1.maven.org/maven2" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="placeholderapi" />
+      <option name="name" value="placeholderapi" />
+      <option name="url" value="https://repo.helpch.at/releases/" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="nightexpress-releases" />
       <option name="name" value="nightexpress-releases" />
       <option name="url" value="https://repo.nightexpressdev.com/releases" />

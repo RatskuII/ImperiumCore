@@ -23,8 +23,15 @@ import java.util.*;
  * route name that does not exist will create a new route with the destinations provided.
  */
 public class RouteSet implements TabExecutor, CommandInterface {
+
+    // It will be bad if some random guy destroys all the routes with this feature
+    private final String permission = "imperium.routes.set";
+
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
+
+        if (!sender.hasPermission(permission)) return noPermission(sender);
+
         // Syntax is /route-set <routeName> <destinations...>
         if (args.length < 2) return badArguments(sender, "/route-set <routeName> <destinations...>");
 
@@ -40,6 +47,7 @@ public class RouteSet implements TabExecutor, CommandInterface {
 
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
+        if (!sender.hasPermission(permission)) return List.of();
         if (args.length == 1) return TCHook.routeManager.getRouteNames();
         if (args.length >= 2) {
             Collection<PathWorld> pathWorlds;

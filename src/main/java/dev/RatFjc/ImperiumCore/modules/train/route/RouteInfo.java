@@ -19,6 +19,9 @@ import java.util.List;
  * access to a train.
  */
 public class RouteInfo implements TabExecutor, CommandInterface {
+
+    private final String permission = "imperium.routes.lookup";
+
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
         if (args.length != 1) return badArguments(sender, "/route-lookup <routeName>");

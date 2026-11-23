@@ -1,17 +1,21 @@
 package dev.RatFjc.ImperiumCore.modules.hexsigns;
 
+import dev.RatFjc.ImperiumCore.extras.multithreading.Threader;
 import dev.RatFjc.ImperiumCore.extras.pairing.Pair;
+import dev.RatFjc.ImperiumCore.utility.DataUtil;
 import dev.RatFjc.ImperiumCore.utility.TextUtil;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.*;
 import net.md_5.bungee.api.ChatColor;
+import org.bukkit.Color;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -185,7 +189,7 @@ public class SignAlter extends AbstractTagHolder implements Listener {
             matcher = pattern.matcher(text);
         }
 
-        return TextUtil.legacyColor(text);
+        return text;
     }
 
     @Deprecated

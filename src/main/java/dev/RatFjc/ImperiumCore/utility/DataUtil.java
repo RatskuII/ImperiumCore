@@ -13,6 +13,10 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.function.BooleanSupplier;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -143,6 +147,39 @@ public final class DataUtil {
         return new ArrayList<>(array);
     }
 
+    public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
+        List<Map.Entry<K, V>> list = new ArrayList<>(map.entrySet());
+        list.sort(Map.Entry.comparingByValue());
+
+        Map<K, V> out = new LinkedHashMap<>();
+        for (Map.Entry<K, V> entry : list) out.put(entry.getKey(), entry.getValue());
+
+        return out;
+    }
+
+    /**
+     * Returns the element on the specified index within a map.
+     * @param map The map to index
+     * @param index The index
+     * @return An entry, or null if the operation failed
+     * @throws IndexOutOfBoundsException if index > {@link Map#size()}
+     */
+    public static <K, V> Map.@Nullable Entry<K, V> getPosition(Map<K, V> map, int index) {
+        if (index > map.size()) throw new IndexOutOfBoundsException();
+        for (int i = 0; i < map.size(); i++) {
+            if (i == index) {
+                List<Map.Entry<K, V>> entryList = new ArrayList<>(map.entrySet());
+                return entryList.get(index);
+            }
+        }
+        return null;
+    }
+
+    public static <K, V> Map.Entry<K, V> getLast(Map<K, V> map) {
+        int last = map.size() - 1;
+        return getPosition(map, last);
+    }
+
     public static byte[] addToArray(byte[] array, byte element) {
         byte[] result = new byte[array.length + 1];
 
@@ -237,5 +274,11 @@ public final class DataUtil {
             LogUtil.log("The async task provided could not be completed: " + e);
             return def;
         }
+    }
+
+    public static CompletableFuture<Void> whileTimeout(Supplier<Boolean> condition, Runnable task, long seconds) {
+        return CompletableFuture.runAsync(() -> {
+            while(condition.get()) task.run();
+        }).orTimeout(seconds, TimeUnit.SECONDS);
     }
 }

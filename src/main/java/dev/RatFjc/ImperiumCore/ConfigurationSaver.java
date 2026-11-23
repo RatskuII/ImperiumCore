@@ -58,25 +58,29 @@ public abstract class ConfigurationSaver implements PluginProvider {
      * @param executor An optional executor for async operation, or null to use any available thread
      * @return A successful future where the config is saved, or a failed future if something went wrong.
      */
-    protected static CompletableFuture<Void> save(File file, FileConfiguration fileConfiguration, Executor executor) {
+    protected static CompletableFuture<Boolean> save(File file, FileConfiguration fileConfiguration, Executor executor) {
         if (file == null || fileConfiguration == null) return nullFail("File or configuration is missing or corrupt.");
         if (executor == null) {
-            return CompletableFuture.runAsync(() -> {
+            return CompletableFuture.supplyAsync(() -> {
                 try {
                     fileConfiguration.save(file);
                 } catch (IOException e) {
                     LogUtil.log("Something went wrong while trying to save a file.", null, Level.SEVERE, false);
                     LogUtil.log(e.getMessage());
+                    return false;
                 }
+                return true;
             });
         }
-        return CompletableFuture.runAsync(() -> {
+        return CompletableFuture.supplyAsync(() -> {
             try {
                 fileConfiguration.save(file);
             } catch (IOException e) {
                 LogUtil.log("Something went wrong while trying to save a file.", null, Level.SEVERE, false);
                 LogUtil.log(e.getMessage());
+                return false;
             }
+            return true;
         }, executor);
     }
 

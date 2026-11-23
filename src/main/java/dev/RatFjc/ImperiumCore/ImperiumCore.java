@@ -34,6 +34,7 @@ public final class ImperiumCore extends JavaPlugin {
     private FriendsAPI friendsAPI;
     private LastDeath lastDeath;
     private ClaimFly claimFly;
+    private Regions regions;
 
     @Override
     public void onEnable() {
@@ -58,6 +59,7 @@ public final class ImperiumCore extends JavaPlugin {
         load(friendsAPI);
         load(lastDeath);
         load(claimFly);
+        load(regions);
 
         BukkitUtil.registerCommand(new CoreReload(), "core-reload");
         BukkitUtil.registerCommand(new ToggleExperimentals(), "allow-experiments");
@@ -99,6 +101,7 @@ public final class ImperiumCore extends JavaPlugin {
         friendsAPI = new FriendsAPI();
         lastDeath = new LastDeath();
         claimFly = new ClaimFly();
+        regions = new Regions();
     }
 
     public void load(Module module) {
@@ -138,6 +141,7 @@ public final class ImperiumCore extends JavaPlugin {
         friendsAPI = null;
         lastDeath = null;
         claimFly = null;
+        regions = null;
 
     }
 }

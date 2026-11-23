@@ -2,6 +2,7 @@ package dev.RatFjc.ImperiumCore.extras.multithreading;
 
 import dev.RatFjc.ImperiumCore.PluginProvider;
 import org.bukkit.Bukkit;
+import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -25,8 +26,8 @@ public class Threader implements PluginProvider {
         Bukkit.getScheduler().runTask(plugin, task);
     }
 
-    public static void tick(@Nullable Runnable task, long interval) {
-        Bukkit.getScheduler().runTaskTimer(plugin, Objects.requireNonNullElseGet(task, () -> () -> {
+    public static BukkitTask tick(@Nullable Runnable task, long interval) {
+        return Bukkit.getScheduler().runTaskTimer(plugin, Objects.requireNonNullElseGet(task, () -> () -> {
         }), 0, interval);
     }
 
