@@ -37,6 +37,11 @@ public class Rtp extends ConfigurationSaver implements TabExecutor, CommandInter
     private static final Random random = new Random();
 
     @Override
+    public File file() {
+        return file;
+    }
+
+    @Override
     protected void set() {
         if (config == null) {
             nullFail("Config is unavailable.");

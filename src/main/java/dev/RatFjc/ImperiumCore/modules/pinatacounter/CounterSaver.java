@@ -1,16 +1,23 @@
 package dev.RatFjc.ImperiumCore.modules.pinatacounter;
 
 import dev.RatFjc.ImperiumCore.ConfigurationSaver;
+import dev.RatFjc.ImperiumCore.extras.Reloadable;
 import dev.RatFjc.ImperiumCore.init.PinataQuestCounter;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 
-public class CounterSaver extends ConfigurationSaver {
+public class CounterSaver extends ConfigurationSaver implements Reloadable {
 
     private static final File file = new File(plugin.getDataFolder(), "pinata.yml");
 
-    private static final FileConfiguration fileConfiguration = build(file);
+    private static FileConfiguration fileConfiguration = build(file);
+
+    @Override
+    public File file() {
+        return file;
+    }
 
     @Override
     public void set() {
@@ -30,6 +37,11 @@ public class CounterSaver extends ConfigurationSaver {
         fileConfiguration.set("messages.spawn", "The pinata was spawned as a result of quests being completed.");
         fileConfiguration.set("messages.progress", "Progress has progressed by 1.");
         save(file, fileConfiguration, PinataQuestCounter.executor());
+    }
+
+    @Override
+    public void reload() {
+        fileConfiguration = YamlConfiguration.loadConfiguration(file);
     }
 
     public static int countIncrement() {

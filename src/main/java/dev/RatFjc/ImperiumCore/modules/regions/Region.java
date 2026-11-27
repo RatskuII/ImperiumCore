@@ -1,13 +1,19 @@
 package dev.RatFjc.ImperiumCore.modules.regions;
 
+import dev.RatFjc.ImperiumCore.extras.multithreading.Threader;
 import dev.RatFjc.ImperiumCore.extras.pairing.Pair;
 import dev.RatFjc.ImperiumCore.init.Regions;
+import dev.RatFjc.ImperiumCore.utility.DataUtil;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.entity.Entity;
 
+import java.util.Random;
 import java.util.UUID;
 import java.util.Vector;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 
 /**
  * Represents a ring-shaped boundary zone within a world. A region also has its own set of properties defined
@@ -83,16 +89,37 @@ public abstract class Region {
         };
     }
 
-    public static class Cache {
-        private static final Vector<Region> cache = new Vector<>();
+    public <E extends Entity> E spawn(Location location, Class<E> mob, Consumer<E> before) {
+        return world().spawn(location, mob, before);
+    }
 
-        public static synchronized CompletableFuture<Boolean> add(Region region) {
-            return CompletableFuture.supplyAsync(() -> cache.add(region), Regions.executor());
-        }
+    /**
+     * Spawns a mob next to another mob within this region.
+     * @param entity The entity to spawn next to
+     * @param mob The class of the mob that should be spawned
+     * @param before A function that runs before the mob is spawned
+     * @return The spawned mob, or null if the operation failed
+     * @param <E> The entity type
+     */
+    public <E extends Entity> E spawn(Entity entity, Class<E> mob, Consumer<E> before) {
+        if (entity == null) return null;
+        return spawn(entity.getLocation(), mob, before);
+    }
 
-        public static synchronized CompletableFuture<Boolean> remove(Region region) {
-            return CompletableFuture.supplyAsync(() -> cache.remove(region), Regions.executor());
-        }
+    /**
+     * Spawns a mob in a pseudorandom location within the region boundary.
+     * @param mob The class of the mob that should be spawned
+     * @return The spawned mob, or null if the operation failed
+     * @param <E> The entity type
+     */
+    public <E extends Entity> CompletableFuture<E> spawn(Class<E> mob) {
+        Random random = new Random();
+        double pos0 = random.nextDouble(bounds().key(), bounds().value());
+        double pos1 = random.nextDouble(bounds().key(), bounds().value());
+        int y = world().getHighestBlockYAt((int) pos0, (int) pos1);
+        Location location = new Location(world(), pos0, y, pos1);
+        CompletableFuture<E> futureResult = world().getChunkAtAsync(location).thenApply(fn -> spawn(location, mob, null));
+        return DataUtil.getOrNull(Threader.supplyFuture(() -> futureResult), null, 3);
     }
 
     @Override

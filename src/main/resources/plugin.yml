@@ -12,6 +12,7 @@ softdepend:
   - Train_Carts
   - MythicMobs
   - ProtocolLib
+  - LocalDiff
 
 commands:
   core-reload:
@@ -72,14 +73,16 @@ commands:
   fly:
     description: Enables flying
     usage: /fly
+  region-info:
+    description: Provides info about the current region
+    usage: /region-info
+
 permissions:
   imperium.mail.player:
     default: true
-
   imperium.mail.reminder:
     description: Enables mailbox reminder notifications
     default: true
-
   imperium.mail.admin:
     default: op
 
@@ -97,3 +100,7 @@ permissions:
   imperium.fly.claim:
     description: Allows flight, but only within claims
     default: false
+
+  imperium.region.info:
+    description: Allows viewing basic info of current region
+    default: true

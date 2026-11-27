@@ -13,6 +13,11 @@ public class QuestEntries extends ConfigurationSaver {
 
     private static final FileConfiguration fileConfiguration = build(file);
 
+    @Override
+    public File file() {
+        return file;
+    }
+
     public void set() {
         if (fileConfiguration == null) {
             nullFail("Configuration could not be found.");

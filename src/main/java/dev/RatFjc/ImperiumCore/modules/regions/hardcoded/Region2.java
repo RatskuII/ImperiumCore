@@ -21,7 +21,7 @@ public class Region2 extends Region {
         return regionProperty
                 .setName("third")
                 .setLocalDiffOffset(3.08)
-                .setMobScale(1.5f)
+                .setMobScale(0.5f)
                 .setMobSpawnRate(33)
                 .setRainCheckRate(0.17f)
                 .setUnnaturalMobs(true);

@@ -17,6 +17,16 @@ import java.util.logging.Level;
  */
 public abstract class ConfigurationSaver implements PluginProvider {
 
+    /**
+     * Represents the file that backs this configuration.
+     * @return A valid, non-null {@link File}
+     */
+    public abstract File file();
+
+    /**
+     * All {@link ConfigurationSaver} implementations will have this method called when the file is initialized.
+     * What should the plugin do?
+     */
     protected abstract void set();
 
     /**
@@ -26,13 +36,15 @@ public abstract class ConfigurationSaver implements PluginProvider {
      */
     @SuppressWarnings("ResultOfMethodCallIgnored")
     protected static @Nullable FileConfiguration build(File file) {
-        if (!file.exists()) plugin.getDataFolder().mkdirs();
-        try {
-            file.createNewFile();
-            plugin.saveResource(file.getName(), false);
-        } catch (IOException e) {
-            LogUtil.log("An error occurred while trying to load a file: " + e.getMessage(), null, Level.WARNING, false);
-            return null;
+        if (!file.exists()) {
+            plugin.getDataFolder().mkdirs();
+            try {
+                file.createNewFile();
+                plugin.saveResource(file.getName(), false);
+            } catch (IOException | IllegalArgumentException e) {
+                LogUtil.log("An error occurred while trying to load a file: " + e.getMessage(), null, Level.WARNING, false);
+                return null;
+            }
         }
         return YamlConfiguration.loadConfiguration(file);
     }
@@ -82,14 +94,5 @@ public abstract class ConfigurationSaver implements PluginProvider {
             }
             return true;
         }, executor);
-    }
-
-    /**
-     * Reloads the provided file.
-     * @param file The file to be saved
-     * @return The resulting configuration
-     */
-    public static FileConfiguration reload(File file) {
-        return YamlConfiguration.loadConfiguration(file);
     }
 }

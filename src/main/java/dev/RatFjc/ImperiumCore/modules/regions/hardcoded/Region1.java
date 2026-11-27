@@ -21,7 +21,7 @@ public class Region1 extends Region {
         RegionProperty regionProperty = new RegionProperty();
         return regionProperty
                 .setName("second")
-                .setMobScale(1.15f)
+                .setMobScale(0.15f)
                 .setMobSpawnRate(9)
                 .setLocalDiffOffset(0.25)
                 .setMobStrength(1.04f);

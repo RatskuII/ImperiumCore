@@ -181,6 +181,11 @@ public class PunishmentSaver extends ConfigurationSaver {
 
 
     @Override
+    public File file() {
+        return file;
+    }
+
+    @Override
     protected void set() {
 
     }

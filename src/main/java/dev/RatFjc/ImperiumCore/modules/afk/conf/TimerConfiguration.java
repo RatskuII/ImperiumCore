@@ -10,6 +10,12 @@ public class TimerConfiguration extends ConfigurationSaver {
     private static final File file = new File(plugin.getDataFolder(), "afk.yml");
 
     private static final FileConfiguration config = build(file);
+
+    @Override
+    public File file() {
+        return file;
+    }
+
     @Override
     protected void set() {
         if (config == null) {

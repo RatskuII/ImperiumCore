@@ -5,8 +5,19 @@ import dev.RatFjc.ImperiumCore.extras.cmds.ToggleExperimentals;
 import dev.RatFjc.ImperiumCore.extras.listener.OnByDefault;
 import dev.RatFjc.ImperiumCore.extras.multithreading.AsyncModule;
 import dev.RatFjc.ImperiumCore.init.*;
+import dev.RatFjc.ImperiumCore.modules.afk.conf.TimerConfiguration;
+import dev.RatFjc.ImperiumCore.modules.itemquests.file.QuestEntries;
+import dev.RatFjc.ImperiumCore.modules.mailbox.storage.MailConfig;
+import dev.RatFjc.ImperiumCore.modules.pinatacounter.CounterSaver;
+import dev.RatFjc.ImperiumCore.modules.playerwarp.file.WarpSaver;
+import dev.RatFjc.ImperiumCore.modules.regions.config.RegionBuilder;
+import dev.RatFjc.ImperiumCore.modules.train.configuration.TrainDataSaver;
+import dev.RatFjc.ImperiumCore.modules.ultrabans.data.files.PunishmentSaver;
+import dev.RatFjc.ImperiumCore.modules.wild.Rtp;
 import dev.RatFjc.ImperiumCore.utility.BukkitUtil;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.List;
 
 /**
  * The global plugin instance that all modules will initialize from.
@@ -120,6 +131,24 @@ public final class ImperiumCore extends JavaPlugin {
     public void unload(Module module) {
         if (!module.enabled()) return;
         module.unload(instance);
+    }
+
+    /**
+     * A manual list of available {@link ConfigurationSaver} instances. Yeah this is super sketchy but if it works who cares
+     * @return A list of {@link ConfigurationSaver} instances
+     */
+    public static List<ConfigurationSaver> savers() {
+        return List.of(
+                new TimerConfiguration(),
+                new QuestEntries(),
+                new MailConfig(),
+                new CounterSaver(),
+                new WarpSaver(),
+                new RegionBuilder(),
+                new TrainDataSaver(),
+                new PunishmentSaver(),
+                new Rtp()
+        );
     }
 
     private void shutdown() {

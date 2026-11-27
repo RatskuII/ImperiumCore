@@ -1,6 +1,7 @@
 package dev.RatFjc.ImperiumCore.modules.regions.config;
 
 import dev.RatFjc.ImperiumCore.ConfigurationSaver;
+import dev.RatFjc.ImperiumCore.extras.Reloadable;
 import dev.RatFjc.ImperiumCore.extras.pairing.Pair;
 import dev.RatFjc.ImperiumCore.init.Regions;
 import dev.RatFjc.ImperiumCore.modules.regions.Region;
@@ -9,17 +10,20 @@ import dev.RatFjc.ImperiumCore.modules.regions.hardcoded.Region0;
 import dev.RatFjc.ImperiumCore.modules.regions.hardcoded.Region1;
 import dev.RatFjc.ImperiumCore.modules.regions.hardcoded.Region2;
 import dev.RatFjc.ImperiumCore.utility.DataUtil;
-import io.papermc.paper.math.FinePosition;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
@@ -27,10 +31,15 @@ import java.util.concurrent.CompletableFuture;
  * Represents a configuration file where custom zones can be defined. Zones are technically allowed to overlap
  * but this is not recommended.
  */
-public class RegionBuilder extends ConfigurationSaver {
+public class RegionBuilder extends ConfigurationSaver implements Reloadable {
 
     private static final File file = new File(plugin.getDataFolder(), "regions.yml");
-    private static final FileConfiguration config = build(file);
+    private static FileConfiguration config = build(file);
+
+    @Override
+    public File file() {
+        return file;
+    }
 
     @Override
     protected void set() {
@@ -38,6 +47,11 @@ public class RegionBuilder extends ConfigurationSaver {
         regionEntry(new Region0());
         regionEntry(new Region1());
         regionEntry(new Region2());
+    }
+
+    @Override
+    public void reload() {
+        config = YamlConfiguration.loadConfiguration(file);
     }
 
     /**
@@ -166,6 +180,7 @@ public class RegionBuilder extends ConfigurationSaver {
             int lower = properties.getInt("lowerBound");
             int upper = properties.getInt("upperBound");
 
+            // Make sure to resolve negative values
             int x = Math.abs(location.getBlockX());
             int z = Math.abs(location.getBlockZ());
 
@@ -208,5 +223,23 @@ public class RegionBuilder extends ConfigurationSaver {
 
     public static @Nullable UUID uuidFromRegion(ConfigurationSection properties) {
         return DataUtil.stringToUUID(properties.getString("uuid"));
+    }
+
+
+    // UNNATURAL MOBS LIST
+
+    public static List<? extends Class<? extends LivingEntity>> mobSelection() {
+        String path = "unnaturals.";
+        List<String> results = config.getStringList(path);
+        if (results.isEmpty()) return List.of();
+
+        return results.stream()
+                .map(String::toUpperCase)
+                .map(EntityType::valueOf)
+                .map(EntityType::getEntityClass)
+                .filter(Objects::nonNull)
+                .filter(LivingEntity.class::isAssignableFrom)
+                .map(obj -> (Class<? extends LivingEntity>) obj)
+                .toList();
     }
 }

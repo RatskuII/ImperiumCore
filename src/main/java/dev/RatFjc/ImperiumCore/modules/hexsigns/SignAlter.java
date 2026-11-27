@@ -181,15 +181,17 @@ public class SignAlter extends AbstractTagHolder implements Listener {
         text = register(text, "#D6D39A", "&i"); // Beige
 
         Matcher matcher = pattern.matcher(text);
+        StringBuilder out = new StringBuilder();
         while (matcher.find()) {
-            String parsed = text.substring(matcher.start(), matcher.end());
+            String parsed = matcher.group();
             try {
-                text = text.replace(parsed, ChatColor.of(parsed) + "");
-            } catch (Exception ignored) {}
-            matcher = pattern.matcher(text);
+                matcher.appendReplacement(out, Matcher.quoteReplacement(ChatColor.of(parsed).toString()));
+            } catch (Exception ignored) {
+                matcher.appendReplacement(out, Matcher.quoteReplacement(parsed));
+            }
         }
-
-        return text;
+        matcher.appendTail(out);
+        return out.toString();
     }
 
     @Deprecated

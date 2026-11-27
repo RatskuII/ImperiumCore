@@ -5,6 +5,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Represents an event that involves a {@link Region}.
+ */
 public abstract class RegionEvent extends Event {
 
     protected final Player player;

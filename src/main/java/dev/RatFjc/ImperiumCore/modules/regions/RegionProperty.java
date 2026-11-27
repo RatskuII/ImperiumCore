@@ -17,7 +17,8 @@ public class RegionProperty {
 
     long mobSpawnRate; // How often mobs can spawn in this region relative to the server set value
 
-    float mobScale = 1; // Baby variants will invert this value: they become smaller as this number grows larger
+    float mobScale = 0; // Baby variants will invert this value: they become smaller as this number grows larger
+    // Now treated as an offset, starts at 0. Turns out 1+1 actually equals 2, crazy stuff right
 
     float rainCheckRate; // Additional pass that may change the frequency of rainfall
     // Just realized i cant really do this because weather states are global
@@ -27,8 +28,7 @@ public class RegionProperty {
     float mobStrength; // How powerful the mobs spawned in this region are
 
     double localDiffOffset; // How much the region should offset local difficulty - more dangerous regions will raise this value
-    //todo ill need to figure out how to get the localdiff values to imperiumcore. ive already decided i wont migrate localdiff so ill need another solution
-    // maybe papi?
+    // i figured it out
 
     float acidity = 0; // Certain blocks become toxic to the player and deals damage when they try to use it - higher values means more damage and a larger assortment of elements that can hurt you
     Map<Material, Float> acidityIndex = new HashMap<>(); // Which materials can be acidic, and how high must acidity be for them to take effect.

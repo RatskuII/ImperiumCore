@@ -1,8 +1,11 @@
 package dev.RatFjc.ImperiumCore.extras.cmds;
 
 import dev.RatFjc.ImperiumCore.ConfigurationSaver;
+import dev.RatFjc.ImperiumCore.ImperiumCore;
 import dev.RatFjc.ImperiumCore.PluginProvider;
+import dev.RatFjc.ImperiumCore.extras.Reloadable;
 import dev.RatFjc.ImperiumCore.utility.DataUtil;
+import dev.RatFjc.ImperiumCore.utility.LogUtil;
 import dev.RatFjc.ImperiumCore.utility.TextUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -34,9 +37,28 @@ public class CoreReload implements TabExecutor, PluginProvider, CommandInterface
             TextUtil.sendMessage(sender, "The file provided is not a valid configuration file.");
             return false;
         }
-        ConfigurationSaver.reload(file);
-        TextUtil.sendMessage(sender, "The file provided was successfully reloaded.");
-        return true;
+        for (ConfigurationSaver saver : ImperiumCore.savers()) {
+            File iteratedFile = saver.file();
+
+            // make sure the file exists before trying to process it
+            if (iteratedFile == null || !iteratedFile.exists()) {
+                LogUtil.debug("File is null or doesn't exist, moving on...", null);
+                continue;
+            }
+            if (!(saver instanceof Reloadable reloadable)) {
+                LogUtil.debug("File " + iteratedFile.getName() + " doesn't extend reloadable, moving on...", null);
+                continue;
+            }
+            if (iteratedFile.getName().equalsIgnoreCase(file.getName())) {
+                reloadable.reload();
+                TextUtil.sendMessage(sender, "The file provided was successfully reloaded.");
+                return true;
+            } else {
+                LogUtil.debug("File names " + iteratedFile.getName() + ", " + file.getName() + " do not match. Exiting...", null);
+            }
+        }
+        TextUtil.sendMessage(sender, "The file provided is backed by a configuration that does not support reloading.");
+        return false;
     }
 
     @Override

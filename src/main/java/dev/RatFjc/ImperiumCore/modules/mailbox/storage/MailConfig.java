@@ -16,6 +16,11 @@ public class MailConfig extends ConfigurationSaver {
     private static final FileConfiguration mainConfig = build(configFile);
 
     @Override
+    public File file() {
+        return configFile;
+    }
+
+    @Override
     protected void set() {
 
     }
